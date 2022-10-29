@@ -1,0 +1,24 @@
+.wrapper {
+    width: 600px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 36px;
+}
+
+.ingredientsContainer {
+    height: calc(100vh - 350px);
+    overflow-y: scroll;
+}
+
+.ingredients {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+h2 {
+    flex-basis: 100%;
+}

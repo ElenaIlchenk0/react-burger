@@ -4,3 +4,10 @@
     padding: 40px;
     box-sizing: border-box;
 }
+
+.content {
+    max-width: 1240px;
+    display: flex;
+    margin: 0 auto;
+    gap: 40px;
+}
