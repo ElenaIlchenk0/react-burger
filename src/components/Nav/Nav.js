@@ -9,13 +9,14 @@ class Nav extends React.Component {
             <nav className={navStyles.nav}>
                 {
                     this.props.items.map((e, i) => (
-                    <NavItem 
-                        id={i} 
-                        title={e.title} 
-                        icon={e.icon} 
-                        isActive={i === this.props.activeNavItemId}
-                        onActiveNavItemId={this.props.onActiveNavItemId}
-                    />))
+                        <NavItem
+                            key={i}
+                            id={i}
+                            title={e.title}
+                            icon={e.icon}
+                            isActive={i === this.props.activeNavItemId}
+                            onActiveNavItemId={this.props.onActiveNavItemId}
+                        />))
                 }
             </nav>
         )

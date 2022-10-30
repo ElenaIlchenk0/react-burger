@@ -1,0 +1,19 @@
+.wrapper {
+    width: 600px;
+}
+
+.mainIngredients {
+    height: calc(100vh - 550px);
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px 0;
+}
+
+.menuItem {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+}

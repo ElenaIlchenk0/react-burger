@@ -1,5 +1,6 @@
 import React from 'react';
 import navItemStyles from './NavItem.module.css';
+import PropTypes from 'prop-types';
 
 class NavItem extends React.Component {
 
@@ -14,6 +15,12 @@ class NavItem extends React.Component {
         )
     }
 
+}
+
+NavItem.propTypes = {
+    id: PropTypes.number,
+    icon: PropTypes.any.isRequired,
+    title: PropTypes.string.isRequired
 }
 
 export default NavItem;
