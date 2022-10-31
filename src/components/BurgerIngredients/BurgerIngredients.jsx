@@ -3,21 +3,7 @@ import burgerIngredientsStyles from './BurgerIngredients.module.css';
 import TabMenu from '../TabMenu/TabMenu';
 import IngredientItem from '../IngredientItem/IngredientItem';
 import PropTypes from 'prop-types';
-
-const burgerDataPropTypes = PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    proteins: PropTypes.number,
-    fat: PropTypes.number,
-    carbohydrates: PropTypes.number,
-    calories: PropTypes.number,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-    image_mobile: PropTypes.string.isRequired,
-    image_large: PropTypes.string,
-    __v: PropTypes.number
-}).isRequired;
+import {burgerDataPropTypes} from '../../prop-types'
 
 class BurgerIngredients extends React.Component {
     constructor(props) {
@@ -78,7 +64,7 @@ class BurgerIngredients extends React.Component {
 
 
 BurgerIngredients.propTypes = {
-    burgerData: PropTypes.arrayOf(burgerDataPropTypes),
+    burgerData: PropTypes.arrayOf(burgerDataPropTypes).isRequired,
 };
 
 export default BurgerIngredients;

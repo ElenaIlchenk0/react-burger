@@ -12,3 +12,18 @@
     justify-content: space-between;
     align-items: center;
 }
+
+.mainLogo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+}

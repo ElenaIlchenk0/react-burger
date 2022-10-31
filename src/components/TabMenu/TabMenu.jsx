@@ -1,6 +1,7 @@
 import React from 'react';
-import tabMenuStyles from './TabMenu.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
+import tabMenuStyles from './TabMenu.module.css'
+import PropTypes from 'prop-types';
 
 
 const TabMenu = (props) => {
@@ -11,9 +12,8 @@ const TabMenu = (props) => {
         setCurrent(value)
     }
 
-
     return (
-        <div style={{ display: 'flex' }} className='pt-5 pb-10'>
+        <div className={`${tabMenuStyles.tabMenu} pt-5 pb-10`}>
             <Tab value="buns" active={current === 'buns'} onClick={onClickHandler}>
                 Булки
             </Tab>
@@ -26,6 +26,10 @@ const TabMenu = (props) => {
         </div>
     )
 
+}
+
+TabMenu.propTypes = {
+    onClickTab: PropTypes.func.isRequired
 }
 
 

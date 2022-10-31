@@ -6,12 +6,12 @@ class NavItem extends React.Component {
 
     render() {
         return (
-            <div onClick={() => this.props.onActiveNavItemId(this.props.id)}
-                className={`${this.props.isActive ? navItemStyles.active : navItemStyles.inactive} ${navItemStyles.item} pt-4 pb-4 pr-5 pl-5`}>
-                {this.props.icon}
-                <div>{this.props.title}</div>
+            <div className={`${navItemStyles.active} ${navItemStyles.item} pt-4 pb-4 pr-5 pl-5`}>
+                <a href="#" className={navItemStyles.link}>
+                    {this.props.icon}
+                    <div>{this.props.title}</div>
+                </a>
             </div>
-
         )
     }
 
@@ -19,7 +19,7 @@ class NavItem extends React.Component {
 
 NavItem.propTypes = {
     id: PropTypes.number,
-    icon: PropTypes.any.isRequired,
+    icon: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired
 }
 

@@ -11,6 +11,20 @@
     padding: 16px 0;
 }
 
+.mainIngredients::-webkit-scrollbar {
+    width: 8px;
+}
+
+.mainIngredients::-webkit-scrollbar-track {
+    background: #2F2F37;
+}
+
+.mainIngredients::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+    min-height: 100px;
+
+}
+
 .menuItem {
     display: flex;
     justify-content: flex-end;

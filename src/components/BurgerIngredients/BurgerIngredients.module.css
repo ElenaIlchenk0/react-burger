@@ -12,6 +12,20 @@ h1 {
     overflow-y: scroll;
 }
 
+.ingredientsContainer::-webkit-scrollbar {
+    width: 8px;
+}
+
+.ingredientsContainer::-webkit-scrollbar-track {
+    background: #2F2F37;
+}
+
+.ingredientsContainer::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+    min-height: 200px;
+
+}
+
 .ingredients {
     display: flex;
     flex-wrap: wrap;
