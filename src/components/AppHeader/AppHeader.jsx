@@ -12,13 +12,13 @@ class AppHeader extends React.Component {
             <header className={`${appHeaderStyles.header} p-4`}>
                 <div className={appHeaderStyles.headerInner}>
                     <div className={appHeaderStyles.nav}>
-                        <NavItem icon={<BurgerIcon type="primary" />} title={'Конструктор'} />
-                        <NavItem icon={<ListIcon type="primary" />} title={'Лента заказов'} />
+                        <NavItem isActive={true} icon={<BurgerIcon type="primary" />} title={'Конструктор'} />
+                        <NavItem isActive={false} icon={<ListIcon type="primary" />} title={'Лента заказов'} />
                     </div>
                     <div className={appHeaderStyles.mainLogo}>
                         <Logo />
                     </div>
-                    <NavItem icon={<ProfileIcon type="primary" />} title={'Личный кабинет'} />
+                    <NavItem isActive={false} icon={<ProfileIcon type="primary" />} title={'Личный кабинет'} />
                 </div>
             </header>
         )

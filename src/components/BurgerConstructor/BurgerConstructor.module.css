@@ -31,3 +31,21 @@
     align-items: center;
     gap: 10px;
 }
+
+.menuItemTopBottom {
+    margin-right: 8px;
+}
+
+.orderSummary {
+    padding-top: 40px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 40px;
+}
+
+.price {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}

@@ -4,6 +4,8 @@ import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-comp
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
 import { burgerDataPropTypes } from '../../prop-types'
+import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
 class BurgerConstructor extends React.Component {
 
@@ -15,7 +17,7 @@ class BurgerConstructor extends React.Component {
             <div className={`${burgerConstructorStyles.wrapper} pt-25`}>
                 <div className={burgerConstructorStyles.menuItemsContainer}>
                     <div className={burgerConstructorStyles.bunsTop}>
-                        <div className={burgerConstructorStyles.menuItem}>
+                        <div className={`${burgerConstructorStyles.menuItem} ${burgerConstructorStyles.menuItemTopBottom}`}>
                             <ConstructorElement
                                 type="top"
                                 isLocked={true}
@@ -39,7 +41,7 @@ class BurgerConstructor extends React.Component {
                         }
                     </div>
                     <div className={burgerConstructorStyles.bunsBottom}>
-                        <div className={burgerConstructorStyles.menuItem}>
+                        <div className={`${burgerConstructorStyles.menuItem} ${burgerConstructorStyles.menuItemTopBottom}`}>
                             <ConstructorElement
                                 type="bottom"
                                 isLocked={true}
@@ -49,6 +51,13 @@ class BurgerConstructor extends React.Component {
                         </div>
 
                     </div>
+                </div>
+                <div className={burgerConstructorStyles.orderSummary}>
+                    <div className={burgerConstructorStyles.price}>
+                        <p className={'text text_type_digits-medium'}>610</p>
+                        <CurrencyIcon type="primary" />
+                    </div>
+                    <Button type="primary" size="medium">Оформить заказ</Button>
                 </div>
             </div>
 
