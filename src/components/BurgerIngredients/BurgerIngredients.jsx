@@ -3,7 +3,7 @@ import burgerIngredientsStyles from './BurgerIngredients.module.css';
 import TabMenu from '../TabMenu/TabMenu';
 import IngredientItem from '../IngredientItem/IngredientItem';
 import PropTypes from 'prop-types';
-import {burgerDataPropTypes} from '../../prop-types'
+import { burgerDataPropTypes } from '../../prop-types'
 
 class BurgerIngredients extends React.Component {
     constructor(props) {
