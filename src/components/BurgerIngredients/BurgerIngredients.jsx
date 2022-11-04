@@ -1,65 +1,92 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import burgerIngredientsStyles from './BurgerIngredients.module.css';
 import TabMenu from '../TabMenu/TabMenu';
 import IngredientItem from '../IngredientItem/IngredientItem';
 import PropTypes from 'prop-types';
-import { burgerDataPropTypes } from '../../prop-types'
+import { burgerDataPropTypes } from '../../prop-types';
+import Modal from '../Modal/Modal';
+import IngredientDetails from '../IngredientDetails/IngredientDetails';
 
-class BurgerIngredients extends React.Component {
-    constructor(props) {
-        super(props);
-        this.refBuns = React.createRef();
-        this.refSauces = React.createRef();
-        this.refMain = React.createRef();
+const BurgerIngredients = (props) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedIngredient, setSelectedIngredient] = useState();
+
+    const refBuns = useRef();
+    const refSauces = useRef();
+    const refMain = useRef();
+
+    const handleOpenModal = (id) => {
+        const ingredientInfo = props.burgerData.find((ing) => ing._id === id);
+        setSelectedIngredient(ingredientInfo);
+        setIsModalOpen(true);
     }
 
-    handleClickTab = (value) => {
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    }
+
+    const handleClickTab = (value) => {
         value === 'buns' ?
-            this.refBuns.current.scrollIntoView({ behavior: 'smooth' })
+            refBuns.current.scrollIntoView({ behavior: 'smooth' })
             : value === 'sauces' ?
-                this.refSauces.current.scrollIntoView({ behavior: 'smooth' })
-                : this.refMain.current.scrollIntoView({ behavior: 'smooth' })
+                refSauces.current.scrollIntoView({ behavior: 'smooth' })
+                : refMain.current.scrollIntoView({ behavior: 'smooth' })
     }
 
-    render() {
-        const buns = this.props.burgerData.filter((data) => data.type === 'bun');
-        const sauces = this.props.burgerData.filter((data) => data.type === 'sauce');
-        const main = this.props.burgerData.filter((data) => data.type === 'main');
+    const buns = props.burgerData.filter((data) => data.type === 'bun');
+    const sauces = props.burgerData.filter((data) => data.type === 'sauce');
+    const main = props.burgerData.filter((data) => data.type === 'main');
 
-        return (
-            <div className={`${burgerIngredientsStyles.wrapper} pt-10`}>
-                <h1>Соберите бургер</h1>
-                <TabMenu onClickTab={this.handleClickTab} />
-                <div className={burgerIngredientsStyles.ingredientsContainer}>
-                    <div>
-                        <div className={burgerIngredientsStyles.ingredients}>
-                            <h2 ref={this.refBuns}>Булки</h2>
-                            {
-                                buns.map((item) => <IngredientItem burgerData={item} key={item._id} />)
-                            }
-                        </div>
+    return (
+        <div className={`${burgerIngredientsStyles.wrapper} pt-10`}>
+            <h1>Соберите бургер</h1>
+            <TabMenu onClickTab={handleClickTab} />
+            <div className={burgerIngredientsStyles.ingredientsContainer}>
+                <div>
+                    <div className={burgerIngredientsStyles.ingredients}>
+                        <h2 ref={refBuns}>Булки</h2>
+                        {
+                            buns.map((item) =>
+                                <IngredientItem
+                                    burgerData={item}
+                                    key={item._id}
+                                    onOpenModal={handleOpenModal} />)
+                        }
                     </div>
-                    <div>
-                        <div className={burgerIngredientsStyles.ingredients}>
-                            <h2 ref={this.refSauces}>Соусы</h2>
-                            {
-                                sauces.map((item) => <IngredientItem burgerData={item} key={item._id} />)
-                            }
-                        </div>
+                </div>
+                <div>
+                    <div className={burgerIngredientsStyles.ingredients}>
+                        <h2 ref={refSauces}>Соусы</h2>
+                        {
+                            sauces.map((item) =>
+                                <IngredientItem
+                                    burgerData={item}
+                                    key={item._id}
+                                    onOpenModal={handleOpenModal} />)
+                        }
                     </div>
-                    <div>
-                        <div className={burgerIngredientsStyles.ingredients}>
-                            <h2 ref={this.refMain}>Начинки</h2>
-                            {
-                                main.map((item) => <IngredientItem burgerData={item} key={item._id} />)
-                            }
-                        </div>
+                </div>
+                <div>
+                    <div className={burgerIngredientsStyles.ingredients}>
+                        <h2 ref={refMain}>Начинки</h2>
+                        {
+                            main.map((item) =>
+                                <IngredientItem
+                                    burgerData={item}
+                                    key={item._id}
+                                    onOpenModal={handleOpenModal} />)
+                        }
                     </div>
                 </div>
             </div>
-        )
-    }
-
+            {
+                isModalOpen && selectedIngredient &&
+                <Modal header='Детали ингредиента' onClose={handleCloseModal} >
+                    <IngredientDetails ingredient={selectedIngredient}/>
+                </Modal>
+            }
+        </div>
+    )
 }
 
 

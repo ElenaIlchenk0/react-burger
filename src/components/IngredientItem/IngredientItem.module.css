@@ -1,5 +1,6 @@
 .ingredientsInner {
     flex-basis: 42%;
+    cursor: pointer;
 }
 
 .price {

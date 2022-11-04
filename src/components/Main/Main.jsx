@@ -17,8 +17,12 @@ const Main = (props) => {
 
     return (
         <Layout>
-            <BurgerIngredients burgerData={ingredients} />
-            <BurgerConstructor burgerData={ingredients} />
+            {ingredients.length && (
+                <>
+                    <BurgerIngredients burgerData={ingredients} />
+                    <BurgerConstructor burgerData={ingredients} />
+                </>
+            )}
         </Layout>
     )
 }
