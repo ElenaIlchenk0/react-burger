@@ -31,6 +31,7 @@ const BurgerIngredients = (props) => {
                 break;
             case 'main': refMain.current.scrollIntoView({ behavior: 'smooth' });
                 break;
+            // no default
         }
     }
 

@@ -16,7 +16,7 @@ const Main = (props) => {
 
     return (
         <Layout>
-            {ingredients.length && (
+            {ingredients.length > 0 && (
                 <>
                     <BurgerIngredients burgerData={ingredients} />
                     <BurgerConstructor burgerData={ingredients} />

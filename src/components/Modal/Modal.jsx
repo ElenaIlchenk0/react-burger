@@ -20,6 +20,8 @@ const Modal = (props) => {
         }
     }, [props.onClose])
 
+    const modalsRoot = document.getElementById("modals");
+
     return ReactDOM.createPortal(
         <>
             <div className={modalStyles.modal}>
@@ -31,7 +33,7 @@ const Modal = (props) => {
             </div>
             <ModalOverlay onClose={props.onClose} />
         </>,
-        document.getElementById(MODALS_ID)
+        modalsRoot
     );
 }
 

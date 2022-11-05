@@ -12,12 +12,12 @@ const AppHeader = (props) => {
             <div className={appHeaderStyles.headerInner}>
                 <div className={appHeaderStyles.nav}>
                     <NavItem isActive icon={<BurgerIcon type="primary" />} title='Конструктор' />
-                    <NavItem isActive={false} icon={<ListIcon type="primary" />} title='Лента заказов' />
+                    <NavItem icon={<ListIcon type="primary" />} title='Лента заказов' />
                 </div>
                 <div className={appHeaderStyles.mainLogo}>
                     <Logo />
                 </div>
-                <NavItem isActive={false} icon={<ProfileIcon type="primary" />} title='Личный кабинет' />
+                <NavItem icon={<ProfileIcon type="primary" />} title='Личный кабинет' />
             </div>
         </header>
     )
