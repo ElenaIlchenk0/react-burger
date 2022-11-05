@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import burgerConstructorStyles from './BurgerConstructor.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -12,8 +12,8 @@ import OrderDetails from '../OrderDetails/OrderDetails';
 const BurgerConstructor = (props) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const someBun = props.burgerData.find((item) => item.type === 'bun');
-    const otherIng = props.burgerData.filter((item) => item.type !== 'bun');
+    const someBun = useMemo(() => props.burgerData.find((item) => item.type === 'bun'));
+    const otherIng = useMemo(() => props.burgerData.filter((item) => item.type !== 'bun'));
 
     const handleOpenModal = () => {
         setIsModalOpen(true);

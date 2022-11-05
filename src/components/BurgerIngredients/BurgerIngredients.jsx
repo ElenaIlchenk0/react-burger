@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import burgerIngredientsStyles from './BurgerIngredients.module.css';
 import TabMenu from '../TabMenu/TabMenu';
 import IngredientItem from '../IngredientItem/IngredientItem';
@@ -8,8 +8,7 @@ import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 
 const BurgerIngredients = (props) => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedIngredient, setSelectedIngredient] = useState();
+    const [selectedIngredient, setSelectedIngredient] = useState(null);
 
     const refBuns = useRef();
     const refSauces = useRef();
@@ -18,24 +17,26 @@ const BurgerIngredients = (props) => {
     const handleOpenModal = (id) => {
         const ingredientInfo = props.burgerData.find((ing) => ing._id === id);
         setSelectedIngredient(ingredientInfo);
-        setIsModalOpen(true);
     }
 
     const handleCloseModal = () => {
-        setIsModalOpen(false);
+        setSelectedIngredient(null);
     }
 
     const handleClickTab = (value) => {
-        value === 'buns' ?
-            refBuns.current.scrollIntoView({ behavior: 'smooth' })
-            : value === 'sauces' ?
-                refSauces.current.scrollIntoView({ behavior: 'smooth' })
-                : refMain.current.scrollIntoView({ behavior: 'smooth' })
+        switch (value) {
+            case 'buns': refBuns.current.scrollIntoView({ behavior: 'smooth' });
+                break;
+            case 'sauces': refSauces.current.scrollIntoView({ behavior: 'smooth' });
+                break;
+            case 'main': refMain.current.scrollIntoView({ behavior: 'smooth' });
+                break;
+        }
     }
 
-    const buns = props.burgerData.filter((data) => data.type === 'bun');
-    const sauces = props.burgerData.filter((data) => data.type === 'sauce');
-    const main = props.burgerData.filter((data) => data.type === 'main');
+    const buns = useMemo(() => props.burgerData.filter((data) => data.type === 'bun'), [props.burgerData]);
+    const sauces = useMemo(() => props.burgerData.filter((data) => data.type === 'sauce'), [props.burgerData]);
+    const main = useMemo(() => props.burgerData.filter((data) => data.type === 'main'), [props.burgerData]);
 
     return (
         <div className={`${burgerIngredientsStyles.wrapper} pt-10`}>
@@ -80,9 +81,9 @@ const BurgerIngredients = (props) => {
                 </div>
             </div>
             {
-                isModalOpen && selectedIngredient &&
+                selectedIngredient &&
                 <Modal header='Детали ингредиента' onClose={handleCloseModal} >
-                    <IngredientDetails ingredient={selectedIngredient}/>
+                    <IngredientDetails ingredient={selectedIngredient} />
                 </Modal>
             }
         </div>

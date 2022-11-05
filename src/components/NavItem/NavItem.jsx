@@ -20,8 +20,7 @@ class NavItem extends React.Component {
 }
 
 NavItem.propTypes = {
-    isActive: PropTypes.bool.isRequired,
-    id: PropTypes.number,
+    isActive: PropTypes.bool,
     icon: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired
 }

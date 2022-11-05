@@ -4,19 +4,21 @@ import modalStyles from './Modal.module.css';
 import ModalOverlay from '../ModalOverlay/ModalOverlay';
 import closeImg from '../../images/close.png';
 import PropTypes from 'prop-types';
+import {MODALS_ID} from '../../utils/constants'
 
 const Modal = (props) => {
-    const keyPressHandler = React.useCallback((e) => {
-        e.key === "Escape" && props.onClose()
-    }, [props])
 
     useEffect(() => {
+        const keyPressHandler = (e) => {
+            e.key === "Escape" && props.onClose()
+        }
+
         document.addEventListener('keydown', keyPressHandler)
 
         return () => {
             document.removeEventListener('keydown', keyPressHandler)
         }
-    }, [keyPressHandler])
+    }, [props.onClose])
 
     return ReactDOM.createPortal(
         <>
@@ -29,7 +31,7 @@ const Modal = (props) => {
             </div>
             <ModalOverlay onClose={props.onClose} />
         </>,
-        document.getElementById("modals")
+        document.getElementById(MODALS_ID)
     );
 }
 

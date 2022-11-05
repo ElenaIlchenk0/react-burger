@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../Layout/Layout'
-import BurgerConstructor from '../BurgerConstructor/BurgerConstructor'
-import BurgerIngredients from '../BurgerIngredients/BurgerIngredients'
+import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
+import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
+import { getIngredients } from '../../utils/burger-api'
 
-const url = 'https://norma.nomoreparties.space/api/ingredients';
 
 const Main = (props) => {
     const [ingredients, setIngredients] = useState([]);
 
     useEffect(() => {
-        fetch(url)
-            .then((res) => res.json())
+        getIngredients()
             .then((data) => setIngredients([...data.data]))
-            .catch((err) => console.log(err))
+            .catch((err) => Promise.reject(err))
     }, [])
 
     return (
