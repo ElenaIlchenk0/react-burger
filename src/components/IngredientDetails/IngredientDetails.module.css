@@ -1,0 +1,10 @@
+.container {
+    text-align: center;
+}
+
+.calories {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding-top: 32px;
+}

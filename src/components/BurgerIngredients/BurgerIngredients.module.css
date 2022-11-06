@@ -1,0 +1,43 @@
+.wrapper {
+    width: 600px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 36px;
+}
+
+.ingredientsContainer {
+    height: calc(100vh - 350px);
+    overflow-y: scroll;
+}
+
+.ingredientsContainer::-webkit-scrollbar {
+    width: 8px;
+}
+
+.ingredientsContainer::-webkit-scrollbar-track {
+    background: #2F2F37;
+}
+
+.ingredientsContainer::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+    min-height: 200px;
+
+}
+
+.ingredients {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+h1 {
+    line-height: 40px;
+}
+
+h2 {
+    flex-basis: 100%;
+    margin: 0;
+}

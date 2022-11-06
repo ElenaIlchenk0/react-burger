@@ -1,0 +1,29 @@
+.header {
+    width: 100%;
+    background: #1C1C21;
+    box-sizing: border-box;
+}
+
+.headerInner {
+    position: relative;
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mainLogo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+}

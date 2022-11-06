@@ -1,0 +1,19 @@
+.ingredientsInner {
+    flex-basis: 42%;
+    cursor: pointer;
+}
+
+.price {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    justify-content: center;
+    margin: 4px 0;
+}
+
+.title {
+    text-align: center;
+    margin: 0;
+    height: 48px;
+    line-height: 24px;
+}

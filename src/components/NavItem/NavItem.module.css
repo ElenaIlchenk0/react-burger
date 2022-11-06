@@ -1,0 +1,19 @@
+.item {
+    cursor: pointer;
+}
+
+.active {
+    opacity: 1;
+}
+
+.inactive {
+    opacity: .6;
+}
+
+.link {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+}
