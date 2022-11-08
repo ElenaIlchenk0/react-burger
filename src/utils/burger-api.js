@@ -1,14 +1,12 @@
 import { BURGER_API_URL } from './constants.js';
-import { ORDER_API_URL } from './constants.js'
-import { checkResponse } from './checkResponse';
+import {request} from './fetchCheckResponse';
 
 export function getIngredients() {
-    return fetch(`${BURGER_API_URL}/ingredients`)
-        .then(checkResponse)
+    return request(`${BURGER_API_URL}/ingredients`)
 }
 
 export function postOrder(ingredientsId) {
-    return fetch(ORDER_API_URL, {
+    return request(`${BURGER_API_URL}/orders`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -17,5 +15,4 @@ export function postOrder(ingredientsId) {
             "ingredients": ingredientsId
         })
     })
-        .then(checkResponse)
 }

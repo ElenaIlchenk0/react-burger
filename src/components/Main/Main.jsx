@@ -11,15 +11,15 @@ const Main = (props) => {
     useEffect(() => {
         getIngredients()
             .then((data) => setIngredients([...data.data]))
-            .catch((err) => Promise.reject(err))
+            .catch((err) => console.log(err))
     }, [])
 
     return (
         <Layout>
             {ingredients.length > 0 && (
                 <>
-                    <BurgerIngredients burgerData={ingredients} />
                     <BurgerDataContext.Provider value={{ ingredients }}>
+                        <BurgerIngredients />
                         <BurgerConstructor />
                     </BurgerDataContext.Provider>
                 </>

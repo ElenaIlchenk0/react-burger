@@ -38,7 +38,7 @@ const BurgerConstructor = (props) => {
                 if (data.success) { setCurrentOrder(data); handleOpenModal(true); }
                 else { Promise.reject(data) }
             })
-            .catch((err) => Promise.reject(err))
+            .catch((err) => console.log(err))
     }
 
     return (

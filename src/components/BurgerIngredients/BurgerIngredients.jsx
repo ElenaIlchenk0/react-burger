@@ -1,13 +1,13 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef, useMemo, useContext } from 'react';
 import burgerIngredientsStyles from './BurgerIngredients.module.css';
 import TabMenu from '../TabMenu/TabMenu';
 import IngredientItem from '../IngredientItem/IngredientItem';
-import PropTypes from 'prop-types';
-import { burgerDataPropTypes } from '../../prop-types';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
+import { BurgerDataContext } from '../../services/burgerDataContext';
 
 const BurgerIngredients = (props) => {
+    const { ingredients } = useContext(BurgerDataContext);
     const [selectedIngredient, setSelectedIngredient] = useState(null);
 
     const refBuns = useRef();
@@ -15,7 +15,7 @@ const BurgerIngredients = (props) => {
     const refMain = useRef();
 
     const handleOpenModal = (id) => {
-        const ingredientInfo = props.burgerData.find((ing) => ing._id === id);
+        const ingredientInfo = ingredients.find((ing) => ing._id === id);
         setSelectedIngredient(ingredientInfo);
     }
 
@@ -35,9 +35,9 @@ const BurgerIngredients = (props) => {
         }
     }
 
-    const buns = useMemo(() => props.burgerData.filter((data) => data.type === 'bun'), [props.burgerData]);
-    const sauces = useMemo(() => props.burgerData.filter((data) => data.type === 'sauce'), [props.burgerData]);
-    const main = useMemo(() => props.burgerData.filter((data) => data.type === 'main'), [props.burgerData]);
+    const buns = useMemo(() => ingredients.filter((data) => data.type === 'bun'), [ingredients]);
+    const sauces = useMemo(() => ingredients.filter((data) => data.type === 'sauce'), [ingredients]);
+    const main = useMemo(() => ingredients.filter((data) => data.type === 'main'), [ingredients]);
 
     return (
         <div className={`${burgerIngredientsStyles.wrapper} pt-10`}>
@@ -91,9 +91,5 @@ const BurgerIngredients = (props) => {
     )
 }
 
-
-BurgerIngredients.propTypes = {
-    burgerData: PropTypes.arrayOf(burgerDataPropTypes).isRequired,
-};
 
 export default BurgerIngredients;
