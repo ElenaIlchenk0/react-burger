@@ -32,7 +32,8 @@
     gap: 10px;
 }
 
-.menuItemTopBottom {
+.menuItemTop,
+.menuItemBottom {
     margin-right: 8px;
 }
 

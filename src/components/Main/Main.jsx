@@ -3,7 +3,7 @@ import Layout from '../Layout/Layout'
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import { getIngredients } from '../../utils/burger-api'
-
+import { BurgerDataContext } from '../../services/burgerDataContext'
 
 const Main = (props) => {
     const [ingredients, setIngredients] = useState([]);
@@ -19,7 +19,9 @@ const Main = (props) => {
             {ingredients.length > 0 && (
                 <>
                     <BurgerIngredients burgerData={ingredients} />
-                    <BurgerConstructor burgerData={ingredients} />
+                    <BurgerDataContext.Provider value={{ ingredients }}>
+                        <BurgerConstructor />
+                    </BurgerDataContext.Provider>
                 </>
             )}
         </Layout>

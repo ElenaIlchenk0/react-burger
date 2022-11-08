@@ -1,19 +1,28 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useContext, useEffect } from 'react';
 import burgerConstructorStyles from './BurgerConstructor.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
-import { burgerDataPropTypes } from '../../prop-types'
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
+import { BurgerDataContext } from '../../services/burgerDataContext';
+import { postOrder } from '../../utils/burger-api';
 
 const BurgerConstructor = (props) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const { ingredients } = useContext(BurgerDataContext);
+    const [totalPrice, setTotalPrice] = useState(0);
+    const [currentOrder, setCurrentOrder] = useState();
 
-    const someBun = useMemo(() => props.burgerData.find((item) => item.type === 'bun'));
-    const otherIng = useMemo(() => props.burgerData.filter((item) => item.type !== 'bun'));
+    const someBun = useMemo(() => ingredients.find((item) => item.type === 'bun'), [ingredients]);
+    const otherIng = useMemo(() => ingredients.filter((item) => item.type !== 'bun'), [ingredients]);
+
+    useEffect(() => {
+        const fillingPrice = otherIng.reduce((result, ingredient) => result += ingredient.price, 0)
+        const total = fillingPrice + someBun.price * 2;
+        setTotalPrice(total)
+    }, [someBun, otherIng])
 
     const handleOpenModal = () => {
         setIsModalOpen(true);
@@ -23,52 +32,63 @@ const BurgerConstructor = (props) => {
         setIsModalOpen(false);
     }
 
+    const handleClickButton = () => {
+        postOrder(ingredients.map(ing => ing._id))
+            .then((data) => {
+                if (data.success) { setCurrentOrder(data); handleOpenModal(true); }
+                else { Promise.reject(data) }
+            })
+            .catch((err) => Promise.reject(err))
+    }
+
     return (
 
         <div className={`${burgerConstructorStyles.wrapper} pt-25`}>
             <div className={burgerConstructorStyles.menuItemsContainer}>
-                    <div className={burgerConstructorStyles.bunsTop}>
-                        <div className={`${burgerConstructorStyles.menuItem} ${burgerConstructorStyles.menuItemTopBottom}`}>
-                            <ConstructorElement
-                                type="top"
-                                isLocked={true}
-                                text={`${someBun.name} (верх)`}
-                                price={someBun.price}
-                                thumbnail={someBun.image_mobile} />
-                        </div>
-                    </div>
-                    <div className={burgerConstructorStyles.mainIngredients}>
-                        {
-                            otherIng.map((ingredient, index) =>
-                                <div className={burgerConstructorStyles.menuItem} key={index}>
-                                    <DragIcon type="primary" />
-                                    <ConstructorElement
-                                        text={ingredient.name}
-                                        price={ingredient.price}
-                                        thumbnail={ingredient.image_mobile}
-                                    />
-                                </div>
-                            )
-                        }
-                    </div>
-                    <div className={burgerConstructorStyles.bunsBottom}>
-                        <div className={`${burgerConstructorStyles.menuItem} ${burgerConstructorStyles.menuItemTopBottom}`}>
-                            <ConstructorElement
-                                type="bottom"
-                                isLocked={true}
-                                text={`${someBun.name} (низ)`}
-                                price={someBun.price}
-                                thumbnail={someBun.image_mobile} />
-                        </div>
-
+                <div className={burgerConstructorStyles.bunsTop}>
+                    <div className={`${burgerConstructorStyles.menuItem} ${burgerConstructorStyles.menuItemTop}`}>
+                        <ConstructorElement
+                            type="top"
+                            isLocked={true}
+                            text={`${someBun.name} (верх)`}
+                            price={someBun.price}
+                            thumbnail={someBun.image_mobile} />
                     </div>
                 </div>
+                <div className={burgerConstructorStyles.mainIngredients}>
+                    {
+                        otherIng.map((ingredient, index) =>
+                            <div className={burgerConstructorStyles.menuItem} key={index}>
+                                <DragIcon type="primary" />
+                                <ConstructorElement
+                                    text={ingredient.name}
+                                    price={ingredient.price}
+                                    thumbnail={ingredient.image_mobile}
+                                />
+                            </div>
+                        )
+                    }
+                </div>
+                <div className={burgerConstructorStyles.bunsBottom}>
+                    <div className={`${burgerConstructorStyles.menuItem} ${burgerConstructorStyles.menuItemBottom}`}>
+                        <ConstructorElement
+                            type="bottom"
+                            isLocked={true}
+                            text={`${someBun.name} (низ)`}
+                            price={someBun.price}
+                            thumbnail={someBun.image_mobile} />
+                    </div>
+
+                </div>
+            </div>
             <div className={burgerConstructorStyles.orderSummary}>
                 <div className={burgerConstructorStyles.price}>
-                    <p className={'text text_type_digits-medium'}>610</p>
+                    <p className={'text text_type_digits-medium'}>
+                        {totalPrice}
+                    </p>
                     <CurrencyIcon type="primary" />
                 </div>
-                <Button onClick={handleOpenModal}
+                <Button onClick={handleClickButton}
                     htmlType="button"
                     type="primary"
                     size="medium">
@@ -76,8 +96,10 @@ const BurgerConstructor = (props) => {
                 </Button>
                 {
                     isModalOpen &&
-                    <Modal onClose={handleCloseModal} > 
-                        <OrderDetails />
+                    <Modal onClose={handleCloseModal} >
+                        <OrderDetails
+                            orderNumber={currentOrder.order.number}
+                        />
                     </Modal>
                 }
             </div>
@@ -85,9 +107,5 @@ const BurgerConstructor = (props) => {
 
     )
 }
-
-BurgerConstructor.propTypes = {
-    burgerData: PropTypes.arrayOf(burgerDataPropTypes).isRequired,
-};
 
 export default BurgerConstructor;
