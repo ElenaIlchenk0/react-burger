@@ -1,11 +1,14 @@
 import React from "react";
 import orderDetailsStyles from './OrderDetails.module.css';
 import doneImg from '../../images/done.png';
+import PropTypes from 'prop-types';
 
-const OrderDetails = () => {
+const OrderDetails = (props) => {
     return (
         <div className={orderDetailsStyles.modalContainer}>
-            <p className='text text_type_digits-large'>034536</p>
+            <p className='text text_type_digits-large'>
+                {props.orderNumber}
+            </p>
             <p className='text text_type_main-medium pt-8'>идентификатор заказа</p>
             <img className='pt-15 pb-15' src={doneImg} alt='done'></img>
             <p className='text text_type_main-medium'>Ваш заказ начали готовить</p>
@@ -13,5 +16,10 @@ const OrderDetails = () => {
         </div>
     )
 }
+
+OrderDetails.propTypes = {
+    orderNumber: PropTypes.number
+};
+
 
 export default OrderDetails;
