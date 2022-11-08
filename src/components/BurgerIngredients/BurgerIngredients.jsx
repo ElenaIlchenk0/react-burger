@@ -1,7 +1,8 @@
 import React, { useState, useRef, useMemo, useContext } from 'react';
 import burgerIngredientsStyles from './BurgerIngredients.module.css';
 import TabMenu from '../TabMenu/TabMenu';
-import IngredientItem from '../IngredientItem/IngredientItem';
+// import IngredientItem from '../IngredientItem/IngredientItem';
+import IngredientsCategory from '../IngredientsCategory/IngredientsCategory';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import { BurgerDataContext } from '../../services/burgerDataContext';
@@ -13,6 +14,28 @@ const BurgerIngredients = (props) => {
     const refBuns = useRef();
     const refSauces = useRef();
     const refMain = useRef();
+
+    const buns = useMemo(() => ingredients.filter((data) => data.type === 'bun'), [ingredients]);
+    const sauces = useMemo(() => ingredients.filter((data) => data.type === 'sauce'), [ingredients]);
+    const main = useMemo(() => ingredients.filter((data) => data.type === 'main'), [ingredients]);
+
+    const dataCategories = [
+        {
+            data: buns,
+            refItem: refBuns,
+            name: 'Булки'
+        },
+        {
+            data: sauces,
+            refItem: refSauces,
+            name: 'Соусы'
+        },
+        {
+            data: main,
+            refItem: refMain,
+            name: 'Начинки'
+        }
+    ]
 
     const handleOpenModal = (id) => {
         const ingredientInfo = ingredients.find((ing) => ing._id === id);
@@ -35,51 +58,22 @@ const BurgerIngredients = (props) => {
         }
     }
 
-    const buns = useMemo(() => ingredients.filter((data) => data.type === 'bun'), [ingredients]);
-    const sauces = useMemo(() => ingredients.filter((data) => data.type === 'sauce'), [ingredients]);
-    const main = useMemo(() => ingredients.filter((data) => data.type === 'main'), [ingredients]);
-
     return (
         <div className={`${burgerIngredientsStyles.wrapper} pt-10`}>
             <h1>Соберите бургер</h1>
             <TabMenu onClickTab={handleClickTab} />
             <div className={burgerIngredientsStyles.ingredientsContainer}>
-                <div>
-                    <div className={burgerIngredientsStyles.ingredients}>
-                        <h2 ref={refBuns}>Булки</h2>
-                        {
-                            buns.map((item) =>
-                                <IngredientItem
-                                    burgerData={item}
-                                    key={item._id}
-                                    onOpenModal={handleOpenModal} />)
-                        }
-                    </div>
-                </div>
-                <div>
-                    <div className={burgerIngredientsStyles.ingredients}>
-                        <h2 ref={refSauces}>Соусы</h2>
-                        {
-                            sauces.map((item) =>
-                                <IngredientItem
-                                    burgerData={item}
-                                    key={item._id}
-                                    onOpenModal={handleOpenModal} />)
-                        }
-                    </div>
-                </div>
-                <div>
-                    <div className={burgerIngredientsStyles.ingredients}>
-                        <h2 ref={refMain}>Начинки</h2>
-                        {
-                            main.map((item) =>
-                                <IngredientItem
-                                    burgerData={item}
-                                    key={item._id}
-                                    onOpenModal={handleOpenModal} />)
-                        }
-                    </div>
-                </div>
+                {
+                    dataCategories.map((category, index) => 
+                        <IngredientsCategory 
+                            category={category.name}
+                            data={category.data}
+                            refItem={category.refItem}
+                            onOpenModal={handleOpenModal}
+                            key={index}                         
+                        />
+                    )
+                }
             </div>
             {
                 selectedIngredient &&
