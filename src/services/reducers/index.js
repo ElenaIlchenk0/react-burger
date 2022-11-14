@@ -45,11 +45,6 @@ const ingredientsReducer = (state = initialState, action) => {
 const constructorIngReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_INGREDIENT: {
-            // {type: ADD_INGREDIENT,
-            //  ingType: bun / otherIngredients,
-            //  content: {_id: ..., name: ...}
-            //  id
-            // }
 
             const content = action.ingType === 'bun'
                 ? action.content
@@ -59,16 +54,14 @@ const constructorIngReducer = (state = initialState, action) => {
                 ...state,
                 constructor: {
                     ...state.constructor,
-                    [action.ingType]: content
+                    [action.ingType]: content,
                 }
             }
         }
         case DEL_INGREDIENT: {
 
-            const content = action.ingType === 'bun'
-                ? action.content
-                : state.constructor.otherIngredients.filter(el => el._id !== action._id)
-
+            const content = state.constructor.otherIngredients.filter(el => el.key !== action.content.key)
+            
             return {
                 ...state,
                 constructor: {
@@ -105,7 +98,7 @@ const currentIngReducer = (state = initialState, action) => {
 }
 
 // // Редьюсер созданного заказа
-const orderReducer = (state = initialState, action) => { 
+const orderReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_ORDER_DATA: {
             return {
@@ -131,7 +124,7 @@ const orderReducer = (state = initialState, action) => {
             return state
         }
     }
- }
+}
 
 export const rootReducer = combineReducers({
     ingredientsReducer,

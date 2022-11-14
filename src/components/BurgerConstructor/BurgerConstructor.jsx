@@ -6,8 +6,9 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
-import { useSelector, useDispatch } from 'react-redux'
-import { getOrder } from '../../services/actions/index'
+import { useSelector, useDispatch } from 'react-redux';
+import { getOrder } from '../../services/actions/index';
+import { DEL_INGREDIENT } from '../../services/actions/index';
 
 const BurgerConstructor = (props) => {
     const { bun, otherIngredients } = useSelector(store => store.constructorIngReducer.constructor);
@@ -47,58 +48,63 @@ const BurgerConstructor = (props) => {
         if (!isError) handleOpenModal(true);
     }
 
+    const handleDelIngredient = (ing) => {
+        dispatch({
+            type: DEL_INGREDIENT,
+            ingType: 'otherIngredients',
+            content: ing
+        })
+    }
+
     return (
 
         <div className={`${burgerConstructorStyles.wrapper} pt-25`}>
             <div className={burgerConstructorStyles.menuItemsContainer}>
-                {
-                    (Object.keys(bun).length > 0) && (
-                        <div className={burgerConstructorStyles.bunsTop}>
-                            <div className={`${burgerConstructorStyles.menuItem} ${burgerConstructorStyles.menuItemTop}`}>
-                                <ConstructorElement
-                                    type="top"
-                                    isLocked={true}
-                                    text={`${bun.name} (верх)`}
-                                    price={bun.price}
-                                    thumbnail={bun.image_mobile} />
-                            </div>
-                        </div>
-                    )
-                }
-                {
-                    otherIngredients.length > 0 && (
-                        <div className={burgerConstructorStyles.mainIngredients}>
-                            {
-                                otherIngredients.map((ingredient, index) => {
-                                    return (
-                                        <div className={burgerConstructorStyles.menuItem} key={index}>
-                                            <DragIcon type="primary" />
-                                            <ConstructorElement
-                                                text={ingredient.name}
-                                                price={ingredient.price}
-                                                thumbnail={ingredient.image_mobile}
-                                            />
-                                        </div>)
-                                }
-                                )
+
+                <div className={`${burgerConstructorStyles.menuItem} ${burgerConstructorStyles.menuItemTop}`}>
+                    {
+                        (Object.keys(bun).length > 0) && (
+                            <ConstructorElement
+                                type="top"
+                                isLocked={true}
+                                text={`${bun.name} (верх)`}
+                                price={bun.price}
+                                thumbnail={bun.image_mobile} />
+                        )
+                    }
+                </div>
+                <div className={burgerConstructorStyles.mainIngredients}>
+                    {
+                        (otherIngredients.length > 0) && (
+                            otherIngredients.map((ingredient, index) => {
+                                return (
+                                    <div className={burgerConstructorStyles.menuItem} key={index}>
+                                        <DragIcon type="primary" />
+                                        <ConstructorElement
+                                            text={ingredient.name}
+                                            price={ingredient.price}
+                                            thumbnail={ingredient.image_mobile}
+                                            handleClose={() => handleDelIngredient(ingredient)}
+                                        />
+                                    </div>)
                             }
-                        </div>
-                    )
-                }
-                {
-                    (Object.keys(bun).length > 0) && (
-                        <div className={burgerConstructorStyles.bunsBottom}>
-                            <div className={`${burgerConstructorStyles.menuItem} ${burgerConstructorStyles.menuItemBottom}`}>
-                                <ConstructorElement
-                                    type="bottom"
-                                    isLocked={true}
-                                    text={`${bun.name} (низ)`}
-                                    price={bun.price}
-                                    thumbnail={bun.image_mobile} />
-                            </div>
-                        </div>
-                    )
-                }
+                            )
+                        )
+                    }
+                </div>
+                <div className={`${burgerConstructorStyles.menuItem} ${burgerConstructorStyles.menuItemBottom}`}>
+                    {
+                        (Object.keys(bun).length > 0) && (
+                            <ConstructorElement
+                                type="bottom"
+                                isLocked={true}
+                                text={`${bun.name} (низ)`}
+                                price={bun.price}
+                                thumbnail={bun.image_mobile}
+                            />
+                        )
+                    }
+                </div>
             </div>
 
             <div className={burgerConstructorStyles.orderSummary}>

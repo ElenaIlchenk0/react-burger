@@ -7,7 +7,7 @@ import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllIngredients } from '../../services/actions/index';
 import { SET_SELECTED_ING, DEL_SELECTED_ING } from '../../services/actions/index';
-import { ADD_INGREDIENT } from '../../services/actions/index'
+import { addIngredient } from '../../services/actions/index';
 
 const BurgerIngredients = () => {
     const { ingredients, isError } = useSelector(store => store.ingredientsReducer);
@@ -47,12 +47,10 @@ const BurgerIngredients = () => {
 
     const handleOpenModal = (id) => {
         const ingredientInfo = ingredients.find((ing) => ing._id === id);
+        const ingType = ingredientInfo.type === 'bun' ? 'bun' : 'otherIngredients';
+
         dispatch({ type: SET_SELECTED_ING, selected: ingredientInfo });
-        dispatch({
-            type: ADD_INGREDIENT,
-            content: ingredientInfo,
-            ingType: ingredientInfo.type === 'bun' ? 'bun' : 'otherIngredients'
-        })
+        dispatch(addIngredient(ingredientInfo, ingType))
     }
 
     const handleCloseModal = () => {

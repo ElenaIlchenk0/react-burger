@@ -1,4 +1,5 @@
 import { BURGER_API_URL } from '../../utils/constants'
+import { v4 as uuidv4 } from 'uuid';
 
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
 export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
@@ -10,7 +11,7 @@ export const ADD_INGREDIENT = 'ADD_INGREDIENT';
 export const DEL_INGREDIENT = 'DEL_INGREDIENT';
 
 export const GET_ORDER_DATA = 'GET_ORDER_DATA';
-export const GET_ORDER_DATA_FAILED = 'GET_ORDER_DATA';
+export const GET_ORDER_DATA_FAILED = 'GET_ORDER_DATA_FAILED';
 
 export function getAllIngredients() {
     return function (dispatch) {
@@ -28,7 +29,8 @@ export function getAllIngredients() {
             }
         }).catch(err => {
             dispatch({
-                type: GET_INGREDIENTS_FAILED
+                type: GET_INGREDIENTS_FAILED,
+                ingType: ''
             })
         })
     }
@@ -63,4 +65,15 @@ export function getOrder(ingArray) {
                 })
             })
     }
+}
+
+export function addIngredient(content, ingType) {
+    return function (dispatch) {
+        content.key = uuidv4();
+
+        dispatch({type: ADD_INGREDIENT,
+            content,
+            ingType,
+            })
+}
 }
