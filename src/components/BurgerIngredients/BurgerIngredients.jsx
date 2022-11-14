@@ -1,15 +1,23 @@
-import React, { useState, useRef, useMemo, useContext } from 'react';
+import React, { useRef, useMemo, useEffect } from 'react';
 import burgerIngredientsStyles from './BurgerIngredients.module.css';
 import TabMenu from '../TabMenu/TabMenu';
-// import IngredientItem from '../IngredientItem/IngredientItem';
 import IngredientsCategory from '../IngredientsCategory/IngredientsCategory';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
-import { BurgerDataContext } from '../../services/burgerDataContext';
+import { useSelector, useDispatch } from 'react-redux';
+import { getAllIngredients } from '../../services/actions/index';
+import { SET_SELECTED_ING, DEL_SELECTED_ING } from '../../services/actions/index';
+import { ADD_INGREDIENT } from '../../services/actions/index'
 
-const BurgerIngredients = (props) => {
-    const { ingredients } = useContext(BurgerDataContext);
-    const [selectedIngredient, setSelectedIngredient] = useState(null);
+const BurgerIngredients = () => {
+    const { ingredients, isError } = useSelector(store => store.ingredientsReducer);
+    const { selectedIngredient } = useSelector(store => store.currentIngReducer);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getAllIngredients())
+    }, [dispatch])
 
     const refBuns = useRef();
     const refSauces = useRef();
@@ -39,11 +47,16 @@ const BurgerIngredients = (props) => {
 
     const handleOpenModal = (id) => {
         const ingredientInfo = ingredients.find((ing) => ing._id === id);
-        setSelectedIngredient(ingredientInfo);
+        dispatch({ type: SET_SELECTED_ING, selected: ingredientInfo });
+        dispatch({
+            type: ADD_INGREDIENT,
+            content: ingredientInfo,
+            ingType: ingredientInfo.type === 'bun' ? 'bun' : 'otherIngredients'
+        })
     }
 
     const handleCloseModal = () => {
-        setSelectedIngredient(null);
+        dispatch({ type: DEL_SELECTED_ING })
     }
 
     const handleClickTab = (value) => {
@@ -62,21 +75,25 @@ const BurgerIngredients = (props) => {
         <div className={`${burgerIngredientsStyles.wrapper} pt-10`}>
             <h1>Соберите бургер</h1>
             <TabMenu onClickTab={handleClickTab} />
-            <div className={burgerIngredientsStyles.ingredientsContainer}>
-                {
-                    dataCategories.map((category, index) => 
-                        <IngredientsCategory 
-                            category={category.name}
-                            data={category.data}
-                            refItem={category.refItem}
-                            onOpenModal={handleOpenModal}
-                            key={index}                         
-                        />
-                    )
-                }
-            </div>
             {
-                selectedIngredient &&
+                !isError && ingredients.length > 0 && (
+                    <div className={burgerIngredientsStyles.ingredientsContainer}>
+                        {
+                            dataCategories.map((category, index) =>
+                                <IngredientsCategory
+                                    category={category.name}
+                                    data={category.data}
+                                    refItem={category.refItem}
+                                    onOpenModal={handleOpenModal}
+                                    key={index}
+                                />
+                            )
+                        }
+                    </div>
+                )
+            }
+            {
+                (Object.keys(selectedIngredient).length > 0) &&
                 <Modal header='Детали ингредиента' onClose={handleCloseModal} >
                     <IngredientDetails ingredient={selectedIngredient} />
                 </Modal>
@@ -84,6 +101,5 @@ const BurgerIngredients = (props) => {
         </div>
     )
 }
-
 
 export default BurgerIngredients;

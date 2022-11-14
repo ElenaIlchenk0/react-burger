@@ -8,7 +8,6 @@ import { rootReducer } from './services/reducers/index'
 import { compose, createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-
 declare global {
   interface Window { __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any; }
 }
