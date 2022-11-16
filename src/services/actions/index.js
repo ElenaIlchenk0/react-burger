@@ -13,26 +13,28 @@ export const DEL_INGREDIENT = 'DEL_INGREDIENT';
 export const GET_ORDER_DATA = 'GET_ORDER_DATA';
 export const GET_ORDER_DATA_FAILED = 'GET_ORDER_DATA_FAILED';
 
+export const MOVE_INGREDIENT = 'MOVE_INGREDIENT';
+
 export function getAllIngredients() {
     return function (dispatch) {
         fetch(`${BURGER_API_URL}/ingredients`).then((res) => res.ok ? res.json() : res.json().then((err) => Promise.reject(err)))
-        .then(res => {
-            if (res.success) {
+            .then(res => {
+                if (res.success) {
+                    dispatch({
+                        type: GET_INGREDIENTS_SUCCESS,
+                        ingredients: res.data
+                    })
+                } else {
+                    dispatch({
+                        type: GET_INGREDIENTS_FAILED
+                    })
+                }
+            }).catch(err => {
                 dispatch({
-                    type: GET_INGREDIENTS_SUCCESS,
-                    ingredients: res.data
+                    type: GET_INGREDIENTS_FAILED,
+                    ingType: ''
                 })
-            } else {
-                dispatch({
-                    type: GET_INGREDIENTS_FAILED
-                })
-            }
-        }).catch(err => {
-            dispatch({
-                type: GET_INGREDIENTS_FAILED,
-                ingType: ''
             })
-        })
     }
 }
 
@@ -69,11 +71,10 @@ export function getOrder(ingArray) {
 
 export function addIngredient(content, ingType) {
     return function (dispatch) {
-        content.key = uuidv4();
-
-        dispatch({type: ADD_INGREDIENT,
-            content,
+        dispatch({
+            type: ADD_INGREDIENT,
+            content: { ...content, key: uuidv4() },
             ingType,
-            })
-}
+        })
+    }
 }

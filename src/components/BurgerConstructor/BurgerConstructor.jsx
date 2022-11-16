@@ -9,6 +9,9 @@ import OrderDetails from '../OrderDetails/OrderDetails';
 import { useSelector, useDispatch } from 'react-redux';
 import { getOrder } from '../../services/actions/index';
 import { DEL_INGREDIENT } from '../../services/actions/index';
+import { useDrop } from 'react-dnd';
+import { addIngredient } from '../../services/actions/index';
+import MainIngredient from '../MainIngredient/MainIngredient';
 
 const BurgerConstructor = (props) => {
     const { bun, otherIngredients } = useSelector(store => store.constructorIngReducer.constructor);
@@ -32,6 +35,21 @@ const BurgerConstructor = (props) => {
         setTotalPrice(getTotalPrice())
     }, [bun, otherIngredients])
 
+    const [{ canDrop, isOver }, dropTarget] = useDrop({
+        accept: 'ingredient',
+        drop(item) {
+            handleDrop(item);
+        },
+        collect: (monitor) => ({
+            isOver: monitor.isOver(),
+            canDrop: monitor.canDrop(),
+        }),
+    });
+
+    const handleDrop = (el) => {
+        const type = el.item.type === 'bun' ? 'bun' : 'otherIngredients';
+        dispatch(addIngredient(el.item, type))
+    }
 
     const handleOpenModal = () => {
         setIsModalOpen(true);
@@ -59,7 +77,9 @@ const BurgerConstructor = (props) => {
     return (
 
         <div className={`${burgerConstructorStyles.wrapper} pt-25`}>
-            <div className={burgerConstructorStyles.menuItemsContainer}>
+            <div ref={dropTarget}
+                className={burgerConstructorStyles.menuItemsContainer}
+                style={isOver ? { backgroundColor: '#8585AD' } : canDrop ? { backgroundColor: '#2f2f37' } : null}>
 
                 <div className={`${burgerConstructorStyles.menuItem} ${burgerConstructorStyles.menuItemTop}`}>
                     {
@@ -76,18 +96,9 @@ const BurgerConstructor = (props) => {
                 <div className={burgerConstructorStyles.mainIngredients}>
                     {
                         (otherIngredients.length > 0) && (
-                            otherIngredients.map((ingredient, index) => {
-                                return (
-                                    <div className={burgerConstructorStyles.menuItem} key={index}>
-                                        <DragIcon type="primary" />
-                                        <ConstructorElement
-                                            text={ingredient.name}
-                                            price={ingredient.price}
-                                            thumbnail={ingredient.image_mobile}
-                                            handleClose={() => handleDelIngredient(ingredient)}
-                                        />
-                                    </div>)
-                            }
+                            otherIngredients.map((ingredient, index) =>
+                                <MainIngredient key={index} ingredient={ingredient} index={index} onDelete={handleDelIngredient} />
+
                             )
                         )
                     }

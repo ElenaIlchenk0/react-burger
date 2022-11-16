@@ -2,24 +2,37 @@ import React from 'react';
 import ingredientItemStyles from './IngredientItem.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
+import { useDrag } from "react-dnd";
 
-const IngredientItem = (props) => {
+const IngredientItem = ({ burgerData, onOpenModal }) => {
+
+    const [{ opacity }, dragRef] = useDrag({
+        type: 'ingredient',
+        item: { item: burgerData },
+        collect: monitor => ({
+            opacity: monitor.isDragging() ? 0.4 : 1
+        })
+    });
 
     const handleClickIngredient = () => {
-        props.onOpenModal(props.burgerData._id)
+        onOpenModal(burgerData._id)
     }
 
     return (
-        <div onClick={handleClickIngredient} className={`${ingredientItemStyles.ingredientsInner} pt-6 pr-4 pl-4 pb-10`}>
+        <div ref={dragRef}
+            style={{ opacity }}
+            onClick={handleClickIngredient}
+            className={`${ingredientItemStyles.ingredientsInner} pt-6 pr-4 pl-4 pb-10`
+            }>
             <div className={ingredientItemStyles.ingredientsItem}>
                 <div className={ingredientItemStyles.image}>
-                    <img src={props.burgerData.image} alt='ingredient img' />
+                    <img src={burgerData.image} alt='ingredient img' />
                 </div>
                 <div className={`${ingredientItemStyles.price}`}>
-                    <p className={'text text_type_digits-default'}>{props.burgerData.price}</p>
+                    <p className={'text text_type_digits-default'}>{burgerData.price}</p>
                     <CurrencyIcon type="primary" />
                 </div>
-                <p className={ingredientItemStyles.title}>{props.burgerData.name}</p>
+                <p className={ingredientItemStyles.title}>{burgerData.name}</p>
             </div>
         </div>
 

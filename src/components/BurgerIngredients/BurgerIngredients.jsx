@@ -12,7 +12,6 @@ import { addIngredient } from '../../services/actions/index';
 const BurgerIngredients = () => {
     const { ingredients, isError } = useSelector(store => store.ingredientsReducer);
     const { selectedIngredient } = useSelector(store => store.currentIngReducer);
-
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -50,7 +49,8 @@ const BurgerIngredients = () => {
         const ingType = ingredientInfo.type === 'bun' ? 'bun' : 'otherIngredients';
 
         dispatch({ type: SET_SELECTED_ING, selected: ingredientInfo });
-        dispatch(addIngredient(ingredientInfo, ingType))
+      
+        // dispatch(addIngredient(ingredientInfo, ingType))
     }
 
     const handleCloseModal = () => {

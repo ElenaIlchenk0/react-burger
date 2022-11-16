@@ -1,8 +1,9 @@
 import { combineReducers } from 'redux';
 import { GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILED } from '../actions/index';
 import { SET_SELECTED_ING, DEL_SELECTED_ING } from '../actions/index';
-import { ADD_INGREDIENT, DEL_INGREDIENT } from '../actions/index';
+import { ADD_INGREDIENT, MOVE_INGREDIENT, DEL_INGREDIENT } from '../actions/index';
 import { GET_ORDER_DATA, GET_ORDER_DATA_FAILED } from '../actions/index';
+import update from 'immutability-helper'
 
 export const initialState = {
     ingredients: [],
@@ -58,10 +59,26 @@ const constructorIngReducer = (state = initialState, action) => {
                 }
             }
         }
+        case MOVE_INGREDIENT: {
+            const prevIngredients = state.constructor.otherIngredients;
+
+            return {
+                ...state,
+                constructor: {
+                    ...state.constructor,
+                    otherIngredients: update(prevIngredients, {
+                        $splice: [
+                            [action.dragIndex, 1],
+                            [action.hoverIndex, 0, prevIngredients[action.dragIndex]],
+                        ],
+                    })
+                }
+            }
+        }
         case DEL_INGREDIENT: {
 
             const content = state.constructor.otherIngredients.filter(el => el.key !== action.content.key)
-            
+
             return {
                 ...state,
                 constructor: {
@@ -125,6 +142,7 @@ const orderReducer = (state = initialState, action) => {
         }
     }
 }
+
 
 export const rootReducer = combineReducers({
     ingredientsReducer,
