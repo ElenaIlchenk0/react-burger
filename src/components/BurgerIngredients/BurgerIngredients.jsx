@@ -32,7 +32,6 @@ const BurgerIngredients = () => {
     const refSauces = useRef();
     const refMain = useRef();
 
-    const refs = [refBuns, refSauces, refMain]
     const [currentIndexTab, setCurrentIndexTab] = useState(0);
 
     const buns = useMemo(() => ingredients.filter((data) => data.type === 'bun'), [ingredients]);
@@ -82,7 +81,7 @@ const BurgerIngredients = () => {
     }
 
 
-    const HandleScroll = () => {
+    const handleScroll = () => {
         let buns = Math.abs(startScroll - refBuns.current.getBoundingClientRect().top)
         let sauces = Math.abs(startScroll - refSauces.current.getBoundingClientRect().top)
         let main = Math.abs(startScroll - refMain.current.getBoundingClientRect().top)
@@ -100,7 +99,7 @@ const BurgerIngredients = () => {
             <TabMenu tabRef={tabRef} onClickTab={handleClickTab} currentIndexTab={currentIndexTab}/>
             {
                 !isError && ingredients.length > 0 && (
-                    <div onScroll={HandleScroll} className={burgerIngredientsStyles.ingredientsContainer}>
+                    <div onScroll={handleScroll} className={burgerIngredientsStyles.ingredientsContainer}>
                         {
                             dataCategories.map((category, index) =>
                                 <IngredientsCategory

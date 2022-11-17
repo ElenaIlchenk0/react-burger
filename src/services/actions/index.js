@@ -1,5 +1,6 @@
 import { BURGER_API_URL } from '../../utils/constants'
 import { v4 as uuidv4 } from 'uuid';
+import { request } from '../../utils/fetchCheckResponse'
 
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
 export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
@@ -16,7 +17,7 @@ export const GET_ORDER_DATA_FAILED = 'GET_ORDER_DATA_FAILED';
 
 export function getAllIngredients() {
     return function (dispatch) {
-        fetch(`${BURGER_API_URL}/ingredients`).then((res) => res.ok ? res.json() : res.json().then((err) => Promise.reject(err)))
+        request(`${BURGER_API_URL}/ingredients`)
             .then(res => {
                 if (res.success) {
                     dispatch({
@@ -38,7 +39,7 @@ export function getAllIngredients() {
 
 export function getOrder(ingArray) {
     return function (dispatch) {
-        fetch(`${BURGER_API_URL}/orders`, {
+        request(`${BURGER_API_URL}/orders`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -46,24 +47,23 @@ export function getOrder(ingArray) {
             body: JSON.stringify({
                 "ingredients": ingArray
             })
-        }).then((res) => res.ok ? res.json() : res.json().then((err) => Promise.reject(err)))
-            .then(res => {
-                if (res.success) {
-                    dispatch({
-                        type: GET_ORDER_DATA,
-                        name: res.order.name,
-                        number: res.order.number,
-                    })
-                } else {
-                    dispatch({
-                        type: GET_ORDER_DATA_FAILED
-                    })
-                }
-            }).catch(err => {
+        }).then(res => {
+            if (res.success) {
+                dispatch({
+                    type: GET_ORDER_DATA,
+                    name: res.order.name,
+                    number: res.order.number,
+                })
+            } else {
                 dispatch({
                     type: GET_ORDER_DATA_FAILED
                 })
+            }
+        }).catch(err => {
+            dispatch({
+                type: GET_ORDER_DATA_FAILED
             })
+        })
     }
 }
 

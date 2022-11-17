@@ -22,7 +22,8 @@ const IngredientItem = ({ burgerData, onOpenModal }) => {
         type: 'ingredient',
         item: { item: burgerData },
         collect: monitor => ({
-            opacity: monitor.isDragging() ? 0.4 : 1
+            opacity: monitor.isDragging() ? 0.4 : 1,
+            isDragging: !!monitor.isDragging(),
         })
     });
 
@@ -31,14 +32,16 @@ const IngredientItem = ({ burgerData, onOpenModal }) => {
     }
 
     return (
+        
         <div ref={dragRef}
             style={{ opacity }}
             onClick={handleClickIngredient}
             className={`${ingredientItemStyles.ingredientsInner} pt-6 pr-4 pl-4 pb-10`
             }>
             <div
-                style={counter > 0 ? { display: 'flex' } : { display: 'none' }}
-                className={`${ingredientItemStyles.counter} text text_type_digits-default`}>
+                style={{ display: counter > 0 ? 'flex' : 'none' }}
+                className={`${ingredientItemStyles.counter} text text_type_digits-default`}
+            >
                 {counter}
             </div>
             <div className={ingredientItemStyles.ingredientsItem}>
@@ -52,6 +55,7 @@ const IngredientItem = ({ burgerData, onOpenModal }) => {
                 <p className={ingredientItemStyles.title}>{burgerData.name}</p>
             </div>
         </div>
+        
 
     )
 }

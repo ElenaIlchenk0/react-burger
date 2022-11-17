@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import tabMenuStyles from './TabMenu.module.css'
 import PropTypes from 'prop-types';
@@ -6,6 +6,10 @@ import PropTypes from 'prop-types';
 
 const TabMenu = (props) => {
     const [current, setCurrent] = React.useState();
+
+    useEffect(() => {
+        if (props.currentIndexTab) setCurrent(0)
+    }, [props.currentIndexTab])
 
     const onClickHandler = (value) => {
         props.onClickTab(value);
