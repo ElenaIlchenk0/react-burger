@@ -97,7 +97,10 @@ const BurgerConstructor = (props) => {
                     {
                         (otherIngredients.length > 0) && (
                             otherIngredients.map((ingredient, index) =>
-                                <MainIngredient key={index} ingredient={ingredient} index={index} onDelete={handleDelIngredient} />
+                                <MainIngredient key={index} 
+                                            ingredient={ingredient} 
+                                            index={index} 
+                                            onDelete={handleDelIngredient} />
 
                             )
                         )

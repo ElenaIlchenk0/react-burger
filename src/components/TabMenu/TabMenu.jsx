@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 
 const TabMenu = (props) => {
-    const [current, setCurrent] = React.useState('buns');
+    const [current, setCurrent] = React.useState();
 
     const onClickHandler = (value) => {
         props.onClickTab(value);
@@ -13,14 +13,14 @@ const TabMenu = (props) => {
     }
 
     return (
-        <div className={`${tabMenuStyles.tabMenu} pt-5 pb-10`}>
-            <Tab value="buns" active={current === 'buns'} onClick={onClickHandler}>
+        <div ref={props.tabRef} className={`${tabMenuStyles.tabMenu} pt-5 pb-10`}>
+            <Tab value="buns" active={current === 'buns' || props.currentIndexTab === 0} onClick={onClickHandler}>
                 Булки
             </Tab>
-            <Tab value="sauces" active={current === 'sauces'} onClick={onClickHandler}>
+            <Tab value="sauces" active={current === 'sauces' || props.currentIndexTab === 1} onClick={onClickHandler}>
                 Соусы
             </Tab>
-            <Tab value="main" active={current === 'main'} onClick={onClickHandler}>
+            <Tab value="main" active={current === 'main' || props.currentIndexTab === 2} onClick={onClickHandler}>
                 Начинки
             </Tab>
         </div>

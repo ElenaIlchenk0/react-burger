@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useEffect } from 'react';
+import React, { useState, useRef, useMemo, useEffect } from 'react';
 import burgerIngredientsStyles from './BurgerIngredients.module.css';
 import TabMenu from '../TabMenu/TabMenu';
 import IngredientsCategory from '../IngredientsCategory/IngredientsCategory';
@@ -8,22 +8,38 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getAllIngredients } from '../../services/actions/index';
 import { SET_SELECTED_ING, DEL_SELECTED_ING } from '../../services/actions/index';
 
+
 const BurgerIngredients = () => {
     const { ingredients, isError } = useSelector(store => store.ingredientsReducer);
     const { selectedIngredient } = useSelector(store => store.currentIngReducer);
     const dispatch = useDispatch();
 
+    const [startScroll, setStartScroll] = useState()
+
     useEffect(() => {
         dispatch(getAllIngredients())
     }, [dispatch])
+
+    useEffect(() => {
+        if (tabRef) {
+            setStartScroll(tabRef.current.getBoundingClientRect().bottom);
+        }
+    }, [startScroll])
+
+    const tabRef = useRef();
 
     const refBuns = useRef();
     const refSauces = useRef();
     const refMain = useRef();
 
+    const refs = [refBuns, refSauces, refMain]
+    const [currentIndexTab, setCurrentIndexTab] = useState(0);
+
     const buns = useMemo(() => ingredients.filter((data) => data.type === 'bun'), [ingredients]);
     const sauces = useMemo(() => ingredients.filter((data) => data.type === 'sauce'), [ingredients]);
     const main = useMemo(() => ingredients.filter((data) => data.type === 'main'), [ingredients]);
+
+
 
     const dataCategories = [
         {
@@ -65,13 +81,26 @@ const BurgerIngredients = () => {
         }
     }
 
+
+    const HandleScroll = () => {
+        let buns = Math.abs(startScroll - refBuns.current.getBoundingClientRect().top)
+        let sauces = Math.abs(startScroll - refSauces.current.getBoundingClientRect().top)
+        let main = Math.abs(startScroll - refMain.current.getBoundingClientRect().top)
+
+        const arr = [buns, sauces, main];
+
+        let activeTab = Math.min(...arr);
+        const index = arr.findIndex((el) => el === activeTab);
+        setCurrentIndexTab(index);
+    }
+
     return (
         <div className={`${burgerIngredientsStyles.wrapper} pt-10`}>
             <h1>Соберите бургер</h1>
-            <TabMenu onClickTab={handleClickTab} />
+            <TabMenu tabRef={tabRef} onClickTab={handleClickTab} currentIndexTab={currentIndexTab}/>
             {
                 !isError && ingredients.length > 0 && (
-                    <div className={burgerIngredientsStyles.ingredientsContainer}>
+                    <div onScroll={HandleScroll} className={burgerIngredientsStyles.ingredientsContainer}>
                         {
                             dataCategories.map((category, index) =>
                                 <IngredientsCategory

@@ -1,8 +1,10 @@
 import React from 'react';
 import ingredientsCategoryStyles from './IngredientsCategory.module.css';
 import IngredientItem from '../IngredientItem/IngredientItem';
+import { InView } from "react-intersection-observer";
 
 const IngredientsCategory = (props) => {
+
     return (
         <div className={ingredientsCategoryStyles.ingredients}>
             <h2 ref={props.refItem}>{props.category}</h2>
