@@ -8,12 +8,11 @@ export const SET_SELECTED_ING = 'SET_SELECTED_ING';
 export const DEL_SELECTED_ING = 'DEL_SELECTED_ING';
 
 export const ADD_INGREDIENT = 'ADD_INGREDIENT';
+export const MOVE_INGREDIENT = 'MOVE_INGREDIENT';
 export const DEL_INGREDIENT = 'DEL_INGREDIENT';
 
 export const GET_ORDER_DATA = 'GET_ORDER_DATA';
 export const GET_ORDER_DATA_FAILED = 'GET_ORDER_DATA_FAILED';
-
-export const MOVE_INGREDIENT = 'MOVE_INGREDIENT';
 
 export function getAllIngredients() {
     return function (dispatch) {
@@ -31,8 +30,7 @@ export function getAllIngredients() {
                 }
             }).catch(err => {
                 dispatch({
-                    type: GET_INGREDIENTS_FAILED,
-                    ingType: ''
+                    type: GET_INGREDIENTS_FAILED
                 })
             })
     }

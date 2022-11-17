@@ -1,6 +1,7 @@
 .ingredientsInner {
     flex-basis: 42%;
     cursor: pointer;
+    position: relative;
 }
 
 .price {
@@ -16,4 +17,17 @@
     margin: 0;
     height: 48px;
     line-height: 24px;
+}
+
+.counter {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #4C4CFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

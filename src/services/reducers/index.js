@@ -36,6 +36,7 @@ const ingredientsReducer = (state = initialState, action) => {
                 isError: true,
             };
         }
+        
         default: {
             return state
         }
@@ -142,6 +143,7 @@ const orderReducer = (state = initialState, action) => {
         }
     }
 }
+
 
 
 export const rootReducer = combineReducers({
