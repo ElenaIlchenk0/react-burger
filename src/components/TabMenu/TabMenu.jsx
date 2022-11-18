@@ -33,7 +33,12 @@ const TabMenu = (props) => {
 }
 
 TabMenu.propTypes = {
-    onClickTab: PropTypes.func.isRequired
+    onClickTab: PropTypes.func.isRequired,
+    currentIndexTab: PropTypes.number,
+    tabRef: PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+    ]).isRequired
 }
 
 
