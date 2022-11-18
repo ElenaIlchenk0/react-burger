@@ -14,13 +14,12 @@ export const initialState = {
     },
     currentOrder: {
         name: '',
-        number: ''
+        number: 0
     },
     orderReducer: {},
     isError: false,
 }
 
-// Редьюсер списка всех полученных ингредиентов
 const ingredientsReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_INGREDIENTS_SUCCESS: {
@@ -43,7 +42,7 @@ const ingredientsReducer = (state = initialState, action) => {
     }
 
 }
-// Редьюсер списка всех ингредиентов в конструкторе бургера
+
 const constructorIngReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_INGREDIENT: {
@@ -94,7 +93,6 @@ const constructorIngReducer = (state = initialState, action) => {
     }
 }
 
-// Редьюсер текущего просматриваемого ингредиента
 const currentIngReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_SELECTED_ING: {
@@ -115,7 +113,6 @@ const currentIngReducer = (state = initialState, action) => {
     }
 }
 
-// // Редьюсер созданного заказа
 const orderReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_ORDER_DATA: {

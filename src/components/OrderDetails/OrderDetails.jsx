@@ -7,7 +7,9 @@ const OrderDetails = (props) => {
     return (
         <div className={orderDetailsStyles.modalContainer}>
             <p className='text text_type_digits-large'>
-                {props.orderNumber}
+                {props.orderNumber > 0 ? 
+                    props.orderNumber : 
+                    <span className='text text_type_main-medium pt-8'>Секунду...</span>}
             </p>
             <p className='text text_type_main-medium pt-8'>идентификатор заказа</p>
             <img className='pt-15 pb-15' src={doneImg} alt='done'></img>
@@ -18,7 +20,7 @@ const OrderDetails = (props) => {
 }
 
 OrderDetails.propTypes = {
-    orderNumber: PropTypes.number
+    orderNumber: PropTypes.number.isRequired
 };
 
 

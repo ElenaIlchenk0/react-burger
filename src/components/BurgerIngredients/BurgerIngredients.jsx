@@ -82,13 +82,13 @@ const BurgerIngredients = () => {
 
 
     const handleScroll = () => {
-        let buns = Math.abs(startScroll - refBuns.current.getBoundingClientRect().top)
-        let sauces = Math.abs(startScroll - refSauces.current.getBoundingClientRect().top)
-        let main = Math.abs(startScroll - refMain.current.getBoundingClientRect().top)
+        const buns = Math.abs(startScroll - refBuns.current.getBoundingClientRect().top)
+        const sauces = Math.abs(startScroll - refSauces.current.getBoundingClientRect().top)
+        const main = Math.abs(startScroll - refMain.current.getBoundingClientRect().top)
 
         const arr = [buns, sauces, main];
 
-        let activeTab = Math.min(...arr);
+        const activeTab = Math.min(...arr);
         const index = arr.findIndex((el) => el === activeTab);
         setCurrentIndexTab(index);
     }
