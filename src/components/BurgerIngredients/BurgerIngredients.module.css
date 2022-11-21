@@ -26,12 +26,12 @@ h1 {
 
 }
 
-.ingredients {
+/* .ingredients {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 24px;
-}
+} */
 
 h1 {
     line-height: 40px;

@@ -1,26 +1,71 @@
-import React, { useState, useRef, useMemo, useContext } from 'react';
+import React, { useState, useRef, useMemo, useEffect } from 'react';
 import burgerIngredientsStyles from './BurgerIngredients.module.css';
 import TabMenu from '../TabMenu/TabMenu';
-import IngredientItem from '../IngredientItem/IngredientItem';
+import IngredientsCategory from '../IngredientsCategory/IngredientsCategory';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
-import { BurgerDataContext } from '../../services/burgerDataContext';
+import { useSelector, useDispatch } from 'react-redux';
+import { getAllIngredients } from '../../services/actions/index';
+import { SET_SELECTED_ING, DEL_SELECTED_ING } from '../../services/actions/index';
 
-const BurgerIngredients = (props) => {
-    const { ingredients } = useContext(BurgerDataContext);
-    const [selectedIngredient, setSelectedIngredient] = useState(null);
+
+const BurgerIngredients = () => {
+    const { ingredients, isError } = useSelector(store => store.ingredientsReducer);
+    const { selectedIngredient } = useSelector(store => store.currentIngReducer);
+    const dispatch = useDispatch();
+
+    const [startScroll, setStartScroll] = useState()
+
+    useEffect(() => {
+        dispatch(getAllIngredients())
+    }, [dispatch])
+
+    useEffect(() => {
+        if (tabRef) {
+            setStartScroll(tabRef.current.getBoundingClientRect().bottom);
+        }
+    }, [startScroll])
+
+    const tabRef = useRef();
 
     const refBuns = useRef();
     const refSauces = useRef();
     const refMain = useRef();
 
+    const [currentIndexTab, setCurrentIndexTab] = useState(0);
+
+    const buns = useMemo(() => ingredients.filter((data) => data.type === 'bun'), [ingredients]);
+    const sauces = useMemo(() => ingredients.filter((data) => data.type === 'sauce'), [ingredients]);
+    const main = useMemo(() => ingredients.filter((data) => data.type === 'main'), [ingredients]);
+
+
+
+    const dataCategories = [
+        {
+            data: buns,
+            refItem: refBuns,
+            name: 'Булки'
+        },
+        {
+            data: sauces,
+            refItem: refSauces,
+            name: 'Соусы'
+        },
+        {
+            data: main,
+            refItem: refMain,
+            name: 'Начинки'
+        }
+    ]
+
     const handleOpenModal = (id) => {
         const ingredientInfo = ingredients.find((ing) => ing._id === id);
-        setSelectedIngredient(ingredientInfo);
+
+        dispatch({ type: SET_SELECTED_ING, selected: ingredientInfo });
     }
 
     const handleCloseModal = () => {
-        setSelectedIngredient(null);
+        dispatch({ type: DEL_SELECTED_ING })
     }
 
     const handleClickTab = (value) => {
@@ -35,54 +80,42 @@ const BurgerIngredients = (props) => {
         }
     }
 
-    const buns = useMemo(() => ingredients.filter((data) => data.type === 'bun'), [ingredients]);
-    const sauces = useMemo(() => ingredients.filter((data) => data.type === 'sauce'), [ingredients]);
-    const main = useMemo(() => ingredients.filter((data) => data.type === 'main'), [ingredients]);
+
+    const handleScroll = () => {
+        const buns = Math.abs(startScroll - refBuns.current.getBoundingClientRect().top)
+        const sauces = Math.abs(startScroll - refSauces.current.getBoundingClientRect().top)
+        const main = Math.abs(startScroll - refMain.current.getBoundingClientRect().top)
+
+        const arr = [buns, sauces, main];
+
+        const activeTab = Math.min(...arr);
+        const index = arr.findIndex((el) => el === activeTab);
+        setCurrentIndexTab(index);
+    }
 
     return (
         <div className={`${burgerIngredientsStyles.wrapper} pt-10`}>
             <h1>Соберите бургер</h1>
-            <TabMenu onClickTab={handleClickTab} />
-            <div className={burgerIngredientsStyles.ingredientsContainer}>
-                <div>
-                    <div className={burgerIngredientsStyles.ingredients}>
-                        <h2 ref={refBuns}>Булки</h2>
-                        {
-                            buns.map((item) =>
-                                <IngredientItem
-                                    burgerData={item}
-                                    key={item._id}
-                                    onOpenModal={handleOpenModal} />)
-                        }
-                    </div>
-                </div>
-                <div>
-                    <div className={burgerIngredientsStyles.ingredients}>
-                        <h2 ref={refSauces}>Соусы</h2>
-                        {
-                            sauces.map((item) =>
-                                <IngredientItem
-                                    burgerData={item}
-                                    key={item._id}
-                                    onOpenModal={handleOpenModal} />)
-                        }
-                    </div>
-                </div>
-                <div>
-                    <div className={burgerIngredientsStyles.ingredients}>
-                        <h2 ref={refMain}>Начинки</h2>
-                        {
-                            main.map((item) =>
-                                <IngredientItem
-                                    burgerData={item}
-                                    key={item._id}
-                                    onOpenModal={handleOpenModal} />)
-                        }
-                    </div>
-                </div>
-            </div>
+            <TabMenu tabRef={tabRef} onClickTab={handleClickTab} currentIndexTab={currentIndexTab}/>
             {
-                selectedIngredient &&
+                !isError && ingredients.length > 0 && (
+                    <div onScroll={handleScroll} className={burgerIngredientsStyles.ingredientsContainer}>
+                        {
+                            dataCategories.map((category, index) =>
+                                <IngredientsCategory
+                                    category={category.name}
+                                    data={category.data}
+                                    refItem={category.refItem}
+                                    onOpenModal={handleOpenModal}
+                                    key={index}
+                                />
+                            )
+                        }
+                    </div>
+                )
+            }
+            {
+                (Object.keys(selectedIngredient).length > 0) &&
                 <Modal header='Детали ингредиента' onClose={handleCloseModal} >
                     <IngredientDetails ingredient={selectedIngredient} />
                 </Modal>
@@ -90,6 +123,5 @@ const BurgerIngredients = (props) => {
         </div>
     )
 }
-
 
 export default BurgerIngredients;
