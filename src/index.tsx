@@ -8,6 +8,9 @@ import { rootReducer } from './services/reducers/index'
 import { compose, createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+import { BrowserRouter as Router } from 'react-router-dom';
+
+
 declare global {
   interface Window { __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any; }
 }
@@ -26,11 +29,13 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </React.StrictMode>
+  <Router>
+    <React.StrictMode>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </React.StrictMode>
+  </Router>
 );
 
 // If you want to start measuring performance in your app, pass a function

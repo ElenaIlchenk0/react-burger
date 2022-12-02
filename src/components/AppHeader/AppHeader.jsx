@@ -5,19 +5,34 @@ import { BurgerIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ListIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Logo } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useLocation, useRouteMatch } from 'react-router-dom';
 
 const AppHeader = (props) => {
+    const location = useLocation();
+    const isProfile = useRouteMatch('/profile');
+
     return (
-        <header className={`${appHeaderStyles.header} p-4`}>
+        <header className={`${appHeaderStyles.header} pt-4 pb-4`}>
             <div className={appHeaderStyles.headerInner}>
                 <div className={appHeaderStyles.nav}>
-                    <NavItem isActive icon={<BurgerIcon type="primary" />} title='Конструктор' />
-                    <NavItem icon={<ListIcon type="primary" />} title='Лента заказов' />
+                    <NavItem 
+                        isActive={location.pathname === '/'} 
+                        icon={<BurgerIcon type="primary" />} 
+                        title='Конструктор' 
+                    />
+                    <NavItem 
+                        icon={<ListIcon type="primary" />} 
+                        title='Лента заказов' 
+                    />
                 </div>
                 <div className={appHeaderStyles.mainLogo}>
                     <Logo />
                 </div>
-                <NavItem icon={<ProfileIcon type="primary" />} title='Личный кабинет' />
+                <NavItem 
+                    isActive={!!isProfile} 
+                    icon={<ProfileIcon type="primary" />} 
+                    title='Личный кабинет' 
+                />
             </div>
         </header>
     )
