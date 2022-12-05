@@ -1,43 +1,34 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import formStyles from '../form.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link } from 'react-router-dom';
-import { request } from '../../../utils/fetchCheckResponse';
-import { BURGER_API_URL } from '../../../utils/constants'
+import { Link, useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { provideNewPass } from '../../../services/actions/userInfo';
 
 const ResetPass = (props) => {
+    const dispatch = useDispatch();
+    const { resetDone } = useSelector(store => store.setUserReducer);
+    const history = useHistory();
+
     const [tokenValue, setToken] = useState('')
     const [passwordValue, setPassword] = useState('')
     const inputPass = useRef(null)
-    const inputToken = useRef(null)
 
     const showPass = () => {
         setTimeout(() => inputPass.current.focus(), 0)
         alert('Icon Click Callback showPass')
     }
 
-    const onIconClick = () => {
-        setTimeout(() => inputToken.current.focus(), 0)
-        alert('Icon Click Callback')
-    }
-
     const buttonHandler = () => {
-        request(`${BURGER_API_URL}/password-reset/reset`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify({
-                "password": passwordValue,
-                "token": tokenValue
-            })
-        }).then(res => {
-            if (res.success) {
-                console.log(res)
-            }
-        }).catch((err) => Promise.reject(err))
-
+        dispatch(provideNewPass(passwordValue, tokenValue));
     }
+
+    useEffect(() => {
+        if (resetDone) {
+            history.replace('/login')
+        }
+    }, [resetDone, history])
+    
 
     return (
         <div className={formStyles.formWrapper}>
@@ -62,8 +53,6 @@ const ResetPass = (props) => {
                 value={tokenValue}
                 name='code'
                 error={false}
-                ref={inputToken}
-                onIconClick={onIconClick}
                 errorText='Ошибка'
                 size='default'
             />

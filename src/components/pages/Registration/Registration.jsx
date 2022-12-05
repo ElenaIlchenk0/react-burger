@@ -1,36 +1,20 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import formStyles from '../form.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { registerUser } from '../../../services/actions/userInfo';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Registration = (props) => {
     const dispatch = useDispatch();
-    const { isError, errMsg, isAuthenticated } = useSelector(store => store.setUserReducer);
+    const { isError, errMsg } = useSelector(store => store.setUserReducer);
 
-    const history = useHistory();
-
-    useEffect(() => {
-        if (isAuthenticated) history.replace('/')
-    })
-
-    const [nameValue, setName] = useState('')
-    const [emailValue, setEmail] = useState('')
-    const [passwordValue, setPassword] = useState('')
+    const [nameValue, setName] = useState('');
+    const [emailValue, setEmail] = useState('');
+    const [passwordValue, setPassword] = useState('');
+    
     const inputName = useRef(null)
-    const inputEmail = useRef(null)
     const inputPass = useRef(null)
-
-    const onIconClickName = () => {
-        setTimeout(() => inputEmail.current.focus(), 0)
-        alert('Icon Click Callback')
-    }
-
-    const onIconClick = () => {
-        setTimeout(() => inputEmail.current.focus(), 0)
-        alert('Icon Click Callback')
-    }
 
     const showPass = () => {
         setTimeout(() => inputPass.current.focus(), 0)
@@ -52,7 +36,6 @@ const Registration = (props) => {
                 name='name'
                 error={false}
                 ref={inputName}
-                onIconClick={onIconClickName}
                 errorText='Ошибка'
                 size='default'
             />
@@ -63,8 +46,6 @@ const Registration = (props) => {
                 value={emailValue}
                 name='email'
                 error={false}
-                ref={inputEmail}
-                onIconClick={onIconClick}
                 errorText='Ошибка'
                 size='default'
             />

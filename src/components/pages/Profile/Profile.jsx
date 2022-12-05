@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import formStyles from '../form.module.css';
 import profileStyles from './Profile.module.css';
 import { NavLink } from 'react-router-dom';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -9,7 +8,7 @@ import { getUser, patchUser } from '../../../services/actions/userInfo'
 const ForgotPass = (props) => {
 
     const dispatch = useDispatch();
-    const { email, name, pass } = useSelector(store => store.setUserReducer)
+    const { email, name, pass } = useSelector(store => store.setUserReducer.user)
 
     const [userName, setName] = useState('');
     const [userEmail, setEmail] = useState('');
@@ -17,29 +16,35 @@ const ForgotPass = (props) => {
 
     useEffect(() => {
         dispatch(getUser());
-    }, [])
+    }, [dispatch])
 
     useEffect(() => setName(name), [name]);
     useEffect(() => setEmail(email), [email]);
     useEffect(() => setPassword(pass), [pass]);
 
-
     const nameRef = useRef(null);
     const emailRef = useRef(null);
-    const inputPass = useRef(null);
-
+    const passRef = useRef(null);
 
     const onIconClick = () => {
-        setTimeout(() => nameRef.current.focus(), 0)
-        alert('Icon Click Callback')
+        nameRef.current.value = setName('');
+        nameRef.current.focus()
     }
     const onIconClickMail = () => {
-        setTimeout(() => emailRef.current.focus(), 0)
-        alert('Icon Click Callback')
+        emailRef.current.value = setEmail('');
+        emailRef.current.focus()
     }
     const onIconClickPass = () => {
-        setTimeout(() => inputPass.current.focus(), 0)
-        alert('Icon Click Callback')
+        passRef.current.value = setPassword('');
+        passRef.current.focus()
+    }
+
+    const onBlurHandler = (e) => {
+        if (e.target.value === '') {
+            e.target.name === 'name' && setName(name)
+            e.target.name === 'email' && setEmail(email)
+            e.target.name === 'pass' && setPassword(pass)
+        }
     }
 
     const onSubmitHandler = (e) => {
@@ -47,8 +52,11 @@ const ForgotPass = (props) => {
         dispatch(patchUser(userName, userEmail, passwordValue))
     }
 
-    const onDeclineChanges = () => {
-        console.log('onDeclineChanges')
+    const onDeclineChanges = (e) => {
+        e.preventDefault();
+        setName(name);
+        setEmail(email);
+        setPassword(pass);
     }
 
     return (
@@ -82,11 +90,12 @@ const ForgotPass = (props) => {
                     изменить свои персональные данные
                 </p>
             </div>
-            <form onSubmit={onSubmitHandler} className={profileStyles.form}>
+            <form className={profileStyles.form}>
                 <Input
                     type='text'
                     placeholder='Имя'
                     onChange={e => setName(e.target.value)}
+                    onBlur={e => onBlurHandler(e)}
                     icon={'EditIcon'}
                     value={userName}
                     name='name'
@@ -100,6 +109,7 @@ const ForgotPass = (props) => {
                     type='email'
                     placeholder='Логин'
                     onChange={e => setEmail(e.target.value)}
+                    onBlur={e => onBlurHandler(e)}
                     icon='EditIcon'
                     value={userEmail}
                     name='email'
@@ -113,18 +123,19 @@ const ForgotPass = (props) => {
                     type='password'
                     placeholder='Пароль'
                     onChange={e => setPassword(e.target.value)}
+                    onBlur={e => onBlurHandler(e)}
                     value={passwordValue}
-                    name='password'
+                    name='pass'
                     error={false}
-                    ref={inputPass}
+                    ref={passRef}
                     onIconClick={onIconClickPass}
                     errorText='Ошибка'
                     size='default'
                     icon='EditIcon'
                 />
-                <div>
-                    <button onClick={onDeclineChanges}>Отмена</button>
-                    <Button type="primary" size="small" htmlType="button" onClick={onSubmitHandler}>
+                <div className={profileStyles.buttons}>
+                    <button className={`${profileStyles.buttonLink} text text_type_main-small`} onClick={onDeclineChanges}>Отмена</button>
+                    <Button type="primary" size="medium" htmlType="button" onClick={onSubmitHandler}>
                         Сохранить
                     </Button>
                 </div>

@@ -4,6 +4,10 @@ import { getToken } from '../../utils/getToken';
 
 export const SET_USER_DATA_SUCCESS = 'SET_USER_DATA_SUCCESS';
 export const SET_USER_DATA_FAILED = 'SET_USER_DATA_FAILED';
+export const DEL_USER_DATA_SUCCESS = 'DEL_USER_DATA_SUCCESS';
+export const CHECK_USER = 'CHECK_USER';
+export const RESET_PASS = 'RESET_PASS';
+export const SET_NEW_PASS = 'SET_NEW_PASS'
 
 
 export function registerUser(email, pass, name) {
@@ -88,6 +92,7 @@ export function getUser() {
                     email: res.user.email,
                     name: res.user.name
                 })
+                dispatch({ type: CHECK_USER })
             }
         }).catch((err) => {
             if (err.message === 'jwt expired') {
@@ -98,9 +103,9 @@ export function getUser() {
                 getUserAsync()
             } else {
                 dispatch({
-                    type: SET_USER_DATA_FAILED,
-                    msg: err.message
+                    type: SET_USER_DATA_FAILED
                 })
+                dispatch({ type: CHECK_USER })
             }
         })
     }
@@ -121,7 +126,6 @@ export function patchUser(name, email, pass) {
             })
         }).then(res => {
             if (res.success) {
-                console.log('patchUser success')
                 dispatch({
                     type: SET_USER_DATA_SUCCESS,
                     email: res.user.email,
@@ -146,5 +150,74 @@ export function patchUser(name, email, pass) {
     }
 }
 
+export function logoutUser() {
+    return function (dispatch) {
+        request(`${BURGER_API_URL}/auth/logout`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify({
+                "token": localStorage.getItem('refreshToken')
+            })
+        }).then(res => {
+            if (res.success) {
+                localStorage.removeItem('accessToken');
+                dispatch({
+                    type: DEL_USER_DATA_SUCCESS
+                })
+            }
+        }).catch(err => {
+            dispatch({
+                type: SET_USER_DATA_FAILED,
+                msg: err.message
+            })
+        })
+    }
+}
+
+export function resetPass(email) {
+    return function (dispatch) {
+        request(`${BURGER_API_URL}/password-reset`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify({
+                "email": email
+            })
+        }).then(res => {
+            if (res.success) {
+                dispatch({
+                    type: RESET_PASS,
+                    resetSent: true
+                })
+            }
+        }).catch((err) => Promise.reject(err))
+    }
+}
+
+
+export function provideNewPass(pass, token) {
+    return function(dispatch) {
+        request(`${BURGER_API_URL}/password-reset/reset`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify({
+                "password": pass,
+                "token": token
+            })
+        }).then(res => {
+            if (res.success) {
+                dispatch({ 
+                    type: SET_NEW_PASS,
+                    pass
+                })
+            }
+        }).catch((err) => Promise.reject(err))
+    }
+}
 
 

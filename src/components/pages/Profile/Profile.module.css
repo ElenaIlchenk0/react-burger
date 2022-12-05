@@ -32,3 +32,16 @@
     flex-direction: column;
     gap: 24px;
 }
+
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+}
+
+.buttonLink {
+    color: #4C4CFF;
+    border: none;
+    background: none;
+    cursor: pointer;
+}

@@ -2,29 +2,24 @@ import React, { useState, useRef } from 'react';
 import formStyles from '../form.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
-import { request } from '../../../utils/fetchCheckResponse';
-import { BURGER_API_URL } from '../../../utils/constants'
+import { useDispatch, useSelector } from 'react-redux';
+import { resetPass } from '../../../services/actions/userInfo';
+import { Redirect } from 'react-router-dom'
 
 const ForgotPass = (props) => {
-    const [emailValue, setEmail] = useState('')
-    const inputEmail = useRef(null)
+    const dispatch = useDispatch();
+    const { resetSent } = useSelector(store => store.setUserReducer)
+
+    const [emailValue, setEmail] = useState('');
+    const inputEmail = useRef(null);
 
     const buttonHandler = () => {
-        request(`${BURGER_API_URL}/password-reset`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify({
-                "email": emailValue
-            })
-        }).then(res => {
-            if (res.success) {
-                // go to /reset-password
-            }
-        }).catch((err) => Promise.reject(err))
-            
+        dispatch(resetPass(emailValue))        
     }
+
+    if (resetSent) {
+        return <Redirect to='/reset-password' />
+    };
 
     return (
         <div className={formStyles.formWrapper}>

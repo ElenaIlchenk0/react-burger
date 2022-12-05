@@ -9,33 +9,37 @@ import ResetPass from '../pages/ResetPass/ResetPass';
 import Profile from '../pages/Profile/Profile';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Switch, Route } from 'react-router-dom';
+import ProtectedRoute from '../pages/ProtectedRoute'
+import Logout from '../pages/Logout/Logout'
 
 const Main = (props) => {
-
     return (
         <Layout>
             <Switch>
-                <Route path="/login" exact={true}>
+                <ProtectedRoute onlyUnAuth={true} path="/login" exact={true}>
                     <Login />
-                </Route>
-                <Route path="/register" exact={true}>
+                </ProtectedRoute>
+                <ProtectedRoute onlyUnAuth={true} path="/register" exact={true}>
                     <Registration />
-                </Route>
-                <Route path="/forgot-password" exact={true}>
+                </ProtectedRoute>
+                <ProtectedRoute onlyUnAuth={true} path="/forgot-password" exact={true}>
                     <ForgotPass />
-                </Route>
-                <Route path="/reset-password" exact={true}>
+                </ProtectedRoute>
+                <ProtectedRoute onlyUnAuth={true} path="/reset-password" exact={true}>
                     <ResetPass />
-                </Route>
-                <Route path="/profile">
+                </ProtectedRoute>
+                <ProtectedRoute path="/profile">
                     <Profile />
-                </Route>
-                <Route path="/" exact={true}>
+                </ProtectedRoute>
+                <ProtectedRoute path="/" exact={true}>
                     <DndProvider backend={HTML5Backend}>
                         <BurgerIngredients />
                         <BurgerConstructor />
                     </DndProvider>
+                </ProtectedRoute>
+                <Route path="/logout" exact={true}>
+                    <Logout />
                 </Route>
             </Switch>
         </Layout>
