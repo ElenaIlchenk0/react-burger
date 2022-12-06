@@ -1,14 +1,18 @@
 import React, { useState, useRef, useEffect } from 'react';
 import profileStyles from './Profile.module.css';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser, patchUser } from '../../../services/actions/userInfo'
+import { getUser, patchUser } from '../../../services/actions/userInfo';
+import { logoutUser } from '../../../services/actions/userInfo'
 
-const ForgotPass = (props) => {
+const Profile = (props) => {
 
     const dispatch = useDispatch();
-    const { email, name, pass } = useSelector(store => store.setUserReducer.user)
+    const { email, name, pass } = useSelector(store => store.setUserReducer.user);
+    const { user } = useSelector(store => store.setUserReducer);
+
+    const history = useHistory();
 
     const [userName, setName] = useState('');
     const [userEmail, setEmail] = useState('');
@@ -16,7 +20,7 @@ const ForgotPass = (props) => {
 
     useEffect(() => {
         dispatch(getUser());
-    }, [dispatch])
+    }, [])
 
     useEffect(() => setName(name), [name]);
     useEffect(() => setEmail(email), [email]);
@@ -59,6 +63,10 @@ const ForgotPass = (props) => {
         setPassword(pass);
     }
 
+    const logoutHandler = () => {
+        dispatch(logoutUser())
+    };
+
     return (
         <div className={profileStyles.profileWrapper}>
             <div className={profileStyles.sideMenu}>
@@ -77,13 +85,13 @@ const ForgotPass = (props) => {
                     >
                         История заказов
                     </NavLink>
-                    <NavLink
-                        to='/logout'
+                    <div
                         className='text text_type_main-medium text_color_inactive'
-                        activeClassName={profileStyles.activeNav}
+                        style={{ cursor: "pointer" }}
+                        onClick={logoutHandler}
                     >
-                        Выход
-                    </NavLink>
+                        <span>Выход</span>
+                    </div>
                 </nav>
                 <p className='text text_type_main-default text_color_inactive'>
                     В этом разделе вы можете
@@ -145,4 +153,4 @@ const ForgotPass = (props) => {
     )
 }
 
-export default ForgotPass;
+export default Profile;

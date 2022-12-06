@@ -23,9 +23,10 @@ const Login = (props) => {
 
     const loginHandler = () => {
         dispatch(loginUser(emailValue, passwordValue));
-        const { from } = (location.state && location.state.from.pathname !== '/logout') || { from: { pathname: "/" } };
+        const { from } = location.state  || { from: { pathname: "/" } };
         history.push(from);
     }
+
 
     return (
         <form className={formStyles.formWrapper}>

@@ -9,9 +9,8 @@ import ResetPass from '../pages/ResetPass/ResetPass';
 import Profile from '../pages/Profile/Profile';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { BrowserRouter as Switch, Route } from 'react-router-dom';
-import ProtectedRoute from '../pages/ProtectedRoute'
-import Logout from '../pages/Logout/Logout'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import ProtectedRoute from '../pages/ProtectedRoute';
 
 const Main = (props) => {
     return (
@@ -32,14 +31,11 @@ const Main = (props) => {
                 <ProtectedRoute path="/profile">
                     <Profile />
                 </ProtectedRoute>
-                <ProtectedRoute path="/" exact={true}>
+                <Route path="/" exact={true}>
                     <DndProvider backend={HTML5Backend}>
                         <BurgerIngredients />
                         <BurgerConstructor />
                     </DndProvider>
-                </ProtectedRoute>
-                <Route path="/logout" exact={true}>
-                    <Logout />
                 </Route>
             </Switch>
         </Layout>

@@ -10,11 +10,7 @@ import {
 export const initialUserState = {
     authChecked: false,
     isAuthenticated: false,
-    user: {
-        email: '',
-        name: '',
-        pass: '',
-    },
+    user: null,
     isError: false,
     errMsg: '',
     resetSent: false,
@@ -46,12 +42,7 @@ export const setUserReducer = (state = initialUserState, action) => {
                 ...state,
                 authChecked: false,
                 isAuthenticated: false,
-                user: {
-                    ...state.user,
-                    email: '',
-                    name: '',
-                    pass: '',
-                },
+                user: null,
                 isError: true,
                 errMsg: action.msg
             };
@@ -62,12 +53,7 @@ export const setUserReducer = (state = initialUserState, action) => {
                 ...state,
                 authChecked: false,
                 isAuthenticated: false,
-                user: {
-                    ...state.user,
-                    email: '',
-                    name: '',
-                    pass: '',
-                },
+                user: null,
                 isError: false,
                 errMsg: ''
             };

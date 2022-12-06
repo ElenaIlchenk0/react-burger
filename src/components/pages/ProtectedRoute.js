@@ -1,27 +1,31 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser } from '../../services/actions/userInfo';
+import { CHECK_USER, getUser } from '../../services/actions/userInfo';
 import { Route, Redirect, useLocation } from 'react-router-dom'
 
 const ProtectedRoute = ({ onlyUnAuth = false, ...rest }) => {
     const dispatch = useDispatch();
-    const { isAuthenticated, authChecked } = useSelector(store => store.setUserReducer);
+    const { authChecked, user } = useSelector(store => store.setUserReducer);
     const location = useLocation();
 
     useEffect(() => {
-        dispatch(getUser())
-    }, [dispatch])
+        if (localStorage.getItem('accessToken')) {
+            dispatch(getUser()).finally(() => dispatch({ type: CHECK_USER }))
+        } else {
+            dispatch({ type: CHECK_USER })
+        }
+    }, [authChecked])
 
     if (!authChecked) {
         return null;
     }
 
-    if (onlyUnAuth && isAuthenticated) {
+    if (onlyUnAuth && user) {
         const { from } = location.state || { from: { pathname: "/" } };
         return <Redirect to={from} />;
     }
 
-    if (!onlyUnAuth && !isAuthenticated) {
+    if (!onlyUnAuth && !user) {
         return (
             <Redirect
                 to={{

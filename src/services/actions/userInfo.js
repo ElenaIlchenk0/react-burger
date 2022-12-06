@@ -79,7 +79,7 @@ export function loginUser(email, pass) {
 
 export function getUser() {
     return function (dispatch) {
-        request(`${BURGER_API_URL}/auth/user`, {
+        return request(`${BURGER_API_URL}/auth/user`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',
@@ -92,7 +92,6 @@ export function getUser() {
                     email: res.user.email,
                     name: res.user.name
                 })
-                dispatch({ type: CHECK_USER })
             }
         }).catch((err) => {
             if (err.message === 'jwt expired') {
@@ -105,7 +104,6 @@ export function getUser() {
                 dispatch({
                     type: SET_USER_DATA_FAILED
                 })
-                dispatch({ type: CHECK_USER })
             }
         })
     }
@@ -199,7 +197,7 @@ export function resetPass(email) {
 
 
 export function provideNewPass(pass, token) {
-    return function(dispatch) {
+    return function (dispatch) {
         request(`${BURGER_API_URL}/password-reset/reset`, {
             method: 'POST',
             headers: {
@@ -211,7 +209,7 @@ export function provideNewPass(pass, token) {
             })
         }).then(res => {
             if (res.success) {
-                dispatch({ 
+                dispatch({
                     type: SET_NEW_PASS,
                     pass
                 })
