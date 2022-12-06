@@ -11,12 +11,6 @@
     box-sizing: border-box;
 }
 
-.header {
-    height: 54px;
-    display: flex;
-    align-items: center;
-}
-
 .close {
     position: fixed;
     top: 60px;

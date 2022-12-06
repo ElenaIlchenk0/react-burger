@@ -8,6 +8,8 @@
 .content {
     max-width: 1240px;
     display: flex;
-    margin: 0 auto;
+    justify-content: center;
+    margin: auto;
     gap: 40px;
+    height: calc(100vh - 130px);
 }

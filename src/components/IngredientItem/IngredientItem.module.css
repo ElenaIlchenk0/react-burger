@@ -31,3 +31,9 @@
     align-items: center;
     justify-content: center;
 }
+
+.link {
+    text-decoration: none;
+    color: inherit;
+    flex-basis: 42%;
+}

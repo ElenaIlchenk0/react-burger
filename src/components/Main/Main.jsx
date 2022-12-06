@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Layout from '../Layout/Layout'
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
@@ -9,13 +9,31 @@ import ResetPass from '../pages/ResetPass/ResetPass';
 import Profile from '../pages/Profile/Profile';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import ProtectedRoute from '../pages/ProtectedRoute';
+import IngredientsDetails from '../IngredientDetails/IngredientDetails';
+import Modal from '../Modal/Modal';
+import { useDispatch } from 'react-redux';
+import { getAllIngredients } from '../../services/actions/index';
 
 const Main = (props) => {
+    const location = useLocation();
+    const history = useHistory();
+    const background = location.state && location.state.background;
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getAllIngredients())
+    }, [dispatch])
+
+    const handleModalClose = () => {
+        history.goBack();
+    };
+
     return (
         <Layout>
-            <Switch>
+            <Switch location={background || location}>
                 <ProtectedRoute onlyUnAuth={true} path="/login" exact={true}>
                     <Login />
                 </ProtectedRoute>
@@ -37,7 +55,22 @@ const Main = (props) => {
                         <BurgerConstructor />
                     </DndProvider>
                 </Route>
+                <Route path='/ingredients/:ingredientId' exact>
+                    <IngredientsDetails />
+                </Route>
             </Switch>
+
+            {background && (
+                <Route
+                    path='/ingredients/:ingredientId'
+                    children={
+                        <Modal onClose={handleModalClose}>
+                            <IngredientsDetails />
+                        </Modal>
+                    }
+                />
+            )}
+
         </Layout>
     )
 }

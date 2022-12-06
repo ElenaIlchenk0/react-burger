@@ -24,7 +24,6 @@ const Modal = (props) => {
     return ReactDOM.createPortal(
         <>
             <div className={modalStyles.modal}>
-                <h1 className={modalStyles.header}>{props.header}</h1>
                 <div onClick={props.onClose} className={modalStyles.close}>
                     <CloseIcon type="primary" />
                 </div>
@@ -37,7 +36,6 @@ const Modal = (props) => {
 }
 
 Modal.propTypes = {
-    header: PropTypes.string,
     onClose: PropTypes.func.isRequired,
 };
 
