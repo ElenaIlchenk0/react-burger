@@ -42,7 +42,8 @@ export function getOrder(ingArray) {
         request(`${BURGER_API_URL}/orders`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json;charset=utf-8'
+                'Content-Type': 'application/json;charset=utf-8',
+                authorization: `Bearer ${localStorage.getItem('accessToken')}`
             },
             body: JSON.stringify({
                 "ingredients": ingArray

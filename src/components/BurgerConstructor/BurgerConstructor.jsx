@@ -11,12 +11,14 @@ import { DEL_INGREDIENT } from '../../services/actions/index';
 import { useDrop } from 'react-dnd';
 import { addIngredient } from '../../services/actions/index';
 import MainIngredient from '../MainIngredient/MainIngredient';
+import { useHistory } from 'react-router-dom';
 
 const BurgerConstructor = (props) => {
     const { bun, otherIngredients } = useSelector(store => store.constructorIngReducer.constructor);
     const { currentOrder } = useSelector(store => store.orderReducer);
     const { isError } = useSelector(store => store.orderReducer);
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [totalPrice, setTotalPrice] = useState(0);
@@ -33,6 +35,17 @@ const BurgerConstructor = (props) => {
 
         setTotalPrice(getTotalPrice())
     }, [bun, otherIngredients])
+
+    useEffect(() => {
+        console.log(isError, isModalOpen)
+        if (isError && isModalOpen) {
+            // history.push('/login')
+            history.push({
+                pathname: '/login',
+                state: { from: '/' }
+            })
+        }
+    }, [isError, isModalOpen])
 
     const [{ canDrop, isOver }, dropTarget] = useDrop({
         accept: 'ingredient',
@@ -62,7 +75,7 @@ const BurgerConstructor = (props) => {
         const otherIngIdArray = otherIngredients.map(ing => ing._id);
 
         dispatch(getOrder([...otherIngIdArray, bun._id]));
-        if (!isError) handleOpenModal(true);
+        handleOpenModal(true);
     }
 
     const handleDelIngredient = (ing) => {
