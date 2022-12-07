@@ -40,7 +40,6 @@ export const setUserReducer = (state = initialUserState, action) => {
 
             return {
                 ...state,
-                authChecked: false,
                 isAuthenticated: false,
                 user: null,
                 isError: true,
@@ -51,7 +50,6 @@ export const setUserReducer = (state = initialUserState, action) => {
         case DEL_USER_DATA_SUCCESS: {
             return {
                 ...state,
-                authChecked: false,
                 isAuthenticated: false,
                 user: null,
                 isError: false,

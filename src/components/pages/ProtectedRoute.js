@@ -14,7 +14,7 @@ const ProtectedRoute = ({ onlyUnAuth = false, ...rest }) => {
         } else {
             dispatch({ type: CHECK_USER })
         }
-    }, [authChecked])
+    }, [])
 
     if (!authChecked) {
         return null;
