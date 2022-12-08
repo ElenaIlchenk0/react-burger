@@ -20,7 +20,7 @@ export const initialUserState = {
 export const setUserReducer = (state = initialUserState, action) => {
     switch (action.type) {
         case SET_USER_DATA_SUCCESS: {
-            const pass = action.pass || state.user.pass;
+            const pass = action.pass || state.user?.pass || '';
             return {
                 ...state,
                 isAuthenticated: true,
@@ -37,7 +37,7 @@ export const setUserReducer = (state = initialUserState, action) => {
             };
         }
         case SET_USER_DATA_FAILED: {
-
+            console.log('reducer failed')
             return {
                 ...state,
                 isAuthenticated: false,

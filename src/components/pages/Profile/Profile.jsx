@@ -10,9 +10,6 @@ const Profile = (props) => {
 
     const dispatch = useDispatch();
     const { email, name, pass } = useSelector(store => store.setUserReducer.user);
-    const { user } = useSelector(store => store.setUserReducer);
-
-    const history = useHistory();
 
     const [userName, setName] = useState('');
     const [userEmail, setEmail] = useState('');

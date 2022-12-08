@@ -37,9 +37,7 @@ const BurgerConstructor = (props) => {
     }, [bun, otherIngredients])
 
     useEffect(() => {
-        console.log(isError, isModalOpen)
         if (isError && isModalOpen) {
-            // history.push('/login')
             history.push({
                 pathname: '/login',
                 state: { from: '/' }
@@ -75,7 +73,7 @@ const BurgerConstructor = (props) => {
         const otherIngIdArray = otherIngredients.map(ing => ing._id);
 
         dispatch(getOrder([...otherIngIdArray, bun._id]));
-        handleOpenModal(true);
+        if (!isError) handleOpenModal(true);
     }
 
     const handleDelIngredient = (ing) => {
@@ -109,7 +107,9 @@ const BurgerConstructor = (props) => {
                     {
                         (otherIngredients.length > 0) && (
                             otherIngredients.map((ingredient, index) =>
-                                <MainIngredient key={ingredient.key}
+                                <MainIngredient 
+                                    // key={ingredient.key} dnd так работает некорректно
+                                    key={index} // так ок
                                     ingredient={ingredient}
                                     index={index}
                                     onDelete={handleDelIngredient} />
