@@ -21,13 +21,16 @@ const Registration = (props) => {
         alert('Icon Click Callback showPass')
     }
 
-    const registrationHandler = () => {
+    const registrationHandler = (e) => {
+        e.preventDefault();
         dispatch(registerUser(emailValue, passwordValue, nameValue));
     }
 
     return (
-        <div className={formStyles.formWrapper}>
-            <h2>Вход</h2>
+        <form 
+            onSubmit={registrationHandler} 
+            className={formStyles.formWrapper}>
+            <h2>Регистрация</h2>
             <Input
                 type='text'
                 placeholder='Имя'
@@ -63,7 +66,7 @@ const Registration = (props) => {
                 icon='ShowIcon'
             />
             <div className='mb-20'>
-                <Button type="primary" size="small" htmlType="button" onClick={registrationHandler}>
+                <Button type="primary" size="small" htmlType="submit">
                     Зарегистрироваться
                 </Button>
             </div>
@@ -77,7 +80,7 @@ const Registration = (props) => {
             <p className='text text_type_main-default text_color_inactive'>
                 Уже зарегистрированы? <Link to='/login' className={formStyles.link}>Войти</Link>
             </p>
-        </div>
+        </form>
 
     )
 }

@@ -71,7 +71,7 @@ const ProfileForm = (props) => {
     }
 
     return (
-        <form className={profileFormStyles.form}>
+        <form onSubmit={onSubmitHandler} className={profileFormStyles.form}>
             <Input
                 type='text'
                 placeholder='Имя'
@@ -118,7 +118,7 @@ const ProfileForm = (props) => {
                 isInputChanged && (
                     <div className={profileFormStyles.buttons}>
                         <button className={`${profileFormStyles.buttonLink} text text_type_main-small`} onClick={onDeclineChanges}>Отмена</button>
-                        <Button type="primary" size="medium" htmlType="button" onClick={onSubmitHandler}>
+                        <Button type="primary" size="medium" htmlType="submit">
                             Сохранить
                         </Button>
                     </div>

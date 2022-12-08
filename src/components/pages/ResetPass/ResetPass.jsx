@@ -9,6 +9,7 @@ const ResetPass = (props) => {
     const dispatch = useDispatch();
     const { resetDone } = useSelector(store => store.setUserReducer);
     const history = useHistory();
+    console.log('history', history)
 
     const [tokenValue, setToken] = useState('')
     const [passwordValue, setPassword] = useState('')
@@ -19,19 +20,21 @@ const ResetPass = (props) => {
         alert('Icon Click Callback showPass')
     }
 
-    const buttonHandler = () => {
+    const buttonHandler = (e) => {
+        e.preventDefault();
         dispatch(provideNewPass(passwordValue, tokenValue));
     }
 
     useEffect(() => {
-        if (resetDone) {
+        if (resetDone || history.location.state?.from !== '/forgot-password') {
             history.replace('/login')
         }
     }, [resetDone, history])
-    
+
+
 
     return (
-        <div className={formStyles.formWrapper}>
+        <form onSubmit={buttonHandler} className={formStyles.formWrapper}>
             <h2>Восстановление пароля</h2>
             <Input
                 type='password'
@@ -57,7 +60,7 @@ const ResetPass = (props) => {
                 size='default'
             />
             <div className='mb-20'>
-                <Button type="primary" size="small" htmlType="button" onClick={buttonHandler}>
+                <Button type="primary" size="small" htmlType="submit">
                     Сохранить
                 </Button>
             </div>
@@ -66,7 +69,7 @@ const ResetPass = (props) => {
                     Вспомнили пароль? <Link to='/login' className={formStyles.link}>Войти</Link>
                 </p>
             </div>
-        </div>
+        </form>
 
     )
 }

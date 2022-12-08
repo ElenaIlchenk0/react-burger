@@ -21,7 +21,8 @@ const Login = (props) => {
         alert('Icon Click Callback showPass')
     }
 
-    const loginHandler = () => {
+    const loginHandler = (e) => {
+        e.preventDefault();
         dispatch(loginUser(emailValue, passwordValue));
         const { from } = location.state  || { from: { pathname: "/" } };
         history.push(from);
@@ -29,7 +30,7 @@ const Login = (props) => {
 
 
     return (
-        <form className={formStyles.formWrapper}>
+        <form onSubmit={loginHandler} className={formStyles.formWrapper}>
             <h2>Вход</h2>
             <Input
                 type='email'
@@ -56,7 +57,7 @@ const Login = (props) => {
                 icon='ShowIcon'
             />
             <div className='mb-20'>
-                <Button type="primary" size="small" htmlType="button" onClick={loginHandler}>
+                <Button type="primary" size="small" htmlType="submit" >
                     Войти
                 </Button>
             </div>

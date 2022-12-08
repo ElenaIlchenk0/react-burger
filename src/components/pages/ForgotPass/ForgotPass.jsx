@@ -13,16 +13,22 @@ const ForgotPass = (props) => {
     const [emailValue, setEmail] = useState('');
     const inputEmail = useRef(null);
 
-    const buttonHandler = () => {
+    const buttonHandler = (e) => {
+        e.preventDefault();
         dispatch(resetPass(emailValue))        
     }
 
     if (resetSent) {
-        return <Redirect to='/reset-password' />
+        return <Redirect 
+            to={{
+                pathname: '/reset-password',
+                state: { from: '/forgot-password' },
+            }}
+            />
     };
 
     return (
-        <div className={formStyles.formWrapper}>
+        <form onSubmit={buttonHandler} className={formStyles.formWrapper}>
             <h2>Восстановление пароля</h2>
             <Input
                 type='email'
@@ -36,7 +42,7 @@ const ForgotPass = (props) => {
                 size='default'
             />
             <div className='mb-20'>
-                <Button type="primary" size="small" htmlType="button" onClick={buttonHandler}>
+                <Button type="primary" size="small" htmlType="submit">
                     Восстановить
                 </Button>
             </div>
@@ -45,7 +51,7 @@ const ForgotPass = (props) => {
                     Вспомнили пароль? <Link to='/login' className={formStyles.link}>Войти</Link>
                 </p>
             </div>
-        </div>
+        </form>
 
     )
 }
