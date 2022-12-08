@@ -1,20 +1,10 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { CHECK_USER, getUser } from '../../services/actions/userInfo';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Route, Redirect, useLocation } from 'react-router-dom'
 
 const ProtectedRoute = ({ onlyUnAuth = false, ...rest }) => {
-    const dispatch = useDispatch();
     const { authChecked, user } = useSelector(store => store.setUserReducer);
     const location = useLocation();
-
-    useEffect(() => {
-        if (localStorage.getItem('accessToken')) {
-            dispatch(getUser()).finally(() => dispatch({ type: CHECK_USER }))
-        } else {
-            dispatch({ type: CHECK_USER })
-        }
-    }, [])
 
     if (!authChecked) {
         return null;

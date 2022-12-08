@@ -15,6 +15,7 @@ import IngredientsDetails from '../IngredientDetails/IngredientDetails';
 import Modal from '../Modal/Modal';
 import { useDispatch } from 'react-redux';
 import { getAllIngredients } from '../../services/actions/index';
+import { CHECK_USER, getUser } from '../../services/actions/userInfo';
 
 const Main = (props) => {
     const location = useLocation();
@@ -26,6 +27,14 @@ const Main = (props) => {
     useEffect(() => {
         dispatch(getAllIngredients())
     }, [dispatch])
+
+    useEffect(() => {
+        if (localStorage.getItem('accessToken')) {
+            dispatch(getUser()).finally(() => dispatch({ type: CHECK_USER }))
+        } else {
+            dispatch({ type: CHECK_USER })
+        }
+    }, [])
 
     const handleModalClose = () => {
         history.goBack();

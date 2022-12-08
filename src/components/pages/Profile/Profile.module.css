@@ -14,34 +14,17 @@
     gap: 80px;
 }
 
-.nav a {
+.nav a,
+.navButton {
     display: flex;
     flex-direction: column;
     justify-content: center;
     height: 64px;
     text-decoration: none;
+    cursor: pointer;
 }
 
 .activeNav {
     color: #fff;
 }
 
-.form {
-    width: 480px;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-}
-
-.buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 20px;
-}
-
-.buttonLink {
-    color: #4C4CFF;
-    border: none;
-    background: none;
-    cursor: pointer;
-}
