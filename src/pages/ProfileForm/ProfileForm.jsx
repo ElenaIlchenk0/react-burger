@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import profileFormStyles from './ProfileForm.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser, patchUser } from '../../../services/actions/userInfo';
+import { getUser, patchUser } from '../../services/actions/userInfo';
 
 const ProfileForm = (props) => {
 
@@ -124,7 +124,7 @@ const ProfileForm = (props) => {
                     </div>
                 )
             }
-            
+
         </form>
 
     )

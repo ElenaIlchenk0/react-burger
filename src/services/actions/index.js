@@ -11,6 +11,8 @@ export const DEL_SELECTED_ING = 'DEL_SELECTED_ING';
 export const ADD_INGREDIENT = 'ADD_INGREDIENT';
 export const MOVE_INGREDIENT = 'MOVE_INGREDIENT';
 export const DEL_INGREDIENT = 'DEL_INGREDIENT';
+export const DEL_ALL_INGREDIENTS = 'DEL_ALL_INGREDIENTS';
+export const SET_ERR_FALSE = 'SET_ERR_FALSE';
 
 export const GET_ORDER_DATA = 'GET_ORDER_DATA';
 export const GET_ORDER_DATA_FAILED = 'GET_ORDER_DATA_FAILED';
@@ -60,6 +62,8 @@ export function getOrder(ingArray) {
                     type: GET_ORDER_DATA_FAILED
                 })
             }
+        }).then((data) => {
+            dispatch({ type: DEL_ALL_INGREDIENTS })
         }).catch(err => {
             dispatch({
                 type: GET_ORDER_DATA_FAILED

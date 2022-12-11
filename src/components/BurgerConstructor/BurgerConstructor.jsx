@@ -7,7 +7,7 @@ import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import { useSelector, useDispatch } from 'react-redux';
 import { getOrder } from '../../services/actions/index';
-import { DEL_INGREDIENT } from '../../services/actions/index';
+import { DEL_INGREDIENT, SET_ERR_FALSE } from '../../services/actions/index';
 import { useDrop } from 'react-dnd';
 import { addIngredient } from '../../services/actions/index';
 import MainIngredient from '../MainIngredient/MainIngredient';
@@ -17,6 +17,7 @@ const BurgerConstructor = (props) => {
     const { bun, otherIngredients } = useSelector(store => store.constructorIngReducer.constructor);
     const { currentOrder } = useSelector(store => store.orderReducer);
     const { isError } = useSelector(store => store.orderReducer);
+    const { user } = useSelector(store => store.setUserReducer);
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -44,6 +45,10 @@ const BurgerConstructor = (props) => {
             })
         }
     }, [isError, isModalOpen])
+
+    useEffect(() => {
+        if (user) { dispatch({ type: SET_ERR_FALSE }) }
+    }, [user])
 
     const [{ canDrop, isOver }, dropTarget] = useDrop({
         accept: 'ingredient',
@@ -73,7 +78,7 @@ const BurgerConstructor = (props) => {
         const otherIngIdArray = otherIngredients.map(ing => ing._id);
 
         dispatch(getOrder([...otherIngIdArray, bun._id]));
-        if (!isError) handleOpenModal(true);
+        handleOpenModal(true);
     }
 
     const handleDelIngredient = (ing) => {

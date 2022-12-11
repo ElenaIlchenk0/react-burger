@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import formStyles from '../form.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import { loginUser } from '../../../services/actions/userInfo';
+import { loginUser } from '../../services/actions/userInfo';
 import { useDispatch } from 'react-redux';
 
 const Login = (props) => {
@@ -24,7 +24,7 @@ const Login = (props) => {
     const loginHandler = (e) => {
         e.preventDefault();
         dispatch(loginUser(emailValue, passwordValue));
-        const { from } = location.state  || { from: { pathname: "/" } };
+        const { from } = location.state || { from: { pathname: "/" } };
         history.push(from);
     }
 

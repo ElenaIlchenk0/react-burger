@@ -1,7 +1,7 @@
 import React from 'react';
 import profileStyles from './Profile.module.css';
 import { useDispatch } from 'react-redux';
-import { logoutUser } from '../../../services/actions/userInfo';
+import { logoutUser } from '../../services/actions/userInfo';
 import { Switch, Route, NavLink } from 'react-router-dom';
 import ProfileForm from '../ProfileForm/ProfileForm';
 import Orders from '../Orders/Orders';
@@ -9,7 +9,7 @@ import Orders from '../Orders/Orders';
 const Profile = (props) => {
 
     const dispatch = useDispatch();
-    
+
 
     const logoutHandler = () => {
         dispatch(logoutUser())

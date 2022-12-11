@@ -3,7 +3,7 @@ import formStyles from '../form.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { resetPass } from '../../../services/actions/userInfo';
+import { resetPass } from '../../services/actions/userInfo';
 import { Redirect } from 'react-router-dom'
 
 const ForgotPass = (props) => {
@@ -15,16 +15,16 @@ const ForgotPass = (props) => {
 
     const buttonHandler = (e) => {
         e.preventDefault();
-        dispatch(resetPass(emailValue))        
+        dispatch(resetPass(emailValue))
     }
 
     if (resetSent) {
-        return <Redirect 
+        return <Redirect
             to={{
                 pathname: '/reset-password',
                 state: { from: '/forgot-password' },
             }}
-            />
+        />
     };
 
     return (

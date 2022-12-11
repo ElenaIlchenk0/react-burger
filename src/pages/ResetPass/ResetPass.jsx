@@ -3,7 +3,7 @@ import formStyles from '../form.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { provideNewPass } from '../../../services/actions/userInfo';
+import { provideNewPass } from '../../services/actions/userInfo';
 
 const ResetPass = (props) => {
     const dispatch = useDispatch();

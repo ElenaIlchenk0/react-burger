@@ -5,7 +5,7 @@ import { BurgerIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ListIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Logo } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useLocation, useRouteMatch } from 'react-router-dom';
+import { Link, useLocation, useRouteMatch } from 'react-router-dom';
 
 const AppHeader = (props) => {
     const location = useLocation();
@@ -26,7 +26,9 @@ const AppHeader = (props) => {
                     />
                 </div>
                 <div className={appHeaderStyles.mainLogo}>
-                    <Logo />
+                    <Link to='/'>
+                        <Logo />
+                    </Link>
                 </div>
                 <NavItem 
                     isActive={!!isProfile} 

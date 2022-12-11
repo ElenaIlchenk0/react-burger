@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILED } from '../actions/index';
 import { SET_SELECTED_ING, DEL_SELECTED_ING } from '../actions/index';
-import { ADD_INGREDIENT, MOVE_INGREDIENT, DEL_INGREDIENT } from '../actions/index';
+import { ADD_INGREDIENT, MOVE_INGREDIENT, DEL_INGREDIENT, DEL_ALL_INGREDIENTS, SET_ERR_FALSE } from '../actions/index';
 import { GET_ORDER_DATA, GET_ORDER_DATA_FAILED } from '../actions/index';
 import update from 'immutability-helper';
 import { setUserReducer } from '../reducers/userInfo'
@@ -17,7 +17,6 @@ export const initialState = {
         name: '',
         number: 0
     },
-    orderReducer: {},
     isError: false,
 }
 
@@ -88,6 +87,15 @@ const constructorIngReducer = (state = initialState, action) => {
                 }
             };
         }
+        case DEL_ALL_INGREDIENTS: {
+            return {
+                ...state,
+                constructor: {
+                    bun: {},
+                    otherIngredients: []
+                }
+            };
+        }
         default: {
             return state
         }
@@ -135,6 +143,12 @@ const orderReducer = (state = initialState, action) => {
                 },
                 isError: true,
             };
+        }
+        case SET_ERR_FALSE: {
+            return {
+                ...state,
+                isError: false,
+            }
         }
         default: {
             return state

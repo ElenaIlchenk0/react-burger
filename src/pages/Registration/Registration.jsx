@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import formStyles from '../form.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
-import { registerUser } from '../../../services/actions/userInfo';
+import { registerUser } from '../../services/actions/userInfo';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Registration = (props) => {
@@ -12,7 +12,7 @@ const Registration = (props) => {
     const [nameValue, setName] = useState('');
     const [emailValue, setEmail] = useState('');
     const [passwordValue, setPassword] = useState('');
-    
+
     const inputName = useRef(null)
     const inputPass = useRef(null)
 
@@ -27,8 +27,8 @@ const Registration = (props) => {
     }
 
     return (
-        <form 
-            onSubmit={registrationHandler} 
+        <form
+            onSubmit={registrationHandler}
             className={formStyles.formWrapper}>
             <h2>Регистрация</h2>
             <Input
@@ -70,9 +70,9 @@ const Registration = (props) => {
                     Зарегистрироваться
                 </Button>
             </div>
-            {isError && errMsg && 
+            {isError && errMsg &&
                 (
-                    <p className='text text_type_main-default' style={{color: 'red'}}>
+                    <p className='text text_type_main-default' style={{ color: 'red' }}>
                         {errMsg}
                     </p>
                 )
