@@ -1,0 +1,30 @@
+.profileWrapper {
+    display: flex;
+    justify-content: flex-start;
+    gap: 60px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.sideMenu {
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+}
+
+.nav a,
+.navButton {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 64px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.activeNav {
+    color: #fff;
+}
+

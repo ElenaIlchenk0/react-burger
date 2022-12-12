@@ -12,7 +12,7 @@ const IngredientsCategory = (props) => {
                     <IngredientItem
                         burgerData={item}
                         key={item._id}
-                        onOpenModal={props.onOpenModal} />)
+                />)
             }
         </div>
     )

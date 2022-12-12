@@ -11,12 +11,14 @@ import { DEL_INGREDIENT } from '../../services/actions/index';
 import { useDrop } from 'react-dnd';
 import { addIngredient } from '../../services/actions/index';
 import MainIngredient from '../MainIngredient/MainIngredient';
+import { useHistory } from 'react-router-dom';
 
 const BurgerConstructor = (props) => {
     const { bun, otherIngredients } = useSelector(store => store.constructorIngReducer.constructor);
     const { currentOrder } = useSelector(store => store.orderReducer);
     const { isError } = useSelector(store => store.orderReducer);
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [totalPrice, setTotalPrice] = useState(0);
@@ -33,6 +35,15 @@ const BurgerConstructor = (props) => {
 
         setTotalPrice(getTotalPrice())
     }, [bun, otherIngredients])
+
+    useEffect(() => {
+        if (isError && isModalOpen) {
+            history.push({
+                pathname: '/login',
+                state: { from: '/' }
+            })
+        }
+    }, [isError, isModalOpen])
 
     const [{ canDrop, isOver }, dropTarget] = useDrop({
         accept: 'ingredient',
@@ -96,7 +107,9 @@ const BurgerConstructor = (props) => {
                     {
                         (otherIngredients.length > 0) && (
                             otherIngredients.map((ingredient, index) =>
-                                <MainIngredient key={ingredient.key}
+                                <MainIngredient 
+                                    // key={ingredient.key} dnd так работает некорректно
+                                    key={index} // так ок
                                     ingredient={ingredient}
                                     index={index}
                                     onDelete={handleDelIngredient} />

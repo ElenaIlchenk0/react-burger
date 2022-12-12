@@ -2,23 +2,13 @@ import React, { useState, useRef, useMemo, useEffect } from 'react';
 import burgerIngredientsStyles from './BurgerIngredients.module.css';
 import TabMenu from '../TabMenu/TabMenu';
 import IngredientsCategory from '../IngredientsCategory/IngredientsCategory';
-import Modal from '../Modal/Modal';
-import IngredientDetails from '../IngredientDetails/IngredientDetails';
-import { useSelector, useDispatch } from 'react-redux';
-import { getAllIngredients } from '../../services/actions/index';
-import { SET_SELECTED_ING, DEL_SELECTED_ING } from '../../services/actions/index';
+import { useSelector } from 'react-redux';
 
 
 const BurgerIngredients = () => {
     const { ingredients, isError } = useSelector(store => store.ingredientsReducer);
-    const { selectedIngredient } = useSelector(store => store.currentIngReducer);
-    const dispatch = useDispatch();
 
     const [startScroll, setStartScroll] = useState()
-
-    useEffect(() => {
-        dispatch(getAllIngredients())
-    }, [dispatch])
 
     useEffect(() => {
         if (tabRef) {
@@ -38,8 +28,6 @@ const BurgerIngredients = () => {
     const sauces = useMemo(() => ingredients.filter((data) => data.type === 'sauce'), [ingredients]);
     const main = useMemo(() => ingredients.filter((data) => data.type === 'main'), [ingredients]);
 
-
-
     const dataCategories = [
         {
             data: buns,
@@ -58,16 +46,6 @@ const BurgerIngredients = () => {
         }
     ]
 
-    const handleOpenModal = (id) => {
-        const ingredientInfo = ingredients.find((ing) => ing._id === id);
-
-        dispatch({ type: SET_SELECTED_ING, selected: ingredientInfo });
-    }
-
-    const handleCloseModal = () => {
-        dispatch({ type: DEL_SELECTED_ING })
-    }
-
     const handleClickTab = (value) => {
         switch (value) {
             case 'buns': refBuns.current.scrollIntoView({ behavior: 'smooth' });
@@ -79,7 +57,6 @@ const BurgerIngredients = () => {
             // no default
         }
     }
-
 
     const handleScroll = () => {
         const buns = Math.abs(startScroll - refBuns.current.getBoundingClientRect().top)
@@ -106,19 +83,12 @@ const BurgerIngredients = () => {
                                     category={category.name}
                                     data={category.data}
                                     refItem={category.refItem}
-                                    onOpenModal={handleOpenModal}
                                     key={index}
                                 />
                             )
                         }
                     </div>
                 )
-            }
-            {
-                (Object.keys(selectedIngredient).length > 0) &&
-                <Modal header='Детали ингредиента' onClose={handleCloseModal} >
-                    <IngredientDetails ingredient={selectedIngredient} />
-                </Modal>
             }
         </div>
     )

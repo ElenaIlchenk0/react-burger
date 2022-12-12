@@ -3,7 +3,8 @@ import { GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILED } from '../actions/inde
 import { SET_SELECTED_ING, DEL_SELECTED_ING } from '../actions/index';
 import { ADD_INGREDIENT, MOVE_INGREDIENT, DEL_INGREDIENT } from '../actions/index';
 import { GET_ORDER_DATA, GET_ORDER_DATA_FAILED } from '../actions/index';
-import update from 'immutability-helper'
+import update from 'immutability-helper';
+import { setUserReducer } from '../reducers/userInfo'
 
 export const initialState = {
     ingredients: [],
@@ -147,5 +148,6 @@ export const rootReducer = combineReducers({
     ingredientsReducer,
     constructorIngReducer,
     currentIngReducer,
-    orderReducer
+    orderReducer,
+    setUserReducer
 }) 

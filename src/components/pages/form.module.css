@@ -1,0 +1,18 @@
+.formWrapper {
+    width: 480px;
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.link {
+    text-decoration: none;
+    color: #4C4CFF;
+}
+
+

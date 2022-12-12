@@ -1,5 +1,8 @@
 .container {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
 }
 
 .calories {
@@ -7,4 +10,11 @@
     justify-content: space-between;
     gap: 20px;
     padding-top: 32px;
+}
+
+.header {
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
