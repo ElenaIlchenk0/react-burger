@@ -18,6 +18,7 @@ export const initialState = {
         number: 0
     },
     isError: false,
+    errMsg: ''
 }
 
 const ingredientsReducer = (state = initialState, action) => {
@@ -142,12 +143,14 @@ const orderReducer = (state = initialState, action) => {
                     number: 0
                 },
                 isError: true,
+                errMsg: action.errMsg
             };
         }
         case SET_ERR_FALSE: {
             return {
                 ...state,
                 isError: false,
+                errMsg: ''
             }
         }
         default: {

@@ -57,16 +57,13 @@ export function getOrder(ingArray) {
                     name: res.order.name,
                     number: res.order.number,
                 })
-            } else {
-                dispatch({
-                    type: GET_ORDER_DATA_FAILED
-                })
-            }
+            } 
         }).then((data) => {
             dispatch({ type: DEL_ALL_INGREDIENTS })
         }).catch(err => {
             dispatch({
-                type: GET_ORDER_DATA_FAILED
+                type: GET_ORDER_DATA_FAILED,
+                errMsg: err.message
             })
         })
     }

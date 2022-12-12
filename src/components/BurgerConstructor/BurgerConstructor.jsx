@@ -16,7 +16,7 @@ import { useHistory } from 'react-router-dom';
 const BurgerConstructor = (props) => {
     const { bun, otherIngredients } = useSelector(store => store.constructorIngReducer.constructor);
     const { currentOrder } = useSelector(store => store.orderReducer);
-    const { isError } = useSelector(store => store.orderReducer);
+    const { isError, errMsg } = useSelector(store => store.orderReducer);
     const { user } = useSelector(store => store.setUserReducer);
     const dispatch = useDispatch();
     const history = useHistory();
@@ -47,8 +47,8 @@ const BurgerConstructor = (props) => {
     }, [isError, isModalOpen])
 
     useEffect(() => {
-        if (user) { dispatch({ type: SET_ERR_FALSE }) }
-    }, [user])
+        if (user && errMsg === 'jwt malformed') { dispatch({ type: SET_ERR_FALSE }) }
+    }, [user, errMsg])
 
     const [{ canDrop, isOver }, dropTarget] = useDrop({
         accept: 'ingredient',
