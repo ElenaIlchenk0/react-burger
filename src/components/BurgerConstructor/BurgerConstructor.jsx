@@ -12,8 +12,9 @@ import { useDrop } from 'react-dnd';
 import { addIngredient } from '../../services/actions/index';
 import MainIngredient from '../MainIngredient/MainIngredient';
 import { useHistory } from 'react-router-dom';
+// import { TIngredientType } from '../../types/ingredientTypes';
 
-const BurgerConstructor = (props) => {
+const BurgerConstructor = () => {
     const { bun, otherIngredients } = useSelector(store => store.constructorIngReducer.constructor);
     const { currentOrder } = useSelector(store => store.orderReducer);
     const { isError, errMsg } = useSelector(store => store.orderReducer);

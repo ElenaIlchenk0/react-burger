@@ -3,12 +3,16 @@ import orderDetailsStyles from './OrderDetails.module.css';
 import doneImg from '../../images/done.png';
 import PropTypes from 'prop-types';
 
-const OrderDetails = (props) => {
+interface IOrderDetails {
+    orderNumber: number
+}
+
+const OrderDetails: React.FC<IOrderDetails> = ({ orderNumber }) => {
     return (
         <div className={orderDetailsStyles.modalContainer}>
             <p className='text text_type_digits-large'>
-                {props.orderNumber > 0 ? 
-                    props.orderNumber : 
+                {orderNumber > 0 ? 
+                    orderNumber : 
                     <span className='text text_type_main-medium pt-8'>Секунду...</span>}
             </p>
             <p className='text text_type_main-medium pt-8'>идентификатор заказа</p>
@@ -18,10 +22,5 @@ const OrderDetails = (props) => {
         </div>
     )
 }
-
-OrderDetails.propTypes = {
-    orderNumber: PropTypes.number.isRequired
-};
-
 
 export default OrderDetails;

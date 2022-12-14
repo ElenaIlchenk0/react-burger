@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import ingredientItemStyles from './IngredientItem.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
 import { useDrag } from "react-dnd";
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
+import { TModalState, TIngredientData } from '../../types/types';
 
-const IngredientItem = ({ burgerData, onOpenModal }) => {
+interface IProps { 
+    burgerData: TIngredientData 
+}
+
+const IngredientItem: React.FC<IProps> = ({burgerData}) => {
+    // @ts-ignore
     const { bun, otherIngredients } = useSelector(store => store.constructorIngReducer.constructor);
     const [counter, setCounter] = useState(0);
 
@@ -18,6 +23,7 @@ const IngredientItem = ({ burgerData, onOpenModal }) => {
         if (burgerData.type === 'bun') {
             burgerData._id === bun._id ? setCounter(1) : setCounter(0)
         } else {
+            // @ts-ignore
             let countIng = otherIngredients.filter(item => item._id === ingredientId).length
             setCounter(countIng)
         }
@@ -30,10 +36,10 @@ const IngredientItem = ({ burgerData, onOpenModal }) => {
             opacity: monitor.isDragging() ? 0.4 : 1,
             isDragging: !!monitor.isDragging(),
         })
-    });
+    })
 
     return (
-        <Link
+        <Link<TModalState>
             key={ingredientId}
             to={{
                 pathname: `/ingredients/${ingredientId}`,
@@ -63,19 +69,8 @@ const IngredientItem = ({ burgerData, onOpenModal }) => {
                 </div>
             </div>
         </Link>
-        
-        
-        
 
     )
 }
-
-IngredientItem.propTypes = {
-    burgerData: PropTypes.shape({
-        image: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired,
-    }).isRequired,
-};
 
 export default IngredientItem;

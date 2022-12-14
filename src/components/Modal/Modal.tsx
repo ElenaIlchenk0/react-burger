@@ -5,10 +5,15 @@ import ModalOverlay from '../ModalOverlay/ModalOverlay';
 import PropTypes from 'prop-types';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-const Modal = (props) => {
+interface IProps {
+    onClose: () => void;
+    children: React.ReactNode;
+}
+
+const Modal: React.FC<IProps> = (props) => {
 
     useEffect(() => {
-        const keyPressHandler = (e) => {
+        const keyPressHandler = (e: KeyboardEvent) => {
             e.key === "Escape" && props.onClose()
         }
 
@@ -19,7 +24,7 @@ const Modal = (props) => {
         }
     }, [props.onClose])
 
-    const modalsRoot = document.getElementById("modals");
+    const modalsRoot = document.getElementById("modals")!;
 
     return ReactDOM.createPortal(
         <>

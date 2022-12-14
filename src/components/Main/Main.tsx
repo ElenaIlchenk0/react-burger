@@ -16,27 +16,30 @@ import Modal from '../Modal/Modal';
 import { useDispatch } from 'react-redux';
 import { getAllIngredients } from '../../services/actions/index';
 import { CHECK_USER, getUser } from '../../services/actions/userInfo';
+import { TModalState } from '../../types/types';
 
-const Main = (props) => {
-    const location = useLocation();
-    const history = useHistory();
+const Main: React.FC = () => {
+    const location = useLocation<TModalState>();
     const background = location.state && location.state.background;
+    const history = useHistory();
 
     const dispatch = useDispatch();
 
     useEffect(() => {
+        // @ts-ignore
         dispatch(getAllIngredients())
     }, [dispatch])
 
     useEffect(() => {
         if (localStorage.getItem('accessToken')) {
+        // @ts-ignore
             dispatch(getUser()).finally(() => dispatch({ type: CHECK_USER }))
         } else {
             dispatch({ type: CHECK_USER })
         }
     }, [])
 
-    const handleModalClose = () => {
+    const handleModalClose = ():void => {
         history.goBack();
     };
 
