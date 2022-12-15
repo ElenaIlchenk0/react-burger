@@ -4,13 +4,30 @@ import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-comp
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrop, useDrag } from 'react-dnd';
 import { useDispatch } from 'react-redux';
-import { MOVE_INGREDIENT } from '../../services/actions/index'
+import { MOVE_INGREDIENT } from '../../services/actions/index';
+import { TIngredientData } from '../../types/types'
+import { Identifier } from 'typescript';
 
-const MainIngredients = ({ ingredient, index, onDelete }) => {
-    const ref = useRef(null);
+interface IMainIngredients {
+    ingredient: TIngredientData;
+    index: number;
+    onDelete: (ingredient: TIngredientData) => void;
+}
+
+type DragObject = {
+    id: string;
+    index: number;
+}
+
+type CollectedProps = {
+    handlerId: Identifier | null
+}
+
+const MainIngredients: React.FC<IMainIngredients> = ({ ingredient, index, onDelete }) => {
+    const ref = useRef<HTMLDivElement>(null);
     const dispatch = useDispatch();
 
-    const moveIngredient = (dragIndex, hoverIndex) => {
+    const moveIngredient = (dragIndex: number, hoverIndex: number) => {
         dispatch({ 
             type: MOVE_INGREDIENT, 
             dragIndex,
@@ -18,14 +35,14 @@ const MainIngredients = ({ ingredient, index, onDelete }) => {
         })
     }
 
-    const [{ handlerId }, drop] = useDrop({
+    const [{ handlerId }, drop] = useDrop<DragObject, undefined, CollectedProps>({
         accept: 'constructorIng',
         collect(monitor) {
             return {
                 handlerId: monitor.getHandlerId(),
             }
         },
-        hover(item, monitor) {
+        hover(item: DragObject, monitor) {
             if (!ref.current) {
                 return
             }
@@ -38,7 +55,7 @@ const MainIngredients = ({ ingredient, index, onDelete }) => {
             const hoverMiddleY =
                 (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
             const clientOffset = monitor.getClientOffset()
-            const hoverClientY = clientOffset.y - hoverBoundingRect.top
+            const hoverClientY = clientOffset!.y - hoverBoundingRect.top
             if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
                 return
             }
@@ -46,7 +63,6 @@ const MainIngredients = ({ ingredient, index, onDelete }) => {
                 return
             }
             moveIngredient(dragIndex, hoverIndex);
-
             item.index = hoverIndex
         },
     })

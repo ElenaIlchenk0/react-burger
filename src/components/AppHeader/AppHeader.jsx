@@ -7,7 +7,7 @@ import { ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useLocation, useRouteMatch } from 'react-router-dom';
 
-const AppHeader = (props) => {
+const AppHeader = () => {
     const location = useLocation();
     const isProfile = useRouteMatch('/profile');
 
