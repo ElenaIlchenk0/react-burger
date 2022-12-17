@@ -126,12 +126,11 @@ const BurgerConstructor: React.FC = () => {
                             // @ts-ignore
                             otherIngredients.map((ingredient, index) =>
                                 <MainIngredient 
-                                    // key={ingredient.key} dnd так работает некорректно
+                                    // key={ingredient.key} dnd так работает некорректно... fix bag?
                                     key={index} // так ок
                                     ingredient={ingredient}
                                     index={index}
                                     onDelete={handleDelIngredient} />
-
                             )
                         )
                     }
