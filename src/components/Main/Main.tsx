@@ -39,7 +39,7 @@ const Main: React.FC = () => {
         }
     }, [])
 
-    const handleModalClose = ():void => {
+    const handleModalClose = () => {
         history.goBack();
     };
 

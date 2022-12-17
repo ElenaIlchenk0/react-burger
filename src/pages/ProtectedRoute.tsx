@@ -1,10 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Route, Redirect, useLocation } from 'react-router-dom'
+import { Route, Redirect, useLocation } from 'react-router-dom';
+import { THistoryFrom } from '../types/types';
 
 const ProtectedRoute = ({ onlyUnAuth = false, ...rest }) => {
+    // @ts-ignore
     const { authChecked, user } = useSelector(store => store.setUserReducer);
-    const location = useLocation();
+    const location = useLocation<THistoryFrom>();
 
     if (!authChecked) {
         return null;

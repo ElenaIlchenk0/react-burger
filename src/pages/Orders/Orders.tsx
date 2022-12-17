@@ -1,11 +1,8 @@
 import React from 'react';
 
-
-const Orders = (props) => {
-
+const Orders: React.FC = () => {
     return (
         <></>
-
     )
 }
 

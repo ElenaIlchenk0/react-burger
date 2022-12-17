@@ -4,24 +4,25 @@ import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-component
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { provideNewPass } from '../../services/actions/userInfo';
+import { THistoryFrom } from '../../types/types';
+import { useShowPass } from '../../utils/useShowPass';
 
-const ResetPass = (props) => {
+const ResetPass: React.FC = () => {
     const dispatch = useDispatch();
+    // @ts-ignore
     const { resetDone } = useSelector(store => store.setUserReducer);
-    const history = useHistory();
-    console.log('history', history)
+    const history = useHistory<THistoryFrom>();
 
     const [tokenValue, setToken] = useState('')
     const [passwordValue, setPassword] = useState('')
+
+    const { isPassShow, togglePass } = useShowPass(false);
+
     const inputPass = useRef(null)
 
-    const showPass = () => {
-        setTimeout(() => inputPass.current.focus(), 0)
-        alert('Icon Click Callback showPass')
-    }
-
-    const buttonHandler = (e) => {
+    const buttonHandler = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
+        // @ts-ignore
         dispatch(provideNewPass(passwordValue, tokenValue));
     }
 
@@ -31,23 +32,21 @@ const ResetPass = (props) => {
         }
     }, [resetDone, history])
 
-
-
     return (
         <form onSubmit={buttonHandler} className={formStyles.formWrapper}>
             <h2>Восстановление пароля</h2>
             <Input
-                type='password'
+                type={isPassShow ? 'text' : 'password'}
                 placeholder='Введите новый пароль'
                 onChange={e => setPassword(e.target.value)}
                 value={passwordValue}
                 name='password'
                 error={false}
                 ref={inputPass}
-                onIconClick={showPass}
+                onIconClick={togglePass}
                 errorText='Ошибка'
                 size='default'
-                icon='ShowIcon'
+                icon={isPassShow ? 'HideIcon' : 'ShowIcon'}
             />
             <Input
                 type='password'
@@ -66,7 +65,10 @@ const ResetPass = (props) => {
             </div>
             <div>
                 <p className='text text_type_main-default text_color_inactive mb-4'>
-                    Вспомнили пароль? <Link to='/login' className={formStyles.link}>Войти</Link>
+                    Вспомнили пароль?
+                    <Link to='/login' className={formStyles.link}>
+                        Войти
+                    </Link>
                 </p>
             </div>
         </form>

@@ -4,25 +4,25 @@ import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-component
 import { Link } from 'react-router-dom';
 import { registerUser } from '../../services/actions/userInfo';
 import { useDispatch, useSelector } from 'react-redux';
+import { useShowPass } from '../../utils/useShowPass';
 
-const Registration = (props) => {
+const Registration: React.FC = () => {
     const dispatch = useDispatch();
+    // @ts-ignore
     const { isError, errMsg } = useSelector(store => store.setUserReducer);
 
     const [nameValue, setName] = useState('');
     const [emailValue, setEmail] = useState('');
     const [passwordValue, setPassword] = useState('');
 
-    const inputName = useRef(null)
-    const inputPass = useRef(null)
+    const { isPassShow, togglePass } = useShowPass(false);
 
-    const showPass = () => {
-        setTimeout(() => inputPass.current.focus(), 0)
-        alert('Icon Click Callback showPass')
-    }
+    const inputName = useRef<HTMLInputElement>(null)
+    const inputPass = useRef<HTMLInputElement>(null)
 
-    const registrationHandler = (e) => {
+    const registrationHandler = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        // @ts-ignore
         dispatch(registerUser(emailValue, passwordValue, nameValue));
     }
 
@@ -53,17 +53,17 @@ const Registration = (props) => {
                 size='default'
             />
             <Input
-                type='password'
+                type={isPassShow ? 'text' : 'password'}
                 placeholder='Пароль'
                 onChange={e => setPassword(e.target.value)}
                 value={passwordValue}
                 name='password'
                 error={false}
                 ref={inputPass}
-                onIconClick={showPass}
+                onIconClick={togglePass}
                 errorText='Ошибка'
                 size='default'
-                icon='ShowIcon'
+                icon={isPassShow ? 'HideIcon' : 'ShowIcon'}
             />
             <div className='mb-20'>
                 <Button type="primary" size="small" htmlType="submit">

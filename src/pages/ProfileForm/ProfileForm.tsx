@@ -4,12 +4,14 @@ import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-component
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser, patchUser } from '../../services/actions/userInfo';
 
-const ProfileForm = (props) => {
+const ProfileForm: React.FC = () => {
 
     const dispatch = useDispatch();
+    // @ts-ignore
     const { email, name, pass } = useSelector(store => store.setUserReducer.user);
 
     useEffect(() => {
+        // @ts-ignore
         dispatch(getUser());
     }, [])
 
@@ -23,24 +25,24 @@ const ProfileForm = (props) => {
     useEffect(() => setEmail(email), [email]);
     useEffect(() => setPassword(pass), [pass]);
 
-    const nameRef = useRef(null);
-    const emailRef = useRef(null);
-    const passRef = useRef(null);
+    const nameRef = useRef<HTMLInputElement>(null);
+    const emailRef = useRef<HTMLInputElement>(null);
+    const passRef = useRef<HTMLInputElement>(null);
 
     const onIconClick = () => {
-        nameRef.current.value = setName('');
-        nameRef.current.focus()
+        setName('');
+        nameRef.current!.focus()
     }
     const onIconClickMail = () => {
-        emailRef.current.value = setEmail('');
-        emailRef.current.focus()
+        setEmail('');
+        emailRef.current!.focus()
     }
     const onIconClickPass = () => {
-        passRef.current.value = setPassword('');
-        passRef.current.focus()
+        setPassword('');
+        passRef.current!.focus()
     }
 
-    const handleChangeInput = (e) => {
+    const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.target.name === 'name' && setName(e.target.value)
         e.target.name === 'email' && setEmail(e.target.value)
         e.target.name === 'pass' && setPassword(e.target.value)
@@ -48,20 +50,21 @@ const ProfileForm = (props) => {
         setInputChanged(true);
     }
 
-    const onBlurHandler = (e) => {
-        if (e.target.value === '') {
-            e.target.name === 'name' && setName(name)
-            e.target.name === 'email' && setEmail(email)
-            e.target.name === 'pass' && setPassword(pass)
+    const onBlurHandler = (e: React.FocusEvent<HTMLInputElement> | undefined) => {
+        if (e!.target.value === '') {
+            e!.target.name === 'name' && setName(name)
+            e!.target.name === 'email' && setEmail(email)
+            e!.target.name === 'pass' && setPassword(pass)
         }
     }
 
-    const onSubmitHandler = (e) => {
+    const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
-        dispatch(patchUser(userName, userEmail, passwordValue))
+        // @ts-ignore
+        dispatch(patchUser(userName, userEmail, passwordValue));
     }
 
-    const onDeclineChanges = (e) => {
+    const onDeclineChanges = (e: React.MouseEvent<HTMLElement>): void => {
         e.preventDefault();
         setName(name);
         setEmail(email);
@@ -117,16 +120,18 @@ const ProfileForm = (props) => {
             {
                 isInputChanged && (
                     <div className={profileFormStyles.buttons}>
-                        <button className={`${profileFormStyles.buttonLink} text text_type_main-small`} onClick={onDeclineChanges}>Отмена</button>
+                        <button
+                            className={`${profileFormStyles.buttonLink} text text_type_main-small`}
+                            onClick={onDeclineChanges}>
+                            Отмена
+                        </button>
                         <Button type="primary" size="medium" htmlType="submit">
                             Сохранить
                         </Button>
                     </div>
                 )
             }
-
         </form>
-
     )
 }
 

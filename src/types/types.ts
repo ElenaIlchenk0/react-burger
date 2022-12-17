@@ -1,7 +1,11 @@
 import H from "history";
 
 export type TModalState = {
-    background: H.Location
+    background: H.Location;
+}
+
+export type THistoryFrom = {
+    from: string;
 }
 
 export type TIngredientType = 'bun' | 'otherIngredients';
@@ -9,7 +13,7 @@ export type TIngredientType = 'bun' | 'otherIngredients';
 export type TIngredientData = {
     _id: string,
     name: string,
-    type: TIngredientType,
+    type: TIngredientType | 'sauce' | 'main',
     proteins: number,
     fat: number,
     carbohydrates: number,
@@ -20,3 +24,6 @@ export type TIngredientData = {
     image_large: string,
     __v: number
 }
+
+
+

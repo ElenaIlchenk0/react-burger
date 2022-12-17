@@ -23,8 +23,7 @@ const IngredientItem: React.FC<IProps> = ({burgerData}) => {
         if (burgerData.type === 'bun') {
             burgerData._id === bun._id ? setCounter(1) : setCounter(0)
         } else {
-            // @ts-ignore
-            let countIng = otherIngredients.filter(item => item._id === ingredientId).length
+            let countIng: number = otherIngredients.filter((item: TIngredientData) => item._id === ingredientId).length
             setCounter(countIng)
         }
     }, [bun, otherIngredients, burgerData])
@@ -69,7 +68,6 @@ const IngredientItem: React.FC<IProps> = ({burgerData}) => {
                 </div>
             </div>
         </Link>
-
     )
 }
 

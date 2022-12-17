@@ -6,7 +6,7 @@ import { useDrop, useDrag } from 'react-dnd';
 import { useDispatch } from 'react-redux';
 import { MOVE_INGREDIENT } from '../../services/actions/index';
 import { TIngredientData } from '../../types/types'
-import { Identifier } from 'typescript';
+import { Identifier } from 'dnd-core';
 
 interface IMainIngredients {
     ingredient: TIngredientData;
@@ -51,7 +51,7 @@ const MainIngredients: React.FC<IMainIngredients> = ({ ingredient, index, onDele
             if (dragIndex === hoverIndex) {
                 return
             }
-            const hoverBoundingRect = ref.current?.getBoundingClientRect()
+            const hoverBoundingRect = ref.current!.getBoundingClientRect()
             const hoverMiddleY =
                 (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
             const clientOffset = monitor.getClientOffset()

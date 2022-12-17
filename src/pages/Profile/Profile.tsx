@@ -6,12 +6,11 @@ import { Switch, Route, NavLink } from 'react-router-dom';
 import ProfileForm from '../ProfileForm/ProfileForm';
 import Orders from '../Orders/Orders';
 
-const Profile = (props) => {
-
+const Profile: React.FC = () => {
     const dispatch = useDispatch();
 
-
     const logoutHandler = () => {
+        // @ts-ignore
         dispatch(logoutUser())
     };
 
@@ -57,7 +56,6 @@ const Profile = (props) => {
                 </Route>
             </Switch>
         </div>
-
     )
 }
 

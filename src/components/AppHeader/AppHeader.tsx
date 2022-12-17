@@ -21,6 +21,7 @@ const AppHeader = () => {
                         title='Конструктор' 
                     />
                     <NavItem 
+                        isActive={false}
                         icon={<ListIcon type="primary" />} 
                         title='Лента заказов' 
                     />

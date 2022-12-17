@@ -4,17 +4,19 @@ import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-component
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetPass } from '../../services/actions/userInfo';
-import { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom';
 
-const ForgotPass = (props) => {
+const ForgotPass: React.FC = () => {
     const dispatch = useDispatch();
+    // @ts-ignore
     const { resetSent } = useSelector(store => store.setUserReducer)
 
     const [emailValue, setEmail] = useState('');
-    const inputEmail = useRef(null);
+    const inputEmail = useRef<HTMLInputElement>(null);
 
-    const buttonHandler = (e) => {
+    const buttonHandler = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
+        // @ts-ignore
         dispatch(resetPass(emailValue))
     }
 

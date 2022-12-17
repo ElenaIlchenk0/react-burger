@@ -1,8 +1,14 @@
 import { BURGER_API_URL } from './constants';
 import { request } from './fetchCheckResponse';
 
-export function getToken(token) {
-    return request(`${BURGER_API_URL}/auth/token`, {
+type TToken = {
+    "success": boolean,
+    "accessToken": string,
+    "refreshToken": string
+} 
+
+export const getToken = (token: string) => {
+    return request<TToken>(`${BURGER_API_URL}/auth/token`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
