@@ -7,7 +7,6 @@ interface IIngredientsCategory {
     data: Array<TIngredientData>,
     category: string,
     refItem: React.RefObject<HTMLHeadingElement>,
-
 }
 
 const IngredientsCategory: React.FC<IIngredientsCategory> = ({ data, category, refItem }) => {

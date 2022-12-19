@@ -27,26 +27,33 @@ const BurgerConstructor: React.FC = () => {
     // @ts-ignore
     const { isError, errMsg } = useSelector(store => store.orderReducer);
     // @ts-ignore
-    const { user, isGotUser } = useSelector(store => store.setUserReducer);
+    const { user } = useSelector(store => store.setUserReducer);
     const dispatch = useDispatch();
     const history = useHistory<THistoryFrom>();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [totalPrice, setTotalPrice] = useState(0);
 
-    const otherIngIdArray: string[] = otherIngredients.map((ing: TIngredientData) => ing._id);
-
     useEffect(() => {
         const getTotalPrice = (): number => {
-            if (bun && otherIngredients.length > 0) { //need to fix bag
-                const fillingPrice: number = otherIngredients.reduce((result: number, ingredient: TIngredientData) => result += ingredient.price, 0)
-                const total: number = fillingPrice + bun.price * 2;
+            let total: number;
+            let fillingPrice: number;
+            const fillingPriceResult: number = otherIngredients.length > 0 
+                                            ? otherIngredients.reduce((result: number, ingredient: TIngredientData) => result += ingredient.price, 0)
+                                            : 0;
+            
+            if (Object.keys(bun).length > 0 && otherIngredients.length > 0) { 
+                fillingPrice = fillingPriceResult;
+                total = fillingPrice + bun.price * 2;
                 return total;
+            } else if (Object.keys(bun).length > 0 ) {
+                return total = bun.price * 2;
+            } else if (otherIngredients.length > 0) {
+                return total = fillingPriceResult;
             }
             return 0
         }
-
-        setTotalPrice(getTotalPrice())
+        if (Object.keys(bun).length > 0 || otherIngredients.length > 0) setTotalPrice(getTotalPrice())
     }, [bun, otherIngredients])
 
     useEffect(() => {
@@ -90,6 +97,7 @@ const BurgerConstructor: React.FC = () => {
     }
 
     const handleClickButton = (): void => {
+        const otherIngIdArray: string[] = otherIngredients.map((ing: TIngredientData) => ing._id);
         // @ts-ignore
         dispatch(getOrder([...otherIngIdArray, bun._id]));
         handleOpenModal();

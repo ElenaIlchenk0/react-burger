@@ -9,7 +9,6 @@ import {
 
 export const initialUserState = {
     authChecked: false,
-    isGotUser: false,
     user: null,
     isError: false,
     errMsg: '',
@@ -23,7 +22,6 @@ export const setUserReducer = (state = initialUserState, action) => {
             const pass = action.pass || state.user?.pass || '';
             return {
                 ...state,
-                isGotUser: true,
                 user: {
                     ...state.user,
                     email: action.email,
@@ -40,7 +38,6 @@ export const setUserReducer = (state = initialUserState, action) => {
             console.log('reducer failed')
             return {
                 ...state,
-                isGotUser: false,
                 user: null,
                 isError: true,
                 errMsg: action.msg
@@ -50,7 +47,6 @@ export const setUserReducer = (state = initialUserState, action) => {
         case DEL_USER_DATA_SUCCESS: {
             return {
                 ...state,
-                isGotUser: false,
                 user: null,
                 isError: false,
                 errMsg: ''
