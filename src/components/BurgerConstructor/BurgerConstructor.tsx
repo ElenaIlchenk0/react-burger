@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import burgerConstructorStyles from './BurgerConstructor.module.css';
+
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
+
 import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
-import { useSelector, useDispatch } from 'react-redux';
-import { getOrder } from '../../services/actions/index';
-import { DEL_INGREDIENT, SET_ERR_FALSE } from '../../services/actions/index';
-import { useDrop } from 'react-dnd';
-import { addIngredient } from '../../services/actions/index';
 import MainIngredient from '../MainIngredient/MainIngredient';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { getOrder, addIngredient, DEL_INGREDIENT, SET_ERR_FALSE } from '../../services/actions/index';
+import { useDrop } from 'react-dnd';
 import { useHistory } from 'react-router-dom';
 import { TIngredientData, THistoryFrom } from '../../types/types';
 
@@ -26,15 +27,17 @@ const BurgerConstructor: React.FC = () => {
     // @ts-ignore
     const { isError, errMsg } = useSelector(store => store.orderReducer);
     // @ts-ignore
-    const { user } = useSelector(store => store.setUserReducer);
+    const { user, isGotUser } = useSelector(store => store.setUserReducer);
     const dispatch = useDispatch();
     const history = useHistory<THistoryFrom>();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [totalPrice, setTotalPrice] = useState(0);
 
+    const otherIngIdArray: string[] = otherIngredients.map((ing: TIngredientData) => ing._id);
+
     useEffect(() => {
-        const getTotalPrice = ():number => {
+        const getTotalPrice = (): number => {
             if (bun && otherIngredients.length > 0) { //need to fix bag
                 const fillingPrice: number = otherIngredients.reduce((result: number, ingredient: TIngredientData) => result += ingredient.price, 0)
                 const total: number = fillingPrice + bun.price * 2;
@@ -47,7 +50,7 @@ const BurgerConstructor: React.FC = () => {
     }, [bun, otherIngredients])
 
     useEffect(() => {
-        if (isError && isModalOpen) {
+        if (isError && isModalOpen) {  
             history.push({
                 pathname: '/login',
                 state: { from: '/' }
@@ -56,8 +59,8 @@ const BurgerConstructor: React.FC = () => {
     }, [isError, isModalOpen])
 
     useEffect(() => {
-        if (user && errMsg === ('jwt malformed' || 'jwt expired')) { 
-            dispatch({ type: SET_ERR_FALSE }) 
+        if (user && errMsg === ('jwt malformed')) {
+            dispatch({ type: SET_ERR_FALSE })
         }
     }, [user, errMsg])
 
@@ -78,7 +81,7 @@ const BurgerConstructor: React.FC = () => {
         dispatch(addIngredient(el.item, type))
     }
 
-    const handleOpenModal = ():void => {
+    const handleOpenModal = (): void => {
         setIsModalOpen(true);
     }
 
@@ -87,7 +90,6 @@ const BurgerConstructor: React.FC = () => {
     }
 
     const handleClickButton = (): void => {
-        const otherIngIdArray: string[] = otherIngredients.map((ing: TIngredientData) => ing._id);
         // @ts-ignore
         dispatch(getOrder([...otherIngIdArray, bun._id]));
         handleOpenModal();
@@ -106,7 +108,7 @@ const BurgerConstructor: React.FC = () => {
         <div className={`${burgerConstructorStyles.wrapper} pt-25`}>
             <div ref={dropTarget}
                 className={burgerConstructorStyles.menuItemsContainer}
-                style={{backgroundColor: isOver ? '#8585AD' : canDrop ? '#2f2f37' : 'initial'}}>
+                style={{ backgroundColor: isOver ? '#8585AD' : canDrop ? '#2f2f37' : 'initial' }}>
 
                 <div className={`${burgerConstructorStyles.menuItem} ${burgerConstructorStyles.menuItemTop}`}>
                     {
@@ -125,7 +127,7 @@ const BurgerConstructor: React.FC = () => {
                         (otherIngredients.length > 0) && (
                             // @ts-ignore
                             otherIngredients.map((ingredient, index) =>
-                                <MainIngredient 
+                                <MainIngredient
                                     // key={ingredient.key} dnd так работает некорректно... fix bag?
                                     key={index} // так ок
                                     ingredient={ingredient}

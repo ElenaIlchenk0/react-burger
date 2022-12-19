@@ -1,6 +1,7 @@
 import { BURGER_API_URL } from '../../utils/constants'
 import { v4 as uuidv4 } from 'uuid';
-import { request } from '../../utils/fetchCheckResponse'
+import { request } from '../../utils/fetchCheckResponse';
+import { getToken } from '../../utils/getToken';
 
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
 export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
@@ -61,10 +62,27 @@ export function getOrder(ingArray) {
         }).then((data) => {
             dispatch({ type: DEL_ALL_INGREDIENTS })
         }).catch(err => {
-            dispatch({
-                type: GET_ORDER_DATA_FAILED,
-                errMsg: err.message
-            })
+            if (err.message === 'jwt expired') {
+                const tk = localStorage.getItem('refreshToken');
+                if (tk) {
+                    const getOrderAsync = async () => {
+                        getToken(tk).then(() => {
+                            dispatch(getOrder(ingArray))
+                        }).catch((e) => console.log(e))
+                    }
+                    getOrderAsync()
+                } else {
+                    dispatch({
+                        type: GET_ORDER_DATA_FAILED,
+                        errMsg: err.message
+                    })
+                }
+            } else {
+                dispatch({
+                    type: GET_ORDER_DATA_FAILED,
+                    errMsg: err.message
+                })
+            }
         })
     }
 }

@@ -1,9 +1,9 @@
 import { BURGER_API_URL } from './constants';
 import { request } from './fetchCheckResponse';
-import { TRes, TTokenRes } from '../types/types'
+import { TRefreshToken } from '../types/types'
 
 export const getToken = (token: string) => {
-    return request<TRes & TTokenRes>(`${BURGER_API_URL}/auth/token`, {
+    return request<TRefreshToken>(`${BURGER_API_URL}/auth/token`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'

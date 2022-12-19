@@ -24,22 +24,28 @@ export type TIngredientData = {
     image_large: string,
     __v: number
 }
-export type TRes = {
-    "success": boolean,
-    "message"?: string,
-}
 
-export type TTokenRes = {
-    "accessToken": string,
-    "refreshToken": string
+export type TError = { message: string }
+
+export type TUser = {
+    name: string,
+    email: string,
+    pass: string,
 } 
 
-export type TUserRes = {
-    "user": {
-        "email": string,
-        "name": string
-    }
+export type TLogRegResponse = {
+    success: boolean,
+    user: Omit<TUser, "password">,
+    accessToken: string,
+    refreshToken: string,
 }
 
+export type TAuthUser = Omit<TLogRegResponse, "accessToken" | "refreshToken">
 
+export type TRefreshToken = Omit<TLogRegResponse, "user">
+
+export type TPlainResponse = {
+    success: boolean,
+    message: string
+}
 
