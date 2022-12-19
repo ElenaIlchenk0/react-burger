@@ -48,10 +48,9 @@ const BurgerConstructor: React.FC = () => {
                 return total;
             } else if (Object.keys(bun).length > 0 ) {
                 return total = bun.price * 2;
-            } else if (otherIngredients.length > 0) {
+            } else {
                 return total = fillingPriceResult;
             }
-            return 0
         }
         if (Object.keys(bun).length > 0 || otherIngredients.length > 0) setTotalPrice(getTotalPrice())
     }, [bun, otherIngredients])
