@@ -1,14 +1,9 @@
 import { BURGER_API_URL } from './constants';
 import { request } from './fetchCheckResponse';
-
-type TToken = {
-    "success": boolean,
-    "accessToken": string,
-    "refreshToken": string
-} 
+import { TRes, TTokenRes } from '../types/types'
 
 export const getToken = (token: string) => {
-    return request<TToken>(`${BURGER_API_URL}/auth/token`, {
+    return request<TRes & TTokenRes>(`${BURGER_API_URL}/auth/token`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -20,7 +15,7 @@ export const getToken = (token: string) => {
         if (res.success) {
             localStorage.setItem('accessToken', res.accessToken.split('Bearer ')[1]);
             localStorage.setItem('refreshToken', res.refreshToken);
-        }
+        } 
     }).catch(err => {
         Promise.reject(err)
     })

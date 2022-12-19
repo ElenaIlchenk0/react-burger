@@ -23,7 +23,7 @@ const Registration: React.FC = () => {
     const registrationHandler = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         // @ts-ignore
-        dispatch(registerUser(emailValue, passwordValue, nameValue));
+        dispatch(registerUser({email: emailValue, pass: passwordValue, name: nameValue}));
     }
 
     return (

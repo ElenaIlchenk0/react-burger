@@ -24,7 +24,7 @@ const Login: React.FC = () => {
     const loginHandler = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
         // @ts-ignore
-        dispatch(loginUser(emailValue, passwordValue));
+        dispatch(loginUser({email: emailValue, pass: passwordValue}));
         const { from } = location.state || { from: { pathname: "/" } };
         history.push(from);
     }

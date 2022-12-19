@@ -1,6 +1,7 @@
 import { BURGER_API_URL } from '../../utils/constants';
 import { request } from '../../utils/fetchCheckResponse';
 import { getToken } from '../../utils/getToken';
+import { TRes, TUserRes, TTokenRes } from '../../types/types'
 
 export const SET_USER_DATA_SUCCESS = 'SET_USER_DATA_SUCCESS';
 export const SET_USER_DATA_FAILED = 'SET_USER_DATA_FAILED';
@@ -9,10 +10,15 @@ export const CHECK_USER = 'CHECK_USER';
 export const RESET_PASS = 'RESET_PASS';
 export const SET_NEW_PASS = 'SET_NEW_PASS'
 
+type TParams = {
+    email: string,
+    name: string,
+    pass?: string
+}
 
-export function registerUser(email, pass, name) {
-    return function (dispatch) {
-        request(`${BURGER_API_URL}/auth/register`, {
+export function registerUser({ email, pass, name }: TParams) {
+    return function (dispatch: any) {
+        request<TRes & TTokenRes & TUserRes>(`${BURGER_API_URL}/auth/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -44,9 +50,9 @@ export function registerUser(email, pass, name) {
     }
 }
 
-export function loginUser(email, pass) {
-    return function (dispatch) {
-        request(`${BURGER_API_URL}/auth/login`, {
+export function loginUser({ email, pass }: TParams) {
+    return function (dispatch: any) {
+        request<TRes & TTokenRes & TUserRes>(`${BURGER_API_URL}/auth/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -78,8 +84,8 @@ export function loginUser(email, pass) {
 }
 
 export function getUser() {
-    return function (dispatch) {
-        return request(`${BURGER_API_URL}/auth/user`, {
+    return function (dispatch: any) {
+        return request<TRes & TUserRes>(`${BURGER_API_URL}/auth/user`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',
@@ -95,11 +101,19 @@ export function getUser() {
             }
         }).catch((err) => {
             if (err.message === 'jwt expired') {
-                const getUserAsync = async () => {
-                    await getToken(localStorage.getItem('refreshToken'))
-                    dispatch(getUser())
+                const tk = localStorage.getItem('refreshToken');
+                if (tk) {
+                    const getUserAsync = async () => {
+                        getToken(tk).then(() => {
+                            dispatch(getUser())
+                        }).catch((e) => console.log(e))
+                    }
+                    getUserAsync()
+                } else {
+                    dispatch({
+                        type: SET_USER_DATA_FAILED
+                    })
                 }
-                getUserAsync()
             } else {
                 dispatch({
                     type: SET_USER_DATA_FAILED
@@ -109,9 +123,9 @@ export function getUser() {
     }
 }
 
-export function patchUser(name, email, pass) {
-    return function (dispatch) {
-        request(`${BURGER_API_URL}/auth/user`, {
+export function patchUser({name, email, pass}: TParams) {
+    return function (dispatch: any) {
+        request<TRes & TUserRes>(`${BURGER_API_URL}/auth/user`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',
@@ -133,11 +147,21 @@ export function patchUser(name, email, pass) {
             }
         }).catch((err) => {
             if (err.message === 'jwt expired') {
-                const getUserAsync = async () => {
-                    await getToken(localStorage.getItem('refreshToken'))
-                    dispatch(patchUser())
+                const tk = localStorage.getItem('refreshToken');
+                if (tk) {
+                    const getUserAsync = async () => {
+                        getToken(tk).then(() => {
+                            dispatch(patchUser({ name, email, pass }))
+                        }).catch((e) => console.log(e))
+                    }
+                    getUserAsync()
+                } else {
+                    dispatch({
+                        type: SET_USER_DATA_FAILED,
+                        msg: err.message
+                    })
                 }
-                getUserAsync()
+
             } else {
                 dispatch({
                     type: SET_USER_DATA_FAILED,
@@ -149,8 +173,8 @@ export function patchUser(name, email, pass) {
 }
 
 export function logoutUser() {
-    return function (dispatch) {
-        request(`${BURGER_API_URL}/auth/logout`, {
+    return function (dispatch: any) {
+        request<TRes>(`${BURGER_API_URL}/auth/logout`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -174,9 +198,9 @@ export function logoutUser() {
     }
 }
 
-export function resetPass(email) {
-    return function (dispatch) {
-        request(`${BURGER_API_URL}/password-reset`, {
+export function resetPass(email: string) {
+    return function (dispatch: any) {
+        request<TRes>(`${BURGER_API_URL}/password-reset`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -196,9 +220,9 @@ export function resetPass(email) {
 }
 
 
-export function provideNewPass(pass, token) {
-    return function (dispatch) {
-        request(`${BURGER_API_URL}/password-reset/reset`, {
+export function provideNewPass(pass: string, token: string) {
+    return function (dispatch: any) {
+        request<TRes>(`${BURGER_API_URL}/password-reset/reset`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'

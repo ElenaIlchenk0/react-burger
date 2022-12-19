@@ -56,7 +56,7 @@ const BurgerConstructor: React.FC = () => {
     }, [isError, isModalOpen])
 
     useEffect(() => {
-        if (user && errMsg === 'jwt malformed') { 
+        if (user && errMsg === ('jwt malformed' || 'jwt expired')) { 
             dispatch({ type: SET_ERR_FALSE }) 
         }
     }, [user, errMsg])

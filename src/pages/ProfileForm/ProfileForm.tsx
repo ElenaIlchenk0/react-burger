@@ -61,7 +61,7 @@ const ProfileForm: React.FC = () => {
     const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
         // @ts-ignore
-        dispatch(patchUser(userName, userEmail, passwordValue));
+        dispatch(patchUser({name: userName, email: userEmail, pass: passwordValue}));
     }
 
     const onDeclineChanges = (e: React.MouseEvent<HTMLElement>): void => {
