@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import formStyles from '../form.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useHistory, useLocation } from 'react-router-dom';
@@ -6,16 +6,15 @@ import { loginUser } from '../../services/actions/userInfo';
 import { useDispatch } from 'react-redux';
 import { THistoryFrom } from '../../types/types';
 import { useShowPass } from '../../utils/useShowPass';
+import { useForm } from '../../utils/useForm';
 
-const Login: React.FC = () => {
+const Login = () => {
     const dispatch = useDispatch();
 
     const history = useHistory<THistoryFrom>();
     const location = useLocation<THistoryFrom>();
 
-    const [emailValue, setEmail] = useState('')
-    const [passwordValue, setPassword] = useState('')
-
+    const { values, handleChange } = useForm();
     const { isPassShow, togglePass } = useShowPass(false);
 
     const inputEmail = useRef<HTMLInputElement>(null)
@@ -24,11 +23,10 @@ const Login: React.FC = () => {
     const loginHandler = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
         // @ts-ignore
-        dispatch(loginUser({email: emailValue, pass: passwordValue}));
+        dispatch(loginUser(values));
         const { from } = location.state || { from: { pathname: "/" } };
         history.push(from);
     }
-
 
     return (
         <form onSubmit={loginHandler} className={formStyles.formWrapper}>
@@ -36,8 +34,8 @@ const Login: React.FC = () => {
             <Input
                 type='email'
                 placeholder='E-mail'
-                onChange={e => setEmail(e.target.value)}
-                value={emailValue}
+                onChange={handleChange}
+                value={ values.email || '' }
                 name='email'
                 error={false}
                 ref={inputEmail}
@@ -47,9 +45,9 @@ const Login: React.FC = () => {
             <Input
                 type={isPassShow ? 'text' : 'password'}
                 placeholder='Пароль'
-                onChange={e => setPassword(e.target.value)}
-                value={passwordValue}
-                name='password'
+                onChange={handleChange}
+                value={values.pass || ''}
+                name='pass'
                 error={false}
                 ref={inputPass}
                 onIconClick={togglePass}

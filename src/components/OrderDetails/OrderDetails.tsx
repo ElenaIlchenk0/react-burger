@@ -1,7 +1,6 @@
 import React from "react";
 import orderDetailsStyles from './OrderDetails.module.css';
 import doneImg from '../../images/done.png';
-import PropTypes from 'prop-types';
 
 interface IOrderDetails {
     orderNumber: number

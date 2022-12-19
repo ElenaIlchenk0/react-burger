@@ -72,10 +72,6 @@ export const setUserReducer = (state = initialUserState, action) => {
         case SET_NEW_PASS: {
             return {
                 ...state,
-                user: {
-                    ...state.user,
-                    pass: action.pass
-                },
                 resetSent: false,
                 resetDone: true        
             }

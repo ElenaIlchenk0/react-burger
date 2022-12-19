@@ -27,7 +27,7 @@ const ProtectedRoute = ({ onlyUnAuth = false, ...rest }) => {
         )
     }
 
-    // !onlyUnAuth && isAuthenticated
+    // !onlyUnAuth && user
     return (
         <Route {...rest} />
     );

@@ -1,20 +1,18 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import formStyles from '../form.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 import { registerUser } from '../../services/actions/userInfo';
 import { useDispatch, useSelector } from 'react-redux';
 import { useShowPass } from '../../utils/useShowPass';
+import { useForm } from '../../utils/useForm'
 
-const Registration: React.FC = () => {
+const Registration = () => {
     const dispatch = useDispatch();
     // @ts-ignore
     const { isError, errMsg } = useSelector(store => store.setUserReducer);
 
-    const [nameValue, setName] = useState('');
-    const [emailValue, setEmail] = useState('');
-    const [passwordValue, setPassword] = useState('');
-
+    const { values, handleChange } = useForm();
     const { isPassShow, togglePass } = useShowPass(false);
 
     const inputName = useRef<HTMLInputElement>(null)
@@ -23,7 +21,7 @@ const Registration: React.FC = () => {
     const registrationHandler = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         // @ts-ignore
-        dispatch(registerUser({email: emailValue, pass: passwordValue, name: nameValue}));
+        dispatch(registerUser(values))
     }
 
     return (
@@ -34,8 +32,8 @@ const Registration: React.FC = () => {
             <Input
                 type='text'
                 placeholder='Имя'
-                onChange={e => setName(e.target.value)}
-                value={nameValue}
+                onChange={handleChange}
+                value={values.name || ''}
                 name='name'
                 error={false}
                 ref={inputName}
@@ -45,8 +43,8 @@ const Registration: React.FC = () => {
             <Input
                 type='email'
                 placeholder='E-mail'
-                onChange={e => setEmail(e.target.value)}
-                value={emailValue}
+                onChange={handleChange}
+                value={values.email || ''}
                 name='email'
                 error={false}
                 errorText='Ошибка'
@@ -55,9 +53,9 @@ const Registration: React.FC = () => {
             <Input
                 type={isPassShow ? 'text' : 'password'}
                 placeholder='Пароль'
-                onChange={e => setPassword(e.target.value)}
-                value={passwordValue}
-                name='password'
+                onChange={handleChange}
+                value={values.pass || ''}
+                name='pass'
                 error={false}
                 ref={inputPass}
                 onIconClick={togglePass}

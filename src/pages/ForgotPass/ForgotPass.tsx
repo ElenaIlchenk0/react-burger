@@ -1,23 +1,24 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import formStyles from '../form.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetPass } from '../../services/actions/userInfo';
 import { Redirect } from 'react-router-dom';
+import { useForm } from '../../utils/useForm';
 
-const ForgotPass: React.FC = () => {
+const ForgotPass = () => {
     const dispatch = useDispatch();
     // @ts-ignore
     const { resetSent } = useSelector(store => store.setUserReducer)
 
-    const [emailValue, setEmail] = useState('');
+    const { values, handleChange } = useForm();
     const inputEmail = useRef<HTMLInputElement>(null);
 
     const buttonHandler = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
         // @ts-ignore
-        dispatch(resetPass(emailValue))
+        dispatch(resetPass(values))
     }
 
     if (resetSent) {
@@ -35,8 +36,8 @@ const ForgotPass: React.FC = () => {
             <Input
                 type='email'
                 placeholder='Укажите e-mail'
-                onChange={e => setEmail(e.target.value)}
-                value={emailValue}
+                onChange={handleChange}
+                value={values.email || ''}
                 name='email'
                 error={false}
                 ref={inputEmail}
@@ -54,7 +55,6 @@ const ForgotPass: React.FC = () => {
                 </p>
             </div>
         </form>
-
     )
 }
 

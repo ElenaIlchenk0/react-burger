@@ -84,7 +84,7 @@ export function loginUser({ email, pass }: TUser) {
     }
 }
 
-export function getUser(d?: any) {
+export function getUser() {
     return function (dispatch: any) {
         return request<TAuthUser>(`${BURGER_API_URL}/auth/user`, {
             method: 'GET',
@@ -99,7 +99,6 @@ export function getUser(d?: any) {
                     email: res.user.email,
                     name: res.user.name
                 })
-                d && d()
             }
         }).catch((err: TError) => {
             if (err.message === 'jwt expired') {
@@ -107,7 +106,7 @@ export function getUser(d?: any) {
                 if (tk) {
                     const getUserAsync = async () => {
                         getToken(tk).then(() => {
-                            dispatch(getUser(d))
+                            dispatch(getUser())
                         }).catch((e) => console.log(e))
                     }
                     getUserAsync()
@@ -200,7 +199,7 @@ export function logoutUser() {
     }
 }
 
-export function resetPass(email: TUser) {
+export function resetPass({email}: TUser) {
     return function (dispatch: any) {
         request<TPlainResponse>(`${BURGER_API_URL}/password-reset`, {
             method: 'POST',
@@ -221,8 +220,7 @@ export function resetPass(email: TUser) {
     }
 }
 
-
-export function provideNewPass(pass: TUser, token: string) {
+export function provideNewPass({pass, token}: TUser & {token: string}) {
     return function (dispatch: any) {
         request<TPlainResponse>(`${BURGER_API_URL}/password-reset/reset`, {
             method: 'POST',
@@ -236,8 +234,7 @@ export function provideNewPass(pass: TUser, token: string) {
         }).then(res => {
             if (res.success) {
                 dispatch({
-                    type: SET_NEW_PASS,
-                    pass
+                    type: SET_NEW_PASS
                 })
             }
         }).catch((err: TError) => Promise.reject(err))

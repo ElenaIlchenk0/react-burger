@@ -3,8 +3,9 @@ import profileFormStyles from './ProfileForm.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser, patchUser } from '../../services/actions/userInfo';
+import { useForm } from '../../utils/useForm';
 
-const ProfileForm: React.FC = () => {
+const ProfileForm = () => {
 
     const dispatch = useDispatch();
     // @ts-ignore
@@ -14,6 +15,8 @@ const ProfileForm: React.FC = () => {
         // @ts-ignore
         dispatch(getUser());
     }, [])
+
+    const { values, handleChange, setValues } = useForm();
 
     const [isInputChanged, setInputChanged] = useState(false)
 

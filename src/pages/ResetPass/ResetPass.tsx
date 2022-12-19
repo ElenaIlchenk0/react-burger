@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import formStyles from '../form.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useHistory } from 'react-router-dom';
@@ -6,16 +6,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { provideNewPass } from '../../services/actions/userInfo';
 import { THistoryFrom } from '../../types/types';
 import { useShowPass } from '../../utils/useShowPass';
+import { useForm } from '../../utils/useForm';
 
-const ResetPass: React.FC = () => {
+const ResetPass = () => {
     const dispatch = useDispatch();
     // @ts-ignore
     const { resetDone } = useSelector(store => store.setUserReducer);
     const history = useHistory<THistoryFrom>();
 
-    const [tokenValue, setToken] = useState('')
-    const [passwordValue, setPassword] = useState('')
-
+    const { values, handleChange } = useForm();
     const { isPassShow, togglePass } = useShowPass(false);
 
     const inputPass = useRef(null)
@@ -23,10 +22,12 @@ const ResetPass: React.FC = () => {
     const buttonHandler = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
         // @ts-ignore
-        dispatch(provideNewPass(passwordValue, tokenValue));
+        dispatch(provideNewPass(values));
     }
 
     useEffect(() => {
+        console.log('resetDone', resetDone)
+        console.log('history.location.state?.from', history.location.state?.from)
         if (resetDone || history.location.state?.from !== '/forgot-password') {
             history.replace('/login')
         }
@@ -38,9 +39,9 @@ const ResetPass: React.FC = () => {
             <Input
                 type={isPassShow ? 'text' : 'password'}
                 placeholder='Введите новый пароль'
-                onChange={e => setPassword(e.target.value)}
-                value={passwordValue}
-                name='password'
+                onChange={handleChange}
+                value={values.pass || ''}
+                name='pass'
                 error={false}
                 ref={inputPass}
                 onIconClick={togglePass}
@@ -51,9 +52,9 @@ const ResetPass: React.FC = () => {
             <Input
                 type='password'
                 placeholder='Введите код из письма'
-                onChange={e => setToken(e.target.value)}
-                value={tokenValue}
-                name='code'
+                onChange={handleChange}
+                value={values.token || ''}
+                name='token'
                 error={false}
                 errorText='Ошибка'
                 size='default'

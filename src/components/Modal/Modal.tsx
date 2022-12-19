@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import ReactDOM from "react-dom"
 import modalStyles from './Modal.module.css';
 import ModalOverlay from '../ModalOverlay/ModalOverlay';
-import PropTypes from 'prop-types';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 interface IProps {
@@ -39,9 +38,5 @@ const Modal: React.FC<IProps> = (props) => {
         modalsRoot
     );
 }
-
-Modal.propTypes = {
-    onClose: PropTypes.func.isRequired,
-};
 
 export default Modal;

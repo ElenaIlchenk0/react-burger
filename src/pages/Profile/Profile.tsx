@@ -6,7 +6,7 @@ import { Switch, Route, NavLink } from 'react-router-dom';
 import ProfileForm from '../ProfileForm/ProfileForm';
 import Orders from '../Orders/Orders';
 
-const Profile: React.FC = () => {
+const Profile = () => {
     const dispatch = useDispatch();
 
     const logoutHandler = () => {
