@@ -6,10 +6,9 @@ import { getUser, patchUser } from '../../services/actions/userInfo';
 import { useForm } from '../../utils/useForm';
 
 const ProfileForm = () => {
-
     const dispatch = useDispatch();
     // @ts-ignore
-    const { email, name, pass } = useSelector(store => store.setUserReducer.user);
+    const { user } = useSelector(store => store.setUserReducer);
 
     useEffect(() => {
         // @ts-ignore
@@ -20,59 +19,48 @@ const ProfileForm = () => {
 
     const [isInputChanged, setInputChanged] = useState(false)
 
-    const [userName, setName] = useState('');
-    const [userEmail, setEmail] = useState('');
-    const [passwordValue, setPassword] = useState('');
-
-    useEffect(() => setName(name), [name]);
-    useEffect(() => setEmail(email), [email]);
-    useEffect(() => setPassword(pass), [pass]);
+    useEffect(() => {
+        setValues({ name: user.name, email: user.email, pass: user.pass });
+    }, [])
 
     const nameRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
     const passRef = useRef<HTMLInputElement>(null);
 
-    const onIconClick = () => {
-        setName('');
-        nameRef.current!.focus()
+    const refs: { [key: string]: React.RefObject<HTMLInputElement> } = {
+        name: nameRef,
+        email: emailRef,
+        pass: passRef
     }
-    const onIconClickMail = () => {
-        setEmail('');
-        emailRef.current!.focus()
-    }
-    const onIconClickPass = () => {
-        setPassword('');
-        passRef.current!.focus()
+
+    const onIconClick = (value: string) => {
+        setValues({ ...values, [value]: '' });
+        refs[value].current!.focus()
+        setInputChanged(true)
     }
 
     const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.target.name === 'name' && setName(e.target.value)
-        e.target.name === 'email' && setEmail(e.target.value)
-        e.target.name === 'pass' && setPassword(e.target.value)
-
+        handleChange(e);
         setInputChanged(true);
     }
 
     const onBlurHandler = (e: React.FocusEvent<HTMLInputElement> | undefined) => {
         if (e!.target.value === '') {
-            e!.target.name === 'name' && setName(name)
-            e!.target.name === 'email' && setEmail(email)
-            e!.target.name === 'pass' && setPassword(pass)
+            setValues({ ...values, [e!.target.name]: user[e!.target.name] })
+            setInputChanged(false)
         }
     }
 
     const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
         // @ts-ignore
-        dispatch(patchUser({name: userName, email: userEmail, pass: passwordValue}));
+        dispatch(patchUser(values));
+        setInputChanged(false);
     }
 
     const onDeclineChanges = (e: React.MouseEvent<HTMLElement>): void => {
         e.preventDefault();
-        setName(name);
-        setEmail(email);
-        setPassword(pass);
-
+        setValues({ name: user.name, email: user.email, pass: user.pass });
         setInputChanged(false);
     }
 
@@ -84,13 +72,14 @@ const ProfileForm = () => {
                 onChange={handleChangeInput}
                 onBlur={e => onBlurHandler(e)}
                 icon={'EditIcon'}
-                value={userName}
+                value={values.name || ''}
                 name='name'
                 error={false}
                 ref={nameRef}
-                onIconClick={onIconClick}
+                onIconClick={() => onIconClick('name')}
                 errorText='Ошибка'
                 size='default'
+                extraClass='test'
             />
             <Input
                 type='email'
@@ -98,11 +87,11 @@ const ProfileForm = () => {
                 onChange={handleChangeInput}
                 onBlur={e => onBlurHandler(e)}
                 icon='EditIcon'
-                value={userEmail}
+                value={values.email || ''}
                 name='email'
                 error={false}
                 ref={emailRef}
-                onIconClick={onIconClickMail}
+                onIconClick={() => onIconClick('email')}
                 errorText={'Ошибка'}
                 size={'default'}
             />
@@ -111,11 +100,11 @@ const ProfileForm = () => {
                 placeholder='Пароль'
                 onChange={handleChangeInput}
                 onBlur={e => onBlurHandler(e)}
-                value={passwordValue}
+                value={values.pass || ''}
                 name='pass'
                 error={false}
                 ref={passRef}
-                onIconClick={onIconClickPass}
+                onIconClick={() => onIconClick('pass')}
                 errorText='Ошибка'
                 size='default'
                 icon='EditIcon'

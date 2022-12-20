@@ -53,6 +53,7 @@ const BurgerConstructor: React.FC = () => {
             }
         }
         if (Object.keys(bun).length > 0 || otherIngredients.length > 0) setTotalPrice(getTotalPrice())
+        else { setTotalPrice(0)}
     }, [bun, otherIngredients])
 
     useEffect(() => {
