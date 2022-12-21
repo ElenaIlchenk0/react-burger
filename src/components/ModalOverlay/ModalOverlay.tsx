@@ -1,0 +1,16 @@
+import React from 'react';
+import modalOverlayStyles from './ModalOverlay.module.css';
+
+interface IModalOverlay {
+    onClose: () => void;
+}
+
+const ModalOverlay: React.FC<IModalOverlay> = ({ onClose }) => {
+    return (
+        <div onClick={onClose}
+            className={modalOverlayStyles.modalOverlay}>
+        </div>
+    )
+}
+
+export default ModalOverlay;

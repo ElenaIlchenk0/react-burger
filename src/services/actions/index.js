@@ -1,6 +1,7 @@
 import { BURGER_API_URL } from '../../utils/constants'
 import { v4 as uuidv4 } from 'uuid';
-import { request } from '../../utils/fetchCheckResponse'
+import { request } from '../../utils/fetchCheckResponse';
+import { getToken } from '../../utils/getToken';
 
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
 export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
@@ -11,6 +12,8 @@ export const DEL_SELECTED_ING = 'DEL_SELECTED_ING';
 export const ADD_INGREDIENT = 'ADD_INGREDIENT';
 export const MOVE_INGREDIENT = 'MOVE_INGREDIENT';
 export const DEL_INGREDIENT = 'DEL_INGREDIENT';
+export const DEL_ALL_INGREDIENTS = 'DEL_ALL_INGREDIENTS';
+export const SET_ERR_FALSE = 'SET_ERR_FALSE';
 
 export const GET_ORDER_DATA = 'GET_ORDER_DATA';
 export const GET_ORDER_DATA_FAILED = 'GET_ORDER_DATA_FAILED';
@@ -55,15 +58,31 @@ export function getOrder(ingArray) {
                     name: res.order.name,
                     number: res.order.number,
                 })
+            } 
+        }).then((data) => {
+            dispatch({ type: DEL_ALL_INGREDIENTS })
+        }).catch(err => {
+            if (err.message === 'jwt expired') {
+                const tk = localStorage.getItem('refreshToken');
+                if (tk) {
+                    const getOrderAsync = async () => {
+                        getToken(tk).then(() => {
+                            dispatch(getOrder(ingArray))
+                        }).catch((e) => console.log(e))
+                    }
+                    getOrderAsync()
+                } else {
+                    dispatch({
+                        type: GET_ORDER_DATA_FAILED,
+                        errMsg: err.message
+                    })
+                }
             } else {
                 dispatch({
-                    type: GET_ORDER_DATA_FAILED
+                    type: GET_ORDER_DATA_FAILED,
+                    errMsg: err.message
                 })
             }
-        }).catch(err => {
-            dispatch({
-                type: GET_ORDER_DATA_FAILED
-            })
         })
     }
 }

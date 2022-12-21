@@ -1,10 +1,10 @@
 {
     "cSpell.language": "en, ru",
     "window.zoomLevel": 0,
-    "editor.fontSize": 26,
+    "editor.fontSize": 16,
     "scm.inputFontSize": 16,
     "terminal.integrated.fontSize": 14,
     "markdown.preview.fontSize": 16,
     "debug.console.fontSize": 16,
-    "screencastMode.fontSize": 26
+    "screencastMode.fontSize": 20
 }
