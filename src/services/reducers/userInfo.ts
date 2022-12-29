@@ -5,9 +5,20 @@ import {
     CHECK_USER,
     RESET_PASS,
     SET_NEW_PASS
-} from '../actions/userInfo'
+} from '../actions/userInfo';
+import { TUser } from '../../types/types';
+import { TUserActions } from '../actions/userInfo'
 
-export const initialUserState = {
+type TInitialUserState = {
+    authChecked: boolean;
+    user: TUser | null;
+    isError: boolean;
+    errMsg: string;
+    resetSent: boolean;
+    resetDone: boolean;
+}
+
+export const initialUserState: TInitialUserState = {
     authChecked: false,
     user: null,
     isError: false,
@@ -16,7 +27,7 @@ export const initialUserState = {
     resetDone: false
 }
 
-export const setUserReducer = (state = initialUserState, action) => {
+export const setUserReducer = (state = initialUserState, action: TUserActions) => {
     switch (action.type) {
         case SET_USER_DATA_SUCCESS: {
             const pass = action.pass || state.user?.pass || '';

@@ -4,7 +4,7 @@ import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-comp
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrop, useDrag } from 'react-dnd';
 import { useDispatch } from 'react-redux';
-import { MOVE_INGREDIENT } from '../../services/actions/index';
+import { moveIngredients } from '../../services/actions/index';
 import { TIngredientData } from '../../types/types'
 import { Identifier } from 'dnd-core';
 
@@ -28,11 +28,7 @@ const MainIngredients: React.FC<IMainIngredients> = ({ ingredient, index, onDele
     const dispatch = useDispatch();
 
     const moveIngredient = (dragIndex: number, hoverIndex: number) => {
-        dispatch({ 
-            type: MOVE_INGREDIENT, 
-            dragIndex,
-            hoverIndex
-        })
+        dispatch(moveIngredients(dragIndex, hoverIndex))
     }
 
     const [{ handlerId }, drop] = useDrop<DragObject, undefined, CollectedProps>({

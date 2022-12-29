@@ -10,7 +10,7 @@ import OrderDetails from '../OrderDetails/OrderDetails';
 import MainIngredient from '../MainIngredient/MainIngredient';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { getOrder, addIngredient, DEL_INGREDIENT, SET_ERR_FALSE } from '../../services/actions/index';
+import { getOrder, addIngredient, delIngredients, setErrFalse } from '../../services/actions/index';
 import { useDrop } from 'react-dnd';
 import { useHistory } from 'react-router-dom';
 import { TIngredientData, THistoryFrom } from '../../types/types';
@@ -67,7 +67,7 @@ const BurgerConstructor: React.FC = () => {
 
     useEffect(() => {
         if (user && errMsg === ('jwt malformed')) {
-            dispatch({ type: SET_ERR_FALSE })
+            dispatch(setErrFalse())
         }
     }, [user, errMsg])
 
@@ -104,11 +104,7 @@ const BurgerConstructor: React.FC = () => {
     }
 
     const handleDelIngredient = (ing: TIngredientData): void => {
-        dispatch({
-            type: DEL_INGREDIENT,
-            ingType: 'otherIngredients',
-            content: ing
-        })
+        dispatch(delIngredients(ing))
     }
 
     return (

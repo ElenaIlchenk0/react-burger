@@ -15,7 +15,7 @@ import IngredientsDetails from '../IngredientDetails/IngredientDetails';
 import Modal from '../Modal/Modal';
 import { useDispatch } from 'react-redux';
 import { getAllIngredients } from '../../services/actions/index';
-import { CHECK_USER, getUser } from '../../services/actions/userInfo';
+import { checkUser, getUser } from '../../services/actions/userInfo';
 import { TModalState } from '../../types/types';
 
 const Main: React.FC = () => {
@@ -33,9 +33,9 @@ const Main: React.FC = () => {
     useEffect(() => {
         if (localStorage.getItem('accessToken')) {
         // @ts-ignore
-            dispatch(getUser()).finally(() => dispatch({ type: CHECK_USER }))
+            dispatch(getUser()).finally(() => dispatch(checkUser()))
         } else {
-            dispatch({ type: CHECK_USER })
+            dispatch(checkUser())
         }
     }, [])
 
