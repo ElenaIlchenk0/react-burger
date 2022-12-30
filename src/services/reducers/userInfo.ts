@@ -27,7 +27,7 @@ export const initialUserState: TInitialUserState = {
     resetDone: false
 }
 
-export const setUserReducer = (state = initialUserState, action: TUserActions) => {
+export const setUserReducer = (state = initialUserState, action: TUserActions): TInitialUserState => {
     switch (action.type) {
         case SET_USER_DATA_SUCCESS: {
             const pass = action.pass || state.user?.pass || '';
@@ -46,12 +46,11 @@ export const setUserReducer = (state = initialUserState, action: TUserActions) =
             };
         }
         case SET_USER_DATA_FAILED: {
-            console.log('reducer failed')
             return {
                 ...state,
                 user: null,
                 isError: true,
-                errMsg: action.msg
+                errMsg: action.msg || ''
             };
         }
 

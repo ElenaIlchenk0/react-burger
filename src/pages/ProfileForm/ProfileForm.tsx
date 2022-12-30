@@ -1,17 +1,15 @@
 import React, { useRef, useState, useEffect } from 'react';
 import profileFormStyles from './ProfileForm.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../types/types';
 import { getUser, patchUser } from '../../services/actions/userInfo';
 import { useForm } from '../../utils/useForm';
 
 const ProfileForm = () => {
     const dispatch = useDispatch();
-    // @ts-ignore
     const { user } = useSelector(store => store.setUserReducer);
 
     useEffect(() => {
-        // @ts-ignore
         dispatch(getUser());
     }, [])
 
@@ -20,7 +18,7 @@ const ProfileForm = () => {
     const [isInputChanged, setInputChanged] = useState(false)
 
     useEffect(() => {
-        setValues({ name: user.name, email: user.email, pass: user.pass });
+        if (user) setValues({ name: user.name, email: user.email, pass: user.pass });
     }, [])
 
     const nameRef = useRef<HTMLInputElement>(null);
@@ -46,6 +44,7 @@ const ProfileForm = () => {
 
     const onBlurHandler = (e: React.FocusEvent<HTMLInputElement> | undefined) => {
         if (e!.target.value === '') {
+            // @ts-ignore
             setValues({ ...values, [e!.target.name]: user[e!.target.name] })
             setInputChanged(false)
         }
@@ -60,7 +59,7 @@ const ProfileForm = () => {
 
     const onDeclineChanges = (e: React.MouseEvent<HTMLElement>): void => {
         e.preventDefault();
-        setValues({ name: user.name, email: user.email, pass: user.pass });
+        if (user) setValues({ name: user.name, email: user.email, pass: user.pass });
         setInputChanged(false);
     }
 

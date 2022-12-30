@@ -3,13 +3,12 @@ import formStyles from '../form.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 import { registerUser } from '../../services/actions/userInfo';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../types/types';
 import { useShowPass } from '../../utils/useShowPass';
 import { useForm } from '../../utils/useForm'
 
 const Registration = () => {
     const dispatch = useDispatch();
-    // @ts-ignore
     const { isError, errMsg } = useSelector(store => store.setUserReducer);
 
     const { values, handleChange } = useForm();

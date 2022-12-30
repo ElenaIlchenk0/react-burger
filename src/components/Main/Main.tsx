@@ -13,12 +13,12 @@ import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import ProtectedRoute from '../../pages/ProtectedRoute';
 import IngredientsDetails from '../IngredientDetails/IngredientDetails';
 import Modal from '../Modal/Modal';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../types/types';
 import { getAllIngredients } from '../../services/actions/index';
 import { checkUser, getUser } from '../../services/actions/userInfo';
 import { TModalState } from '../../types/types';
 
-const Main: React.FC = () => {
+const Main = () => {
     const location = useLocation<TModalState>();
     const background = location.state && location.state.background;
     const history = useHistory();
@@ -26,13 +26,11 @@ const Main: React.FC = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        // @ts-ignore
         dispatch(getAllIngredients())
     }, [dispatch])
 
     useEffect(() => {
         if (localStorage.getItem('accessToken')) {
-        // @ts-ignore
             dispatch(getUser()).finally(() => dispatch(checkUser()))
         } else {
             dispatch(checkUser())

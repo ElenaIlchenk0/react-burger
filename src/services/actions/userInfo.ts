@@ -87,7 +87,7 @@ const setNewPassword = (): ISetNewPassAction => ({
 });
 
 // api middlewares
-export const registerUser: AppThunk = ({ email, pass, name }: TUser) => (dispatch: AppDispatch) => {
+export const registerUser = ({ email, pass, name }: TUser): AppThunk => (dispatch: AppDispatch) => {
     request<TLogRegResponse>(`${BURGER_API_URL}/auth/register`, {
         method: 'POST',
         headers: {
@@ -112,7 +112,7 @@ export const registerUser: AppThunk = ({ email, pass, name }: TUser) => (dispatc
 }
 
 
-export const loginUser: AppThunk = ({ email, pass }: TUser) => (dispatch: AppDispatch) => {
+export const loginUser = ({ email, pass }: TUser): AppThunk => (dispatch: AppDispatch) => {
     request<TLogRegResponse>(`${BURGER_API_URL}/auth/login`, {
         method: 'POST',
         headers: {
@@ -136,7 +136,7 @@ export const loginUser: AppThunk = ({ email, pass }: TUser) => (dispatch: AppDis
 }
 
 
-export const getUser: AppThunk = () => (dispatch: AppDispatch) => {
+export const getUser = (): AppThunk<Promise<void>> => (dispatch: AppDispatch) => {
     return request<TAuthUser>(`${BURGER_API_URL}/auth/user`, {
         method: 'GET',
         headers: {
@@ -153,7 +153,6 @@ export const getUser: AppThunk = () => (dispatch: AppDispatch) => {
             if (tk) {
                 const getUserAsync = async () => {
                     getToken(tk).then(() => {
-                        //@ts-ignore
                         dispatch(getUser())
                     }).catch((e) => console.log(e))
                 }
@@ -168,7 +167,7 @@ export const getUser: AppThunk = () => (dispatch: AppDispatch) => {
 }
 
 
-export const patchUser: AppThunk = ({ name, email, pass }: TUser) => (dispatch: AppDispatch) => {
+export const patchUser = ({ name, email, pass }: TUser): AppThunk => (dispatch: AppDispatch) => {
     request<TAuthUser>(`${BURGER_API_URL}/auth/user`, {
         method: 'PATCH',
         headers: {
@@ -190,7 +189,6 @@ export const patchUser: AppThunk = ({ name, email, pass }: TUser) => (dispatch: 
             if (tk) {
                 const getUserAsync = async () => {
                     getToken(tk).then(() => {
-                        //@ts-ignore
                         dispatch(patchUser({ name, email, pass }))
                     }).catch((e) => console.log(e))
                 }
@@ -205,7 +203,7 @@ export const patchUser: AppThunk = ({ name, email, pass }: TUser) => (dispatch: 
     })
 }
 
-export const logoutUser: AppThunk = () => (dispatch: AppDispatch) => {
+export const logoutUser = (): AppThunk => (dispatch: AppDispatch) => {
     request<TPlainResponse>(`${BURGER_API_URL}/auth/logout`, {
         method: 'POST',
         headers: {
@@ -225,7 +223,7 @@ export const logoutUser: AppThunk = () => (dispatch: AppDispatch) => {
 }
 
 
-export const resetPass: AppThunk = ({email}: TUser) => (dispatch: AppDispatch) => {
+export const resetPass = ({ email }: TUser): AppThunk => (dispatch: AppDispatch) => {
     request<TPlainResponse>(`${BURGER_API_URL}/password-reset`, {
         method: 'POST',
         headers: {
@@ -241,7 +239,7 @@ export const resetPass: AppThunk = ({email}: TUser) => (dispatch: AppDispatch) =
     }).catch((err: TError) => Promise.reject(err))
 }
 
-export const provideNewPass: AppThunk = ({pass, token}: TUser & {token: string}) => (dispatch: AppDispatch) => {
+export const provideNewPass = ({ pass, token }: TUser & { token: string }): AppThunk => (dispatch: AppDispatch) => {
     request<TPlainResponse>(`${BURGER_API_URL}/password-reset/reset`, {
         method: 'POST',
         headers: {

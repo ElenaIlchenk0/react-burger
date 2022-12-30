@@ -1,15 +1,14 @@
 import H from "history";
-import { store } from '../index';
+
 import { TActions } from '../services/actions/index';
 import { TUserActions } from '../services/actions/userInfo';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { Action, ActionCreator, Dispatch } from 'redux';
 import {
     TypedUseSelectorHook,
     useDispatch as dispatchHook,
     useSelector as selectorHook
 } from 'react-redux';
-import type { } from 'redux-thunk/extend-redux'
+import { rootReducer } from "../services/reducers";
 
 export type TModalState = {
     background: H.Location;
@@ -86,18 +85,12 @@ export type TOrderRes<TIngredientData> = {
     }
 }
 
-export type RootState = ReturnType<typeof store.getState>; 
+export type RootState = ReturnType<typeof rootReducer>; 
 
 export type TAppActions = TActions | TUserActions
 
-export type AppThunk<TReturn = void> = ActionCreator<ThunkAction<TReturn, Action, RootState, TAppActions>>;
+export type AppThunk<TReturn = void> = ThunkAction<TReturn, RootState, never, TAppActions>;
 
-// export type AppDispatch = Dispatch<TAppActions>; 
-
-// export const useSelector: TypedUseSelectorHook<RootState> = selectorHook; 
-
-//export const useDispatch = () => dispatchHook<AppDispatch | AppThunk>();
-
-export type AppDispatch<TReturnType = void> = (action: TAppActions | AppThunk) => TReturnType;
-export const useDispatch: () => AppDispatch = dispatchHook;
+export type AppDispatch = ThunkDispatch<RootState, never, TAppActions>;
+export const useDispatch: () => AppDispatch = dispatchHook<AppDispatch>;
 export const useSelector: TypedUseSelectorHook<RootState> = selectorHook;

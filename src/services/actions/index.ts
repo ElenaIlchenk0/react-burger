@@ -131,7 +131,7 @@ const getOrderDataFailed = (errMsg: string): IGetOrderDataFailedAction => ({
 });
 
 // api middlewares
-export const getAllIngredients: AppThunk = () => (dispatch: any) => {
+export const getAllIngredients = (): AppThunk => (dispatch: AppDispatch) => {
     request<TIngredientsRes<TIngredientData>>(`${BURGER_API_URL}/ingredients`)
         .then(res => {
             if (res.success) {
@@ -144,7 +144,7 @@ export const getAllIngredients: AppThunk = () => (dispatch: any) => {
         })
 }
 
-export const getOrder: AppThunk = (ingArray: Array<string>) => 
+export const getOrder = (ingArray: Array<string>): AppThunk => 
     (dispatch: AppDispatch) => {
         request<TOrderRes<TIngredientData>>(`${BURGER_API_URL}/orders`, {
             method: 'POST',
@@ -180,7 +180,7 @@ export const getOrder: AppThunk = (ingArray: Array<string>) =>
         })
 }
 
-export const addIngredient = (content: TIngredientData, ingType: string) => (dispatch: AppDispatch) => {
+export const addIngredient = (content: TIngredientData, ingType: string): AppThunk => (dispatch: AppDispatch) => {
     const newContent = { ...content, key: uuidv4() }
     dispatch(addIngredients(newContent, ingType))
 }

@@ -8,10 +8,10 @@ import { TIngredientData } from '../../types/types';
 import { TActions } from '../actions/index';
 
 type TInitialState = {
-    ingredients: TIngredientData[] | never[];
+    ingredients: TIngredientData[];
     constructor: {
-        bun: TIngredientData | {};
-        otherIngredients: Array<TIngredientData & { key?: string }> | never[];
+        bun: TIngredientData | null;
+        otherIngredients: Array<TIngredientData & { key?: string }>;
     };
     currentOrder: {
         name: string;
@@ -24,7 +24,7 @@ type TInitialState = {
 export const initialState: TInitialState = {
     ingredients: [],
     constructor: {
-        bun: {},
+        bun: null,
         otherIngredients: []
     },
     currentOrder: {
@@ -35,7 +35,7 @@ export const initialState: TInitialState = {
     errMsg: ''
 }
 
-const ingredientsReducer = (state = initialState, action: TActions) => {
+const ingredientsReducer = (state = initialState, action: TActions): TInitialState => {
     switch (action.type) {
         case GET_INGREDIENTS_SUCCESS: {
             return {
@@ -58,7 +58,7 @@ const ingredientsReducer = (state = initialState, action: TActions) => {
 
 }
 
-const constructorIngReducer = (state = initialState, action: TActions) => {
+const constructorIngReducer = (state = initialState, action: TActions): TInitialState => {
     switch (action.type) {
         case ADD_INGREDIENT: {
 
@@ -106,7 +106,7 @@ const constructorIngReducer = (state = initialState, action: TActions) => {
             return {
                 ...state,
                 constructor: {
-                    bun: {},
+                    bun: null,
                     otherIngredients: []
                 }
             };
@@ -117,7 +117,7 @@ const constructorIngReducer = (state = initialState, action: TActions) => {
     }
 }
 
-const orderReducer = (state = initialState, action: TActions) => {
+const orderReducer = (state = initialState, action: TActions): TInitialState => {
     switch (action.type) {
         case GET_ORDER_DATA: {
             return {

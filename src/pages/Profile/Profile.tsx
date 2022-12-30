@@ -1,6 +1,6 @@
 import React from 'react';
 import profileStyles from './Profile.module.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../types/types';
 import { logoutUser } from '../../services/actions/userInfo';
 import { Switch, Route, NavLink } from 'react-router-dom';
 import ProfileForm from '../ProfileForm/ProfileForm';
@@ -10,7 +10,6 @@ const Profile = () => {
     const dispatch = useDispatch();
 
     const logoutHandler = () => {
-        // @ts-ignore
         dispatch(logoutUser())
     };
 
