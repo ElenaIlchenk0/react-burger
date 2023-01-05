@@ -239,7 +239,7 @@ export const resetPass = ({ email }: TUser): AppThunk => (dispatch: AppDispatch)
     }).catch((err: TError) => Promise.reject(err))
 }
 
-export const provideNewPass = ({ pass, token }: TUser & { token: string }): AppThunk => (dispatch: AppDispatch) => {
+export const provideNewPass = ({ pass, token }: TUser): AppThunk => (dispatch: AppDispatch) => {
     request<TPlainResponse>(`${BURGER_API_URL}/password-reset/reset`, {
         method: 'POST',
         headers: {

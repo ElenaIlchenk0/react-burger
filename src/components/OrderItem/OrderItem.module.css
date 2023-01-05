@@ -1,0 +1,50 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px;
+    background: #1C1C21;
+    border-radius: 40px;
+}
+
+.headerInfo,
+.burgerInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.orderDate,
+.burgerPrice {
+    justify-self: flex-end;
+}
+
+.ingImage:first-child {
+    margin-left: 0;
+}
+
+.ingImage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #801AB2;
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    margin-left: -20px;
+}
+
+.burgerIngredients {
+    display: flex;
+}
+
+.burgerPrice {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.link {
+    text-decoration: none;
+    color: inherit;
+}

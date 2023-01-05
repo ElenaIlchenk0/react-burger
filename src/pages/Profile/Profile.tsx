@@ -4,7 +4,7 @@ import { useDispatch } from '../../types/types';
 import { logoutUser } from '../../services/actions/userInfo';
 import { Switch, Route, NavLink } from 'react-router-dom';
 import ProfileForm from '../ProfileForm/ProfileForm';
-import Orders from '../Orders/Orders';
+import OrdersFeed from '../../components/OrdersFeed/OrdersFeed';
 
 const Profile = () => {
     const dispatch = useDispatch();
@@ -51,7 +51,7 @@ const Profile = () => {
                     <ProfileForm />
                 </Route>
                 <Route path='/profile/orders' exact>
-                    <Orders />
+                    <OrdersFeed />
                 </Route>
             </Switch>
         </div>

@@ -20,7 +20,6 @@ const ResetPass = () => {
 
     const buttonHandler = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
-        // @ts-ignore
         dispatch(provideNewPass(values));
     }
 

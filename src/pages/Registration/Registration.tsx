@@ -19,7 +19,6 @@ const Registration = () => {
 
     const registrationHandler = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // @ts-ignore
         dispatch(registerUser(values))
     }
 

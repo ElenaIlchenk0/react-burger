@@ -23,7 +23,7 @@ const Login = () => {
 
     const loginHandler = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
-        // @ts-ignore
+       
         dispatch(loginUser(values));
         if (user) {
             const { from } = location.state || { from: { pathname: "/" } };

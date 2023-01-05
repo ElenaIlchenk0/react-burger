@@ -42,17 +42,15 @@ const ProfileForm = () => {
         setInputChanged(true);
     }
 
-    const onBlurHandler = (e: React.FocusEvent<HTMLInputElement> | undefined) => {
-        if (e!.target.value === '') {
-            // @ts-ignore
-            setValues({ ...values, [e!.target.name]: user[e!.target.name] })
+    const onBlurHandler = (e: React.FocusEvent<HTMLInputElement> | undefined, value: 'name' | 'email' | 'pass') => {
+        if (e!.target.value === '' && user) {
+            setValues({ ...values, [value]: user[value] })
             setInputChanged(false)
         }
     }
 
     const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
-        // @ts-ignore
         dispatch(patchUser(values));
         setInputChanged(false);
     }
@@ -69,7 +67,7 @@ const ProfileForm = () => {
                 type='text'
                 placeholder='Имя'
                 onChange={handleChangeInput}
-                onBlur={e => onBlurHandler(e)}
+                onBlur={(e) => onBlurHandler(e, 'name')}
                 icon={'EditIcon'}
                 value={values.name || ''}
                 name='name'
@@ -84,7 +82,7 @@ const ProfileForm = () => {
                 type='email'
                 placeholder='Логин'
                 onChange={handleChangeInput}
-                onBlur={e => onBlurHandler(e)}
+                onBlur={(e) => onBlurHandler(e, 'email')}
                 icon='EditIcon'
                 value={values.email || ''}
                 name='email'
@@ -98,7 +96,7 @@ const ProfileForm = () => {
                 type='password'
                 placeholder='Пароль'
                 onChange={handleChangeInput}
-                onBlur={e => onBlurHandler(e)}
+                onBlur={(e) => onBlurHandler(e, 'pass')}
                 value={values.pass || ''}
                 name='pass'
                 error={false}

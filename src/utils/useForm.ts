@@ -2,8 +2,7 @@ import React from 'react';
 import { TUser } from '../types/types'
 
 export const useForm = () => {
-    const [values, setValues] = React.useState<{ [key: string]: string }>({});
-    // const [values, setValues] = React.useState<TUser  & {token: string} >({});
+    const [values, setValues] = React.useState<TUser>({ name: '', email: '', pass: '' });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const input = e.target;

@@ -7,6 +7,8 @@ import Registration from '../../pages/Registration/Registration';
 import ForgotPass from '../../pages/ForgotPass/ForgotPass';
 import ResetPass from '../../pages/ResetPass/ResetPass';
 import Profile from '../../pages/Profile/Profile';
+import Feed from '../../pages/Feed/Feed';
+import OrderInfo from '../OrderInfo/OrderInfo';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
@@ -56,9 +58,18 @@ const Main = () => {
                 <ProtectedRoute onlyUnAuth={true} path="/reset-password" exact={true}>
                     <ResetPass />
                 </ProtectedRoute>
+                <ProtectedRoute path='/profile/orders/:orderNum' exact>
+                    <OrderInfo />
+                </ProtectedRoute>
                 <ProtectedRoute path="/profile">
                     <Profile />
                 </ProtectedRoute>
+                <Route path='/feed/:orderNum' exact>
+                    <OrderInfo />
+                </Route>
+                <Route path="/feed">
+                    <Feed />
+                </Route>
                 <Route path="/" exact={true}>
                     <DndProvider backend={HTML5Backend}>
                         <BurgerIngredients />
@@ -71,14 +82,33 @@ const Main = () => {
             </Switch>
 
             {background && (
-                <Route
-                    path='/ingredients/:ingredientId'
-                    children={
-                        <Modal onClose={handleModalClose}>
-                            <IngredientsDetails />
-                        </Modal>
-                    }
-                />
+                <Switch>
+                    <Route
+                        path='/ingredients/:ingredientId'
+                        children={
+                            <Modal onClose={handleModalClose}>
+                                <IngredientsDetails />
+                            </Modal>
+                        }
+                    />
+                    <Route
+                        path='/feed/:orderNum'
+                        children={
+                            <Modal onClose={handleModalClose}>
+                                <OrderInfo />
+                            </Modal>
+                        }
+                    />
+                    <Route
+                        path='/profile/orders/:orderNum'
+                        children={
+                            <Modal onClose={handleModalClose}>
+                                <OrderInfo />
+                            </Modal>
+                        }
+                    />
+                </Switch>
+                
             )}
 
         </Layout>

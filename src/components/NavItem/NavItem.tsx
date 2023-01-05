@@ -16,7 +16,7 @@ const NavItem: React.FC<INavItem> = ({ isActive, title, icon }) => {
             break;
 
         case 'Лента заказов':
-            link = '/'
+            link = '/feed'
             break;
 
         case 'Личный кабинет':

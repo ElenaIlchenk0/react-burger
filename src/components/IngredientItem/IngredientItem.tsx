@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import ingredientItemStyles from './IngredientItem.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag } from "react-dnd";
-// import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { TModalState, TIngredientData } from '../../types/types';
 import { useSelector } from '../../types/types';

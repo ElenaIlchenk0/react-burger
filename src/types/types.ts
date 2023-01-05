@@ -41,6 +41,7 @@ export type TUser = {
     name: string,
     email: string,
     pass: string,
+    token?: string,
 } 
 
 export type TLogRegResponse = {

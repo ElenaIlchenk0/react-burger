@@ -1,0 +1,51 @@
+.sectionWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    width: 600px;
+}
+
+.ordersWrapper {
+    width: 600px;
+}
+
+title {
+    margin: 0;
+    font-size: 36px;
+    line-height: 40px;
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+}
+
+.ordersNumbersWrapper {
+    display: flex;
+    gap: 20px;
+}
+
+.lastOrders {
+    display: flex;
+    gap: 36px;
+}
+
+.done,
+.progress {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.ordersDone,
+.ordersInProgress {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-flow: column;
+    grid-column-gap: 20px;
+    height: 135px;
+}
+
+.ordersDone {
+    color: #00CCCC;
+}
