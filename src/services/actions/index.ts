@@ -7,9 +7,12 @@ import {
     TIngredientsRes,
     TIngredientData,
     TOrderRes,
+    TOrder
+} from '../../types/types';
+import {
     AppThunk,
     AppDispatch
-} from '../../types/types';
+} from '../../types/reduxTypes'
 
 
 export const GET_INGREDIENTS_SUCCESS: 'GET_INGREDIENTS_SUCCESS' = 'GET_INGREDIENTS_SUCCESS';
@@ -146,7 +149,7 @@ export const getAllIngredients = (): AppThunk => (dispatch: AppDispatch) => {
 
 export const getOrder = (ingArray: Array<string>): AppThunk => 
     (dispatch: AppDispatch) => {
-        request<TOrderRes<TIngredientData>>(`${BURGER_API_URL}/orders`, {
+        request<TOrderRes<TOrder>>(`${BURGER_API_URL}/orders`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',

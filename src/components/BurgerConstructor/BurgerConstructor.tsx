@@ -9,7 +9,7 @@ import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import MainIngredient from '../MainIngredient/MainIngredient';
 
-import { useSelector, useDispatch } from '../../types/types';
+import { useSelector, useDispatch } from '../../types/reduxTypes';
 import { getOrder, addIngredient, delIngredients, setErrFalse } from '../../services/actions/index';
 import { useDrop } from 'react-dnd';
 import { useHistory } from 'react-router-dom';

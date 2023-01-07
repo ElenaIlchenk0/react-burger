@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import formStyles from '../form.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from '../../types/types';
+import { useDispatch, useSelector } from '../../types/reduxTypes';
 import { resetPass } from '../../services/actions/userInfo';
 import { Redirect } from 'react-router-dom';
 import { useForm } from '../../utils/useForm';

@@ -3,7 +3,7 @@ import mainIngredientsStyles from './MainIngredient.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrop, useDrag } from 'react-dnd';
-import { useDispatch } from '../../types/types';
+import { useDispatch } from '../../types/reduxTypes';
 import { moveIngredients } from '../../services/actions/index';
 import { TIngredientData } from '../../types/types'
 import { Identifier } from 'dnd-core';

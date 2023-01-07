@@ -1,14 +1,5 @@
 import H from "history";
 
-import { TActions } from '../services/actions/index';
-import { TUserActions } from '../services/actions/userInfo';
-import { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import {
-    TypedUseSelectorHook,
-    useDispatch as dispatchHook,
-    useSelector as selectorHook
-} from 'react-redux';
-import { rootReducer } from "../services/reducers";
 
 export type TModalState = {
     background: H.Location;
@@ -35,14 +26,34 @@ export type TIngredientData = {
     __v: number
 }
 
-export type TError = { message: string }
-
+//api response types
 export type TUser = {
     name: string,
     email: string,
     pass: string,
     token?: string,
 } 
+
+export type TOrder = {
+    ingredients: TIngredientData[],
+    name: string,
+    number: number,
+    owner: {
+        createdAt: string,
+        name: string,
+        email: string,
+        updatedAt: string
+    },
+    price: number,
+    status: string,
+    createdAt: string,
+    updatedAt: string,
+    _id: string
+}
+
+export type TOrdersAll = Omit<TOrder, 'ingredients' | 'price'> & { ingredients: string[]}
+
+export type TError = { message: string }
 
 export type TLogRegResponse = {
     success: boolean,
@@ -65,33 +76,22 @@ export type TIngredientsRes<TIngredientData> = {
     data: TIngredientData[],
 }
 
-export type TOrderRes<TIngredientData> = {
+export type TOrderRes<TOrder> = {
     success: boolean,
     name: string,
-    order: {
-        createdAt: string,
-        ingredients: TIngredientData[],
-        name: string,
-        number: number,
-        owner: {
-            createdAt: string,
-            name: string,
-            email: string,
-            updatedAt: string
-        },
-        price: number,
-        status: string,
-        updatedAt: string,
-        _id: string
-    }
+    order: TOrder
 }
 
-export type RootState = ReturnType<typeof rootReducer>; 
+export type TAllOrdersRes<TOrdersAll> = {
+    success: boolean,
+    orders: TOrdersAll[],
+    total: number,
+    totalToday: number
+}
 
-export type TAppActions = TActions | TUserActions
-
-export type AppThunk<TReturn = void> = ThunkAction<TReturn, RootState, never, TAppActions>;
-
-export type AppDispatch = ThunkDispatch<RootState, never, TAppActions>;
-export const useDispatch: () => AppDispatch = dispatchHook<AppDispatch>;
-export const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
+//ws
+export enum WebSocketStatus {
+    CONNECTING = 'CONNECTING...',
+    ONLINE = 'ONLINE',
+    OFFLINE = 'OFFLINE'
+}

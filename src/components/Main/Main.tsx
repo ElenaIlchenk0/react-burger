@@ -15,7 +15,7 @@ import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import ProtectedRoute from '../../pages/ProtectedRoute';
 import IngredientsDetails from '../IngredientDetails/IngredientDetails';
 import Modal from '../Modal/Modal';
-import { useDispatch } from '../../types/types';
+import { useDispatch } from '../../types/reduxTypes';
 import { getAllIngredients } from '../../services/actions/index';
 import { checkUser, getUser } from '../../services/actions/userInfo';
 import { TModalState } from '../../types/types';

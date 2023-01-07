@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from '../types/types';
+import { useSelector } from '../types/reduxTypes';
 import { Route, Redirect, useLocation } from 'react-router-dom';
 import { THistoryFrom } from '../types/types';
 

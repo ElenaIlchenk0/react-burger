@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ingredientDetailsStyles from './IngredientDetails.module.css';
-import { useSelector } from '../../types/types';
+import { useSelector } from '../../types/reduxTypes';
 import { useParams } from 'react-router-dom';
 import { TIngredientData } from '../../types/types'
 

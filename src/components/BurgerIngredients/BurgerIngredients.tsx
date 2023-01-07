@@ -2,7 +2,7 @@ import React, { useState, useRef, useMemo, useEffect } from 'react';
 import burgerIngredientsStyles from './BurgerIngredients.module.css';
 import TabMenu from '../TabMenu/TabMenu';
 import IngredientsCategory from '../IngredientsCategory/IngredientsCategory';
-import { useSelector } from '../../types/types';
+import { useSelector } from '../../types/reduxTypes';
 import { TIngredientData } from '../../types/types';
 
 const BurgerIngredients: React.FC = () => {

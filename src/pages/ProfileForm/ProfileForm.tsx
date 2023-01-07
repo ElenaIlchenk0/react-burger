@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import profileFormStyles from './ProfileForm.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from '../../types/types';
+import { useDispatch, useSelector } from '../../types/reduxTypes';
 import { getUser, patchUser } from '../../services/actions/userInfo';
 import { useForm } from '../../utils/useForm';
 

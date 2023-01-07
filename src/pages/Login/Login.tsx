@@ -3,7 +3,7 @@ import formStyles from '../form.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { loginUser } from '../../services/actions/userInfo';
-import { useDispatch, useSelector } from '../../types/types';
+import { useDispatch, useSelector } from '../../types/reduxTypes';
 import { THistoryFrom } from '../../types/types';
 import { useShowPass } from '../../utils/useShowPass';
 import { useForm } from '../../utils/useForm';

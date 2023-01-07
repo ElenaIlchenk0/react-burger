@@ -4,7 +4,7 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from 'react-router-dom';
 import { TModalState, TIngredientData } from '../../types/types';
-import { useSelector } from '../../types/types';
+import { useSelector } from '../../types/reduxTypes';
 
 interface IProps { 
     burgerData: TIngredientData 

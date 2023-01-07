@@ -6,6 +6,7 @@ import update from 'immutability-helper';
 import { setUserReducer } from './userInfo';
 import { TIngredientData } from '../../types/types';
 import { TActions } from '../actions/index';
+import { wsReducer } from './orders';
 
 type TInitialState = {
     ingredients: TIngredientData[];
@@ -159,5 +160,6 @@ export const rootReducer = combineReducers({
     ingredientsReducer,
     constructorIngReducer,
     orderReducer,
-    setUserReducer
+    setUserReducer,
+    wsReducer
 }) 

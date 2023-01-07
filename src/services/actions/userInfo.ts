@@ -7,9 +7,11 @@ import {
     TLogRegResponse,
     TAuthUser,
     TPlainResponse,
+} from '../../types/types'
+import {
     AppThunk,
     AppDispatch
-} from '../../types/types'
+} from '../../types/reduxTypes'
 
 
 export const SET_USER_DATA_SUCCESS: 'SET_USER_DATA_SUCCESS' = 'SET_USER_DATA_SUCCESS';
