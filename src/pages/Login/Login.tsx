@@ -3,10 +3,10 @@ import formStyles from '../form.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { loginUser } from '../../services/actions/userInfo';
-import { useDispatch, useSelector } from '../../types/reduxTypes';
-import { THistoryFrom } from '../../types/types';
-import { useShowPass } from '../../utils/useShowPass';
-import { useForm } from '../../utils/useForm';
+import { useDispatch, useSelector } from '../../utils/types/reduxTypes';
+import { THistoryFrom } from '../../utils/types/types';
+import { useShowPass } from '../../utils/hooks/useShowPass';
+import { useForm } from '../../utils/hooks/useForm';
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -23,7 +23,7 @@ const Login = () => {
 
     const loginHandler = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
-       
+
         dispatch(loginUser(values));
         if (user) {
             const { from } = location.state || { from: { pathname: "/" } };
@@ -38,7 +38,7 @@ const Login = () => {
                 type='email'
                 placeholder='E-mail'
                 onChange={handleChange}
-                value={ values.email || '' }
+                value={values.email || ''}
                 name='email'
                 error={false}
                 ref={inputEmail}

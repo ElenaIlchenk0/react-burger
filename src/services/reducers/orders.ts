@@ -1,11 +1,11 @@
-import { 
+import {
     WS_ORDERS_CLOSE,
     WS_ORDERS_CONNECTING,
     WS_ORDERS_ERROR,
     WS_ORDERS_MESSAGE,
     WS_ORDERS_OPEN,
 } from '../actions/orders'
-import { WebSocketStatus, TOrdersAll } from '../../types/types';
+import { WebSocketStatus, TOrdersAll } from '../../utils/types/types';
 import { TOrderActions } from '../actions/orders';
 
 export type TInitialOrdersState = {
@@ -42,7 +42,7 @@ export const wsReducer = (state = initialOrdersState, action: TOrderActions): TI
                 ...state,
                 status: WebSocketStatus.OFFLINE,
             };
-        
+
         case WS_ORDERS_ERROR:
             return {
                 ...state,

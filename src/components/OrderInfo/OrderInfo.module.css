@@ -22,7 +22,7 @@ h2 {
 }
 
 .filling {
-    max-height: calc(720px - 374px);
+    max-height: calc(720px - 410px);
     overflow-y: scroll;
     display: flex;
     flex-direction: column;

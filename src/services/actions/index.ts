@@ -8,11 +8,11 @@ import {
     TIngredientData,
     TOrderRes,
     TOrder
-} from '../../types/types';
+} from '../../utils/types/types';
 import {
     AppThunk,
     AppDispatch
-} from '../../types/reduxTypes'
+} from '../../utils/types/reduxTypes'
 
 
 export const GET_INGREDIENTS_SUCCESS: 'GET_INGREDIENTS_SUCCESS' = 'GET_INGREDIENTS_SUCCESS';
@@ -52,7 +52,7 @@ export interface IMoveIngredientsAction {
 export interface IDelIngredientsAction {
     readonly type: typeof DEL_INGREDIENT;
     readonly ingType: string;
-    readonly content: TIngredientData & {key?: string};
+    readonly content: TIngredientData & { key?: string };
 }
 
 export interface IDelAllIngredientsAction {
@@ -89,7 +89,7 @@ export type TActions =
 // Генераторы
 const getIngredientsSuccess = (ingredients: TIngredientData[]): IGetIngredientsSuccessAction => ({
     type: GET_INGREDIENTS_SUCCESS,
-    ingredients 
+    ingredients
 });
 
 const getIngredientsFailed = (): IGetIngredientsFailedAction => ({
@@ -147,7 +147,7 @@ export const getAllIngredients = (): AppThunk => (dispatch: AppDispatch) => {
         })
 }
 
-export const getOrder = (ingArray: Array<string>): AppThunk => 
+export const getOrder = (ingArray: Array<string>): AppThunk =>
     (dispatch: AppDispatch) => {
         request<TOrderRes<TOrder>>(`${BURGER_API_URL}/orders`, {
             method: 'POST',
@@ -161,7 +161,7 @@ export const getOrder = (ingArray: Array<string>): AppThunk =>
         }).then(res => {
             if (res.success) {
                 dispatch(getOrderData(res.order.name, res.order.number))
-            } 
+            }
         }).then((data) => {
             dispatch(delAllIngredients())
         }).catch((err: TError) => {
@@ -181,7 +181,7 @@ export const getOrder = (ingArray: Array<string>): AppThunk =>
                 dispatch(getOrderDataFailed(err.message))
             }
         })
-}
+    }
 
 export const addIngredient = (content: TIngredientData, ingType: string): AppThunk => (dispatch: AppDispatch) => {
     const newContent = { ...content, key: uuidv4() }

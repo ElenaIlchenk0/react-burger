@@ -15,10 +15,10 @@ import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import ProtectedRoute from '../../pages/ProtectedRoute';
 import IngredientsDetails from '../IngredientDetails/IngredientDetails';
 import Modal from '../Modal/Modal';
-import { useDispatch } from '../../types/reduxTypes';
+import { useDispatch } from '../../utils/types/reduxTypes';
 import { getAllIngredients } from '../../services/actions/index';
 import { checkUser, getUser } from '../../services/actions/userInfo';
-import { TModalState } from '../../types/types';
+import { TModalState } from '../../utils/types/types';
 
 const Main = () => {
     const location = useLocation<TModalState>();
@@ -108,7 +108,7 @@ const Main = () => {
                         }
                     />
                 </Switch>
-                
+
             )}
 
         </Layout>

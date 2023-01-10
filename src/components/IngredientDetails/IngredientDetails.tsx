@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import ingredientDetailsStyles from './IngredientDetails.module.css';
-import { useSelector } from '../../types/reduxTypes';
+import { useSelector } from '../../utils/types/reduxTypes';
 import { useParams } from 'react-router-dom';
-import { TIngredientData } from '../../types/types'
+import { TIngredientData } from '../../utils/types/types'
 
 const IngredientDetails = () => {
     const { ingredients, isError } = useSelector(store => store.ingredientsReducer);
@@ -14,9 +14,9 @@ const IngredientDetails = () => {
         if (!isError && ingredients.length > 0) {
             const ingredientInfo = ingredients.find((ing) => ing._id === ingredientId);
             setIngredient(ingredientInfo)
-        }    
+        }
     }, [ingredients])
- 
+
     return (
         <div className={ingredientDetailsStyles.container}>
             <h1 className={ingredientDetailsStyles.header}>Детали ингредиента</h1>
@@ -49,7 +49,7 @@ const IngredientDetails = () => {
                         </div>
                     </>
                 )
-            }   
+            }
         </div>
     )
 }

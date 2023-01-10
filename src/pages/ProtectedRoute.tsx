@@ -1,7 +1,7 @@
 import React from 'react';
-import { useSelector } from '../types/reduxTypes';
+import { useSelector } from '../utils/types/reduxTypes';
 import { Route, Redirect, useLocation } from 'react-router-dom';
-import { THistoryFrom } from '../types/types';
+import { THistoryFrom } from '../utils/types/types';
 
 const ProtectedRoute = ({ onlyUnAuth = false, ...rest }) => {
     const { authChecked, user } = useSelector(store => store.setUserReducer);

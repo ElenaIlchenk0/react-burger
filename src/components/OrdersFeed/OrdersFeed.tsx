@@ -1,18 +1,19 @@
 import React from 'react';
 import ordersStyles from './OrdersFeed.module.css';
 import OrderItem from '../OrderItem/OrderItem'
+import { TOrdersAll } from '../../utils/types/types';
 
-const OrdersFeed = () => {
+interface IOrdersFeed {
+    orders: TOrdersAll[]
+}
+
+const OrdersFeed: React.FC<IOrdersFeed> = ({ orders }) => {
 
     return (
         <div className={ordersStyles.orders}>
-            <OrderItem />
-            <OrderItem />
-            <OrderItem />
-            <OrderItem />
-            <OrderItem />
-            <OrderItem />
-            <OrderItem />
+            {
+                orders.map((order, i) => <OrderItem key={i} order={order} />)
+            }
         </div>
     )
 }

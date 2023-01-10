@@ -1,37 +1,34 @@
 import { TOrderActions } from '../actions/orders';
 import {
-    connect, 
-    disconnect, 
-    wsConnecting, 
-    wsOpen, 
-    wsClose, 
-    wsMessage, 
+    connect,
+    disconnect,
+    wsConnecting,
+    wsOpen,
+    wsClose,
+    wsMessage,
     wsError
 } from '../actions/orders'
 import { Middleware } from 'redux';
-import { RootState } from '../../types/reduxTypes';
-import { ActionCreatorWithoutPayload, ActionCreatorWithPayload } from '@reduxjs/toolkit';
-
-// export type TwsActions = {
-//     wsConnect: string;
-//     wsDisconnect: string;
-//     wsSendMessage?: string;
-//     wsConnecting: string;
-//     onOpen: string;
-//     onClose: string;
-//     onError: string;
-//     onMessage: string;
-// };
+import { RootState } from '../../utils/types/reduxTypes';
+// import {
+//     connect as AllOrdersWsConnect,
+//     disconnect as AllOrdersWsDisconnect,
+//     wsConnecting as AllOrdersWsConnecting,
+//     wsOpen as AllOrdersWsOpen,
+//     wsClose as AllOrdersWsClose,
+//     wsMessage as AllOrdersWsMessage,
+//     wsError as AllOrdersWsError
+// } from "../actions/orders";
 
 export type TwsActions = {
-    wsConnect: ActionCreatorWithPayload<string>,
-    wsDisconnect: ActionCreatorWithoutPayload,
-    wsSendMessage?: ActionCreatorWithPayload<any>,
-    wsConnecting: ActionCreatorWithoutPayload,
-    onOpen: ActionCreatorWithoutPayload,
-    onClose: ActionCreatorWithoutPayload,
-    onError: ActionCreatorWithPayload<string>,
-    onMessage: ActionCreatorWithPayload<any>,
+    wsConnect: typeof connect,
+    wsDisconnect: typeof disconnect,
+    wsConnecting: typeof wsConnecting,
+    onOpen: typeof wsOpen,
+    onClose: typeof wsClose,
+    onError: typeof wsError,
+    onMessage: typeof wsMessage,
+    wsSendMessage?: any
 }
 
 export const socketMiddleware = (wsActions: TwsActions): Middleware<{}, RootState> => {
@@ -42,7 +39,12 @@ export const socketMiddleware = (wsActions: TwsActions): Middleware<{}, RootStat
             const { dispatch } = store;
             const { wsConnect, wsSendMessage, onOpen, onClose, onError, onMessage, wsConnecting, wsDisconnect } = wsActions;
 
-            if (wsConnect.match(action)) {
+            const { type: connectType } = wsConnect('')
+            const { type: disconnectType } = wsDisconnect()
+
+
+
+            if (action.type === connectType) {
                 socket = new WebSocket(action.payload);
                 dispatch(wsConnecting())
             }
@@ -70,10 +72,9 @@ export const socketMiddleware = (wsActions: TwsActions): Middleware<{}, RootStat
                     socket.send(JSON.stringify(action.payload));
                 }
 
-                if (wsDisconnect.match(action)) {
+                if (action.type === disconnectType) {
                     socket.close();
                     socket = null;
-                    dispatch(wsDisconnect());
                 }
             }
 

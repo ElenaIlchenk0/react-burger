@@ -3,6 +3,7 @@ import H from "history";
 
 export type TModalState = {
     background: H.Location;
+    totalPrice?: number;
 }
 
 export type THistoryFrom = {
@@ -51,7 +52,7 @@ export type TOrder = {
     _id: string
 }
 
-export type TOrdersAll = Omit<TOrder, 'ingredients' | 'price'> & { ingredients: string[]}
+export type TOrdersAll = Omit<TOrder, 'ingredients' | 'price' | 'owner'> & { ingredients: string[]}
 
 export type TError = { message: string }
 

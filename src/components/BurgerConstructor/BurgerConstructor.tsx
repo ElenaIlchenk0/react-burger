@@ -9,11 +9,11 @@ import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import MainIngredient from '../MainIngredient/MainIngredient';
 
-import { useSelector, useDispatch } from '../../types/reduxTypes';
+import { useSelector, useDispatch } from '../../utils/types/reduxTypes';
 import { getOrder, addIngredient, delIngredients, setErrFalse } from '../../services/actions/index';
 import { useDrop } from 'react-dnd';
 import { useHistory } from 'react-router-dom';
-import { TIngredientData, THistoryFrom } from '../../types/types';
+import { TIngredientData, THistoryFrom } from '../../utils/types/types';
 
 type TElement = {
     item: TIngredientData;
@@ -34,11 +34,11 @@ const BurgerConstructor = () => {
         const getTotalPrice = (): number => {
             let total: number;
             let fillingPrice: number;
-            const fillingPriceResult: number = otherIngredients.length > 0 
-                                            ? otherIngredients.reduce((result: number, ingredient: TIngredientData) => result += ingredient.price, 0)
-                                            : 0;
-            
-            if (bun && otherIngredients.length > 0) { 
+            const fillingPriceResult: number = otherIngredients.length > 0
+                ? otherIngredients.reduce((result: number, ingredient: TIngredientData) => result += ingredient.price, 0)
+                : 0;
+
+            if (bun && otherIngredients.length > 0) {
                 fillingPrice = fillingPriceResult;
                 total = fillingPrice + bun.price * 2;
                 return total;
@@ -49,11 +49,11 @@ const BurgerConstructor = () => {
             }
         }
         if (bun || otherIngredients.length > 0) setTotalPrice(getTotalPrice())
-        else { setTotalPrice(0)}
+        else { setTotalPrice(0) }
     }, [bun, otherIngredients])
 
     useEffect(() => {
-        if (isError && isModalOpen) {  
+        if (isError && isModalOpen) {
             history.push({
                 pathname: '/login',
                 state: { from: '/' }
@@ -93,7 +93,7 @@ const BurgerConstructor = () => {
 
     const handleClickButton = (): void => {
         const otherIngIdArray: string[] = otherIngredients.map((ing: TIngredientData) => ing._id);
-        dispatch(getOrder([...otherIngIdArray, bun!._id]));
+        dispatch(getOrder([...otherIngIdArray, bun!._id, bun!._id]));
         handleOpenModal();
     }
 

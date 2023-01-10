@@ -7,11 +7,11 @@ import {
     TLogRegResponse,
     TAuthUser,
     TPlainResponse,
-} from '../../types/types'
+} from '../../utils/types/types'
 import {
     AppThunk,
     AppDispatch
-} from '../../types/reduxTypes'
+} from '../../utils/types/reduxTypes'
 
 
 export const SET_USER_DATA_SUCCESS: 'SET_USER_DATA_SUCCESS' = 'SET_USER_DATA_SUCCESS';
@@ -69,7 +69,7 @@ const setUserDataSuccess = ({ email, pass, name }: TUser): ISetUserDataSuccessAc
 
 const setUserDataFailed = (msg: string): ISetUserDataFailedAction => ({
     type: SET_USER_DATA_FAILED,
-    msg 
+    msg
 });
 
 const delUserDataSuccess = (): IDelUserDataSuccessAction => ({
@@ -106,7 +106,7 @@ export const registerUser = ({ email, pass, name }: TUser): AppThunk => (dispatc
             localStorage.setItem('accessToken', res.accessToken.split('Bearer ')[1]);
             localStorage.setItem('refreshToken', res.refreshToken);
 
-            dispatch(setUserDataSuccess({ email: res.user.email, name: res.user.name, pass}))
+            dispatch(setUserDataSuccess({ email: res.user.email, name: res.user.name, pass }))
         }
     }).catch((err: TError) => {
         dispatch(setUserDataFailed(err.message))

@@ -6,7 +6,7 @@ import {
     RESET_PASS,
     SET_NEW_PASS
 } from '../actions/userInfo';
-import { TUser } from '../../types/types';
+import { TUser } from '../../utils/types/types';
 import { TUserActions } from '../actions/userInfo'
 
 type TInitialUserState = {
@@ -42,7 +42,7 @@ export const setUserReducer = (state = initialUserState, action: TUserActions): 
                 isError: false,
                 errMsg: '',
                 resetSent: false,
-                resetDone: false  
+                resetDone: false
             };
         }
         case SET_USER_DATA_FAILED: {
@@ -75,7 +75,7 @@ export const setUserReducer = (state = initialUserState, action: TUserActions): 
             return {
                 ...state,
                 resetSent: true,
-                resetDone: false  
+                resetDone: false
             }
         }
 
@@ -83,7 +83,7 @@ export const setUserReducer = (state = initialUserState, action: TUserActions): 
             return {
                 ...state,
                 resetSent: false,
-                resetDone: true        
+                resetDone: true
             }
         }
 

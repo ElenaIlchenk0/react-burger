@@ -1,4 +1,4 @@
-import { TAllOrdersRes, TOrdersAll } from '../../types/types'
+import { TAllOrdersRes, TOrdersAll } from '../../utils/types/types'
 
 export const ORDERS_CONNECT = 'ORDERS_CONNECT';
 export const ORDERS_DISCONNECT = 'ORDERS_DISCONNECT';

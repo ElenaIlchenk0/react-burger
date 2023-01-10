@@ -4,7 +4,7 @@ import { ADD_INGREDIENT, MOVE_INGREDIENT, DEL_INGREDIENT, DEL_ALL_INGREDIENTS, S
 import { GET_ORDER_DATA, GET_ORDER_DATA_FAILED } from '../actions/index';
 import update from 'immutability-helper';
 import { setUserReducer } from './userInfo';
-import { TIngredientData } from '../../types/types';
+import { TIngredientData } from '../../utils/types/types';
 import { TActions } from '../actions/index';
 import { wsReducer } from './orders';
 
@@ -51,7 +51,7 @@ const ingredientsReducer = (state = initialState, action: TActions): TInitialSta
                 isError: true,
             };
         }
-        
+
         default: {
             return state
         }

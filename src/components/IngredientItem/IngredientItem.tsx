@@ -3,14 +3,14 @@ import ingredientItemStyles from './IngredientItem.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from 'react-router-dom';
-import { TModalState, TIngredientData } from '../../types/types';
-import { useSelector } from '../../types/reduxTypes';
+import { TModalState, TIngredientData } from '../../utils/types/types';
+import { useSelector } from '../../utils/types/reduxTypes';
 
-interface IProps { 
-    burgerData: TIngredientData 
+interface IProps {
+    burgerData: TIngredientData
 }
 
-const IngredientItem: React.FC<IProps> = ({burgerData}) => {
+const IngredientItem: React.FC<IProps> = ({ burgerData }) => {
     const { bun, otherIngredients } = useSelector(store => store.constructorIngReducer.constructor);
     const [counter, setCounter] = useState(0);
 
@@ -44,7 +44,7 @@ const IngredientItem: React.FC<IProps> = ({burgerData}) => {
                 state: { background: location },
             }}
             className={ingredientItemStyles.link}
-            >
+        >
             <div ref={dragRef}
                 style={{ opacity }}
                 className={`${ingredientItemStyles.ingredientsInner} pt-6 pr-4 pl-4 pb-10`

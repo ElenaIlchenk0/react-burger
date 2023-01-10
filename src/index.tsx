@@ -35,8 +35,8 @@ const AllOrdersWsActions = {
   wsConnecting: AllOrdersWsConnecting,
   onOpen: AllOrdersWsOpen,
   onClose: AllOrdersWsClose,
-  onError: AllOrdersWsMessage,
-  onMessage: AllOrdersWsError,
+  onError: AllOrdersWsError,
+  onMessage: AllOrdersWsMessage,
 };
 
 const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(AllOrdersWsActions)));

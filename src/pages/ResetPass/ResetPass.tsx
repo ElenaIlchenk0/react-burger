@@ -2,11 +2,11 @@ import React, { useRef, useEffect } from 'react';
 import formStyles from '../form.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from '../../types/reduxTypes';
+import { useDispatch, useSelector } from '../../utils/types/reduxTypes';
 import { provideNewPass } from '../../services/actions/userInfo';
-import { THistoryFrom } from '../../types/types';
-import { useShowPass } from '../../utils/useShowPass';
-import { useForm } from '../../utils/useForm';
+import { THistoryFrom } from '../../utils/types/types';
+import { useShowPass } from '../../utils/hooks/useShowPass';
+import { useForm } from '../../utils/hooks/useForm';
 
 const ResetPass = () => {
     const dispatch = useDispatch();

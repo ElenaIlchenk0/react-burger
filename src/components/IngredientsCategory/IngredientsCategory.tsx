@@ -1,7 +1,7 @@
 import React from 'react';
 import ingredientsCategoryStyles from './IngredientsCategory.module.css';
 import IngredientItem from '../IngredientItem/IngredientItem';
-import { TIngredientData } from '../../types/types';
+import { TIngredientData } from '../../utils/types/types';
 
 interface IIngredientsCategory {
     data: Array<TIngredientData>,
@@ -18,7 +18,7 @@ const IngredientsCategory: React.FC<IIngredientsCategory> = ({ data, category, r
                     <IngredientItem
                         burgerData={item}
                         key={item._id}
-                />)
+                    />)
             }
         </div>
     )

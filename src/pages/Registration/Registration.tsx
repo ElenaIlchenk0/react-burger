@@ -3,9 +3,9 @@ import formStyles from '../form.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 import { registerUser } from '../../services/actions/userInfo';
-import { useDispatch, useSelector } from '../../types/reduxTypes';
-import { useShowPass } from '../../utils/useShowPass';
-import { useForm } from '../../utils/useForm'
+import { useDispatch, useSelector } from '../../utils/types/reduxTypes';
+import { useShowPass } from '../../utils/hooks/useShowPass';
+import { useForm } from '../../utils/hooks/useForm'
 
 const Registration = () => {
     const dispatch = useDispatch();
