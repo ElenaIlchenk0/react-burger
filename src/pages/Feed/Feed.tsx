@@ -2,26 +2,12 @@ import React, { useEffect, useState } from 'react';
 import feedStyles from './Feed.module.css';
 import OrdersFeed from '../../components/OrdersFeed/OrdersFeed';
 
-import { useDispatch, useSelector } from '../../utils/types/reduxTypes';
-import { connect, disconnect } from '../../services/actions/orders';
-import { WebSocketStatus } from '../../utils/types/types';
-
-import { ALL_ORDERS_FEED_URL } from '../../utils/constants';
+import { useWebsocket } from '../../utils/hooks/useWebsocket';
 
 const Feed = () => {
-    const dispatch = useDispatch();
-    const { orders, total, totalToday, status } = useSelector(state => state.wsReducer);
-    const isDisconnected = status === WebSocketStatus.OFFLINE;
+    const { orders, total, totalToday } = useWebsocket('allOrders')
 
     const [stateOrders, setStateOrders] = useState<{ doneOrders: number[], progressOrders: number[] }>({ doneOrders: [], progressOrders: [] })
-
-    useEffect(() => () => { dispatch(disconnect()) }, [])
-
-    useEffect(() => {
-        if (isDisconnected) {
-            dispatch(connect(`${ ALL_ORDERS_FEED_URL }/all`))
-        }
-    }, [dispatch, isDisconnected])
 
     useEffect(() => {
 
@@ -43,7 +29,7 @@ const Feed = () => {
             <div className={`${feedStyles.ordersWrapper} pt-10`}>
                 <h1 className={feedStyles.title}>Лента заказов</h1>
                 <div style={{height: 'calc(100vh - 260px)'}}>
-                <OrdersFeed orders={orders} />
+                    <OrdersFeed orders={orders} />
                 </div>
             </div>
             <div className={`${feedStyles.sectionWrapper} pt-25`}>
