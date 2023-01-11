@@ -19,7 +19,7 @@ const Feed = () => {
 
     useEffect(() => {
         if (isDisconnected) {
-            dispatch(connect(ALL_ORDERS_FEED_URL))
+            dispatch(connect(`${ ALL_ORDERS_FEED_URL }/all`))
         }
     }, [dispatch, isDisconnected])
 
@@ -30,7 +30,9 @@ const Feed = () => {
         orders.forEach((order, i) => {
             if (order.status === 'done') {
                 newOrders.doneOrders.push(order.number)
-            } else newOrders.progressOrders.push(order.number)
+            } else if (order.status === 'pending') {
+                newOrders.progressOrders.push(order.number)
+            }
         })
 
         setStateOrders(newOrders)
@@ -40,7 +42,9 @@ const Feed = () => {
         <>
             <div className={`${feedStyles.ordersWrapper} pt-10`}>
                 <h1 className={feedStyles.title}>Лента заказов</h1>
+                <div style={{height: 'calc(100vh - 260px)'}}>
                 <OrdersFeed orders={orders} />
+                </div>
             </div>
             <div className={`${feedStyles.sectionWrapper} pt-25`}>
                 <div className={feedStyles.section}>

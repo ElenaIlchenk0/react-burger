@@ -7,6 +7,7 @@ import { setUserReducer } from './userInfo';
 import { TIngredientData } from '../../utils/types/types';
 import { TActions } from '../actions/index';
 import { wsReducer } from './orders';
+import { wsUserReducer } from './userOrders'
 
 type TInitialState = {
     ingredients: TIngredientData[];
@@ -161,5 +162,6 @@ export const rootReducer = combineReducers({
     constructorIngReducer,
     orderReducer,
     setUserReducer,
-    wsReducer
+    wsReducer,
+    wsUserReducer
 }) 

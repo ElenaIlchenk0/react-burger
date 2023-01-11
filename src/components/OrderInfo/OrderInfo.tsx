@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import orderInfoStyles from './OrderInfo.module.css';
 import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientOrderInfo from '../IngredientOrderInfo/IngredientOrderInfo'
-import { useLocation, useParams, useRouteMatch } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useSelector } from '../../utils/types/reduxTypes';
 import { TIngredientData, TOrdersAll } from '../../utils/types/types';
 import { ingredientsTotalPrice } from '../../utils/ingredientsTotalPrice';
@@ -28,7 +28,7 @@ const OrderInfo = () => {
             }
         }
         orderFetch()
-    }, [])
+    }, [orderNum])
 
     useEffect(() => {
         if (order) {
@@ -38,6 +38,7 @@ const OrderInfo = () => {
             setTotalPrice(ingredientsTotalPrice(order.ingredients, orderIngredients));
         }
     }, [order, ingredients])
+
     return (
          order && (
             <div className={orderInfoStyles.wrapper}>

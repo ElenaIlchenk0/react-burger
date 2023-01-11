@@ -1,13 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import profileStyles from './Profile.module.css';
-import { useDispatch } from '../../utils/types/reduxTypes';
+import { useDispatch, useSelector } from '../../utils/types/reduxTypes';
 import { logoutUser } from '../../services/actions/userInfo';
 import { Switch, Route, NavLink } from 'react-router-dom';
 import ProfileForm from '../ProfileForm/ProfileForm';
 import OrdersFeed from '../../components/OrdersFeed/OrdersFeed';
+import { WebSocketStatus } from '../../utils/types/types';
+import { connect, disconnect } from '../../services/actions/userOrders';
+import { ALL_ORDERS_FEED_URL } from '../../utils/constants';
 
 const Profile = () => {
     const dispatch = useDispatch();
+    const { orders, status } = useSelector(state => state.wsUserReducer);
+    const isDisconnected = status === WebSocketStatus.OFFLINE;
+
+    useEffect(() => () => { dispatch(disconnect()) }, [])
+
+    useEffect(() => {
+        if (isDisconnected) {
+            const token = localStorage.getItem('accessToken');
+            dispatch(connect(`${ALL_ORDERS_FEED_URL}?token=${token}`))
+        }
+    }, [dispatch, isDisconnected])
+
+
 
     const logoutHandler = () => {
         dispatch(logoutUser())
@@ -51,7 +67,7 @@ const Profile = () => {
                     <ProfileForm />
                 </Route>
                 <Route path='/profile/orders' exact>
-                    {/* <OrdersFeed /> */}
+                    <OrdersFeed orders={orders}/>
                 </Route>
             </Switch>
         </div>

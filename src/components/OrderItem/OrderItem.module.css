@@ -27,12 +27,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 2px solid #801AB2;
     border-radius: 50%;
     width: 64px;
     height: 64px;
     margin-left: -20px;
-    background-color: #1C1C21;
+    background: linear-gradient(#131316, #131316) padding-box,
+            linear-gradient(to right, #801ab2, #4c4cff) border-box;
+    border: 2px solid transparent;
     padding: 2px;
     position: relative;
 }

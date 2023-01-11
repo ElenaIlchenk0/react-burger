@@ -11,14 +11,23 @@ import thunk from 'redux-thunk';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { socketMiddleware } from './services/middleware/socket-middleware'
 import {
-  connect as AllOrdersWsConnect,
-  disconnect as  AllOrdersWsDisconnect,
-  wsConnecting as  AllOrdersWsConnecting,
-  wsOpen as  AllOrdersWsOpen,
-  wsClose as  AllOrdersWsClose,
-  wsMessage as  AllOrdersWsMessage,
-  wsError as  AllOrdersWsError
+  connect as connectAllOrders,
+  disconnect as disconnectAllOrders,
+  wsConnecting as connectingAllOrders,
+  wsOpen as openAllOrders,
+  wsClose as closeAllOrders,
+  wsMessage as messageAllOrders,
+  wsError as errorAllOrders
 } from "./services/actions/orders";
+import {
+  connect as connectUserOrders,
+  disconnect as disconnectUserOrders,
+  wsConnecting as connectingUserOrders,
+  wsOpen as openUserOrders,
+  wsClose as closeUserOrders,
+  wsMessage as messageUserOrders,
+  wsError as errorUserOrders
+} from "./services/actions/userOrders";
 
 declare global {
   interface Window { __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any; }
@@ -30,16 +39,26 @@ const composeEnhancers =
     : compose;
 
 const AllOrdersWsActions = {
-  wsConnect: AllOrdersWsConnect,
-  wsDisconnect: AllOrdersWsDisconnect,
-  wsConnecting: AllOrdersWsConnecting,
-  onOpen: AllOrdersWsOpen,
-  onClose: AllOrdersWsClose,
-  onError: AllOrdersWsError,
-  onMessage: AllOrdersWsMessage,
+  wsConnect: connectAllOrders,
+  wsDisconnect: disconnectAllOrders,
+  wsConnecting: connectingAllOrders,
+  onOpen: openAllOrders,
+  onClose: closeAllOrders,
+  onError: errorAllOrders,
+  onMessage: messageAllOrders,
 };
 
-const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(AllOrdersWsActions)));
+const UserOrdersWsActions = {
+  wsConnect: connectUserOrders,
+  wsDisconnect: disconnectUserOrders,
+  wsConnecting: connectingUserOrders,
+  onOpen: openUserOrders,
+  onClose: closeUserOrders,
+  onError: errorUserOrders,
+  onMessage: messageUserOrders,
+};
+
+const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(AllOrdersWsActions), socketMiddleware(UserOrdersWsActions)));
 
 export const store = createStore(rootReducer, enhancer);
 
