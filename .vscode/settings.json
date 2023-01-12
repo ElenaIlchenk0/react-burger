@@ -6,5 +6,8 @@
     "terminal.integrated.fontSize": 14,
     "markdown.preview.fontSize": 16,
     "debug.console.fontSize": 16,
-    "screencastMode.fontSize": 20
+    "screencastMode.fontSize": 20,
+    "cSpell.words": [
+        "nomoreparties"
+    ]
 }

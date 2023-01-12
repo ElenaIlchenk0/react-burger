@@ -2,11 +2,10 @@ import React, { useState, useRef, useMemo, useEffect } from 'react';
 import burgerIngredientsStyles from './BurgerIngredients.module.css';
 import TabMenu from '../TabMenu/TabMenu';
 import IngredientsCategory from '../IngredientsCategory/IngredientsCategory';
-import { useSelector } from 'react-redux';
-import { TIngredientData } from '../../types/types';
+import { useSelector } from '../../utils/types/reduxTypes';
+import { TIngredientData } from '../../utils/types/types';
 
 const BurgerIngredients: React.FC = () => {
-    // @ts-ignore
     const { ingredients, isError } = useSelector(store => store.ingredientsReducer);
 
     const [startScroll, setStartScroll] = useState<number>()
@@ -29,7 +28,7 @@ const BurgerIngredients: React.FC = () => {
     const sauces: Array<TIngredientData> = useMemo(() => ingredients.filter((data: TIngredientData) => data.type === 'sauce'), [ingredients]);
     const main: Array<TIngredientData> = useMemo(() => ingredients.filter((data: TIngredientData) => data.type === 'main'), [ingredients]);
 
-    const dataCategories: Array<{ data: Array<TIngredientData>, refItem: React.RefObject<HTMLHeadingElement>, name: string }> = 
+    const dataCategories: Array<{ data: Array<TIngredientData>, refItem: React.RefObject<HTMLHeadingElement>, name: string }> =
         [
             {
                 data: buns,
@@ -75,7 +74,7 @@ const BurgerIngredients: React.FC = () => {
     return (
         <div className={`${burgerIngredientsStyles.wrapper} pt-10`}>
             <h1>Соберите бургер</h1>
-            <TabMenu tabRef={tabRef} onClickTab={handleClickTab} currentIndexTab={currentIndexTab}/>
+            <TabMenu tabRef={tabRef} onClickTab={handleClickTab} currentIndexTab={currentIndexTab} />
             {
                 !isError && ingredients.length > 0 && (
                     <div onScroll={handleScroll} className={burgerIngredientsStyles.ingredientsContainer}>

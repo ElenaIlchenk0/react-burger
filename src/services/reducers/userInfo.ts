@@ -5,9 +5,20 @@ import {
     CHECK_USER,
     RESET_PASS,
     SET_NEW_PASS
-} from '../actions/userInfo'
+} from '../actions/userInfo';
+import { TUser } from '../../utils/types/types';
+import { TUserActions } from '../actions/userInfo'
 
-export const initialUserState = {
+type TInitialUserState = {
+    authChecked: boolean;
+    user: TUser | null;
+    isError: boolean;
+    errMsg: string;
+    resetSent: boolean;
+    resetDone: boolean;
+}
+
+export const initialUserState: TInitialUserState = {
     authChecked: false,
     user: null,
     isError: false,
@@ -16,7 +27,7 @@ export const initialUserState = {
     resetDone: false
 }
 
-export const setUserReducer = (state = initialUserState, action) => {
+export const setUserReducer = (state = initialUserState, action: TUserActions): TInitialUserState => {
     switch (action.type) {
         case SET_USER_DATA_SUCCESS: {
             const pass = action.pass || state.user?.pass || '';
@@ -31,16 +42,15 @@ export const setUserReducer = (state = initialUserState, action) => {
                 isError: false,
                 errMsg: '',
                 resetSent: false,
-                resetDone: false  
+                resetDone: false
             };
         }
         case SET_USER_DATA_FAILED: {
-            console.log('reducer failed')
             return {
                 ...state,
                 user: null,
                 isError: true,
-                errMsg: action.msg
+                errMsg: action.msg || ''
             };
         }
 
@@ -65,7 +75,7 @@ export const setUserReducer = (state = initialUserState, action) => {
             return {
                 ...state,
                 resetSent: true,
-                resetDone: false  
+                resetDone: false
             }
         }
 
@@ -73,7 +83,7 @@ export const setUserReducer = (state = initialUserState, action) => {
             return {
                 ...state,
                 resetSent: false,
-                resetDone: true        
+                resetDone: true
             }
         }
 

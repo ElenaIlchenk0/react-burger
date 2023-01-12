@@ -7,18 +7,20 @@ import Registration from '../../pages/Registration/Registration';
 import ForgotPass from '../../pages/ForgotPass/ForgotPass';
 import ResetPass from '../../pages/ResetPass/ResetPass';
 import Profile from '../../pages/Profile/Profile';
+import Feed from '../../pages/Feed/Feed';
+import OrderInfo from '../OrderInfo/OrderInfo';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import ProtectedRoute from '../../pages/ProtectedRoute';
 import IngredientsDetails from '../IngredientDetails/IngredientDetails';
 import Modal from '../Modal/Modal';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../utils/types/reduxTypes';
 import { getAllIngredients } from '../../services/actions/index';
-import { CHECK_USER, getUser } from '../../services/actions/userInfo';
-import { TModalState } from '../../types/types';
+import { checkUser, getUser } from '../../services/actions/userInfo';
+import { TModalState } from '../../utils/types/types';
 
-const Main: React.FC = () => {
+const Main = () => {
     const location = useLocation<TModalState>();
     const background = location.state && location.state.background;
     const history = useHistory();
@@ -26,16 +28,14 @@ const Main: React.FC = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        // @ts-ignore
         dispatch(getAllIngredients())
     }, [dispatch])
 
     useEffect(() => {
         if (localStorage.getItem('accessToken')) {
-        // @ts-ignore
-            dispatch(getUser()).finally(() => dispatch({ type: CHECK_USER }))
+            dispatch(getUser()).finally(() => dispatch(checkUser()))
         } else {
-            dispatch({ type: CHECK_USER })
+            dispatch(checkUser())
         }
     }, [])
 
@@ -58,9 +58,18 @@ const Main: React.FC = () => {
                 <ProtectedRoute onlyUnAuth={true} path="/reset-password" exact={true}>
                     <ResetPass />
                 </ProtectedRoute>
+                <ProtectedRoute path='/profile/orders/:orderNum' exact>
+                    <OrderInfo />
+                </ProtectedRoute>
                 <ProtectedRoute path="/profile">
                     <Profile />
                 </ProtectedRoute>
+                <Route path='/feed/:orderNum' exact>
+                    <OrderInfo />
+                </Route>
+                <Route path="/feed">
+                    <Feed />
+                </Route>
                 <Route path="/" exact={true}>
                     <DndProvider backend={HTML5Backend}>
                         <BurgerIngredients />
@@ -73,14 +82,33 @@ const Main: React.FC = () => {
             </Switch>
 
             {background && (
-                <Route
-                    path='/ingredients/:ingredientId'
-                    children={
-                        <Modal onClose={handleModalClose}>
-                            <IngredientsDetails />
-                        </Modal>
-                    }
-                />
+                <Switch>
+                    <Route
+                        path='/ingredients/:ingredientId'
+                        children={
+                            <Modal onClose={handleModalClose}>
+                                <IngredientsDetails />
+                            </Modal>
+                        }
+                    />
+                    <Route
+                        path='/feed/:orderNum'
+                        children={
+                            <Modal onClose={handleModalClose}>
+                                <OrderInfo />
+                            </Modal>
+                        }
+                    />
+                    <Route
+                        path='/profile/orders/:orderNum'
+                        children={
+                            <Modal onClose={handleModalClose}>
+                                <OrderInfo />
+                            </Modal>
+                        }
+                    />
+                </Switch>
+
             )}
 
         </Layout>

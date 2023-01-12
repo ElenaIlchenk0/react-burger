@@ -21,7 +21,7 @@ const AppHeader = () => {
                         title='Конструктор' 
                     />
                     <NavItem 
-                        isActive={false}
+                        isActive={location.pathname === '/feed'} 
                         icon={<ListIcon type="primary" />} 
                         title='Лента заказов' 
                     />

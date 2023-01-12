@@ -2,14 +2,13 @@ import React, { useRef } from 'react';
 import formStyles from '../form.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../utils/types/reduxTypes';
 import { resetPass } from '../../services/actions/userInfo';
 import { Redirect } from 'react-router-dom';
-import { useForm } from '../../utils/useForm';
+import { useForm } from '../../utils/hooks/useForm';
 
 const ForgotPass = () => {
     const dispatch = useDispatch();
-    // @ts-ignore
     const { resetSent } = useSelector(store => store.setUserReducer)
 
     const { values, handleChange } = useForm();
@@ -17,7 +16,6 @@ const ForgotPass = () => {
 
     const buttonHandler = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
-        // @ts-ignore
         dispatch(resetPass(values))
     }
 

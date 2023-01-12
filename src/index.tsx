@@ -9,7 +9,25 @@ import { compose, createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { BrowserRouter as Router } from 'react-router-dom';
-
+import { socketMiddleware } from './services/middleware/socket-middleware'
+import {
+  connect as connectAllOrders,
+  disconnect as disconnectAllOrders,
+  wsConnecting as connectingAllOrders,
+  wsOpen as openAllOrders,
+  wsClose as closeAllOrders,
+  wsMessage as messageAllOrders,
+  wsError as errorAllOrders
+} from "./services/actions/orders";
+import {
+  connect as connectUserOrders,
+  disconnect as disconnectUserOrders,
+  wsConnecting as connectingUserOrders,
+  wsOpen as openUserOrders,
+  wsClose as closeUserOrders,
+  wsMessage as messageUserOrders,
+  wsError as errorUserOrders
+} from "./services/actions/userOrders";
 
 declare global {
   interface Window { __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any; }
@@ -20,10 +38,29 @@ const composeEnhancers =
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
     : compose;
 
+const AllOrdersWsActions = {
+  wsConnect: connectAllOrders,
+  wsDisconnect: disconnectAllOrders,
+  wsConnecting: connectingAllOrders,
+  onOpen: openAllOrders,
+  onClose: closeAllOrders,
+  onError: errorAllOrders,
+  onMessage: messageAllOrders,
+};
 
-const enhancer = composeEnhancers(applyMiddleware(thunk));
+const UserOrdersWsActions = {
+  wsConnect: connectUserOrders,
+  wsDisconnect: disconnectUserOrders,
+  wsConnecting: connectingUserOrders,
+  onOpen: openUserOrders,
+  onClose: closeUserOrders,
+  onError: errorUserOrders,
+  onMessage: messageUserOrders,
+};
 
-const store = createStore(rootReducer, enhancer);
+const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(AllOrdersWsActions), socketMiddleware(UserOrdersWsActions)));
+
+export const store = createStore(rootReducer, enhancer);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

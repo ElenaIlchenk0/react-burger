@@ -1,4 +1,4 @@
-import { TError } from '../types/types'
+import { TError } from './types/types'
 
 export const request = <T>(url: string, options?: RequestInit): Promise<T> => {
     return fetch(url, options)

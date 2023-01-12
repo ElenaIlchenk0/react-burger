@@ -1,0 +1,20 @@
+.ingredientInfo {
+    display: flex;
+    justify-content: space-between;
+}
+
+.ingredientInfo :first-child {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.ingredientInfo :last-child {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.ingImage {
+    composes: ingImage from '../OrderItem/OrderItem.module.css'
+}

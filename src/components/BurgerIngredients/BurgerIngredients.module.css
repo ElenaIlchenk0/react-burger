@@ -5,6 +5,7 @@
 h1 {
     margin: 0;
     font-size: 36px;
+    line-height: 40px;
 }
 
 .ingredientsContainer {
@@ -23,18 +24,6 @@ h1 {
 .ingredientsContainer::-webkit-scrollbar-thumb {
     background-color: #8585AD;
     min-height: 200px;
-
-}
-
-/* .ingredients {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 24px;
-} */
-
-h1 {
-    line-height: 40px;
 }
 
 h2 {

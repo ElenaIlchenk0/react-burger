@@ -1,0 +1,55 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    max-width: 640px;
+}
+
+.status {
+    font-size: 16px;
+    line-height: 24px;
+    color: #00CCCC;
+}
+
+h1 {
+    height: 64px;
+    display: flex;
+    align-items: center;
+}
+
+h2 {
+    font-size: 24px;
+    line-height: 30px;
+}
+
+.filling {
+    max-height: calc(720px - 410px);
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding-right: 10px;
+}
+
+.filling::-webkit-scrollbar {
+    width: 8px;
+}
+
+.filling::-webkit-scrollbar-track {
+    background: #2F2F37;
+}
+
+.filling::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+    min-height: 100px;
+}
+
+.info {
+    composes: headerInfo from '../OrderItem/OrderItem.module.css';
+    margin-top: 40px;
+}
+
+.burgerPrice {
+    composes: burgerPrice from '../OrderItem/OrderItem.module.css'
+}
+

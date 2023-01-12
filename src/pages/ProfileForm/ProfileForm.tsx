@@ -1,17 +1,15 @@
 import React, { useRef, useState, useEffect } from 'react';
 import profileFormStyles from './ProfileForm.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../utils/types/reduxTypes';
 import { getUser, patchUser } from '../../services/actions/userInfo';
-import { useForm } from '../../utils/useForm';
+import { useForm } from '../../utils/hooks/useForm';
 
 const ProfileForm = () => {
     const dispatch = useDispatch();
-    // @ts-ignore
     const { user } = useSelector(store => store.setUserReducer);
 
     useEffect(() => {
-        // @ts-ignore
         dispatch(getUser());
     }, [])
 
@@ -20,7 +18,7 @@ const ProfileForm = () => {
     const [isInputChanged, setInputChanged] = useState(false)
 
     useEffect(() => {
-        setValues({ name: user.name, email: user.email, pass: user.pass });
+        if (user) setValues({ name: user.name, email: user.email, pass: user.pass });
     }, [])
 
     const nameRef = useRef<HTMLInputElement>(null);
@@ -44,23 +42,22 @@ const ProfileForm = () => {
         setInputChanged(true);
     }
 
-    const onBlurHandler = (e: React.FocusEvent<HTMLInputElement> | undefined) => {
-        if (e!.target.value === '') {
-            setValues({ ...values, [e!.target.name]: user[e!.target.name] })
+    const onBlurHandler = (e: React.FocusEvent<HTMLInputElement> | undefined, value: 'name' | 'email' | 'pass') => {
+        if (e!.target.value === '' && user) {
+            setValues({ ...values, [value]: user[value] })
             setInputChanged(false)
         }
     }
 
     const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
-        // @ts-ignore
         dispatch(patchUser(values));
         setInputChanged(false);
     }
 
     const onDeclineChanges = (e: React.MouseEvent<HTMLElement>): void => {
         e.preventDefault();
-        setValues({ name: user.name, email: user.email, pass: user.pass });
+        if (user) setValues({ name: user.name, email: user.email, pass: user.pass });
         setInputChanged(false);
     }
 
@@ -70,7 +67,7 @@ const ProfileForm = () => {
                 type='text'
                 placeholder='Имя'
                 onChange={handleChangeInput}
-                onBlur={e => onBlurHandler(e)}
+                onBlur={(e) => onBlurHandler(e, 'name')}
                 icon={'EditIcon'}
                 value={values.name || ''}
                 name='name'
@@ -85,7 +82,7 @@ const ProfileForm = () => {
                 type='email'
                 placeholder='Логин'
                 onChange={handleChangeInput}
-                onBlur={e => onBlurHandler(e)}
+                onBlur={(e) => onBlurHandler(e, 'email')}
                 icon='EditIcon'
                 value={values.email || ''}
                 name='email'
@@ -99,7 +96,7 @@ const ProfileForm = () => {
                 type='password'
                 placeholder='Пароль'
                 onChange={handleChangeInput}
-                onBlur={e => onBlurHandler(e)}
+                onBlur={(e) => onBlurHandler(e, 'pass')}
                 value={values.pass || ''}
                 name='pass'
                 error={false}

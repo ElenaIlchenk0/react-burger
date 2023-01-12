@@ -3,9 +3,9 @@ import mainIngredientsStyles from './MainIngredient.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrop, useDrag } from 'react-dnd';
-import { useDispatch } from 'react-redux';
-import { MOVE_INGREDIENT } from '../../services/actions/index';
-import { TIngredientData } from '../../types/types'
+import { useDispatch } from '../../utils/types/reduxTypes';
+import { moveIngredients } from '../../services/actions/index';
+import { TIngredientData } from '../../utils/types/types'
 import { Identifier } from 'dnd-core';
 
 interface IMainIngredients {
@@ -28,11 +28,7 @@ const MainIngredients: React.FC<IMainIngredients> = ({ ingredient, index, onDele
     const dispatch = useDispatch();
 
     const moveIngredient = (dragIndex: number, hoverIndex: number) => {
-        dispatch({ 
-            type: MOVE_INGREDIENT, 
-            dragIndex,
-            hoverIndex
-        })
+        dispatch(moveIngredients(dragIndex, hoverIndex))
     }
 
     const [{ handlerId }, drop] = useDrop<DragObject, undefined, CollectedProps>({
@@ -81,10 +77,10 @@ const MainIngredients: React.FC<IMainIngredients> = ({ ingredient, index, onDele
     drag(drop(ref))
 
     return (
-        <div ref={ref} 
-            style={{ opacity }} 
+        <div ref={ref}
+            style={{ opacity }}
             data-handler-id={handlerId}
-            className={mainIngredientsStyles.menuItem} 
+            className={mainIngredientsStyles.menuItem}
             key={index}>
             <DragIcon type="primary" />
             <ConstructorElement
@@ -93,7 +89,7 @@ const MainIngredients: React.FC<IMainIngredients> = ({ ingredient, index, onDele
                 thumbnail={ingredient.image_mobile}
                 handleClose={() => onDelete(ingredient)}
             />
-        </div>       
+        </div>
     )
 }
 

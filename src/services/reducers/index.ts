@@ -1,16 +1,32 @@
 import { combineReducers } from 'redux';
 import { GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILED } from '../actions/index';
-import { SET_SELECTED_ING, DEL_SELECTED_ING } from '../actions/index';
 import { ADD_INGREDIENT, MOVE_INGREDIENT, DEL_INGREDIENT, DEL_ALL_INGREDIENTS, SET_ERR_FALSE } from '../actions/index';
 import { GET_ORDER_DATA, GET_ORDER_DATA_FAILED } from '../actions/index';
 import update from 'immutability-helper';
-import { setUserReducer } from '../reducers/userInfo'
+import { setUserReducer } from './userInfo';
+import { TIngredientData } from '../../utils/types/types';
+import { TActions } from '../actions/index';
+import { wsReducer } from './orders';
+import { wsUserReducer } from './userOrders'
 
-export const initialState = {
-    ingredients: [],
-    selectedIngredient: {},
+type TInitialState = {
+    ingredients: TIngredientData[];
     constructor: {
-        bun: {},
+        bun: TIngredientData | null;
+        otherIngredients: Array<TIngredientData & { key?: string }>;
+    };
+    currentOrder: {
+        name: string;
+        number: number;
+    };
+    isError: boolean;
+    errMsg: string;
+}
+
+export const initialState: TInitialState = {
+    ingredients: [],
+    constructor: {
+        bun: null,
         otherIngredients: []
     },
     currentOrder: {
@@ -21,7 +37,7 @@ export const initialState = {
     errMsg: ''
 }
 
-const ingredientsReducer = (state = initialState, action) => {
+const ingredientsReducer = (state = initialState, action: TActions): TInitialState => {
     switch (action.type) {
         case GET_INGREDIENTS_SUCCESS: {
             return {
@@ -36,7 +52,7 @@ const ingredientsReducer = (state = initialState, action) => {
                 isError: true,
             };
         }
-        
+
         default: {
             return state
         }
@@ -44,7 +60,7 @@ const ingredientsReducer = (state = initialState, action) => {
 
 }
 
-const constructorIngReducer = (state = initialState, action) => {
+const constructorIngReducer = (state = initialState, action: TActions): TInitialState => {
     switch (action.type) {
         case ADD_INGREDIENT: {
 
@@ -92,7 +108,7 @@ const constructorIngReducer = (state = initialState, action) => {
             return {
                 ...state,
                 constructor: {
-                    bun: {},
+                    bun: null,
                     otherIngredients: []
                 }
             };
@@ -103,27 +119,7 @@ const constructorIngReducer = (state = initialState, action) => {
     }
 }
 
-const currentIngReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case SET_SELECTED_ING: {
-            return {
-                ...state,
-                selectedIngredient: action.selected
-            };
-        }
-        case DEL_SELECTED_ING: {
-            return {
-                ...state,
-                selectedIngredient: {}
-            };
-        }
-        default: {
-            return state
-        }
-    }
-}
-
-const orderReducer = (state = initialState, action) => {
+const orderReducer = (state = initialState, action: TActions): TInitialState => {
     switch (action.type) {
         case GET_ORDER_DATA: {
             return {
@@ -164,7 +160,8 @@ const orderReducer = (state = initialState, action) => {
 export const rootReducer = combineReducers({
     ingredientsReducer,
     constructorIngReducer,
-    currentIngReducer,
     orderReducer,
-    setUserReducer
+    setUserReducer,
+    wsReducer,
+    wsUserReducer
 }) 

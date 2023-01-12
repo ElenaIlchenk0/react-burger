@@ -1,16 +1,15 @@
 import React from 'react';
 import profileStyles from './Profile.module.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../utils/types/reduxTypes';
 import { logoutUser } from '../../services/actions/userInfo';
 import { Switch, Route, NavLink } from 'react-router-dom';
 import ProfileForm from '../ProfileForm/ProfileForm';
-import Orders from '../Orders/Orders';
+import OrderFeedWrapper from '../../components/OrderFeedWrapper/OrderFeedWrapper';
 
 const Profile = () => {
     const dispatch = useDispatch();
 
     const logoutHandler = () => {
-        // @ts-ignore
         dispatch(logoutUser())
     };
 
@@ -52,7 +51,7 @@ const Profile = () => {
                     <ProfileForm />
                 </Route>
                 <Route path='/profile/orders' exact>
-                    <Orders />
+                    <OrderFeedWrapper />
                 </Route>
             </Switch>
         </div>

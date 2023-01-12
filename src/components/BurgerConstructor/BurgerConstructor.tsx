@@ -9,24 +9,20 @@ import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import MainIngredient from '../MainIngredient/MainIngredient';
 
-import { useSelector, useDispatch } from 'react-redux';
-import { getOrder, addIngredient, DEL_INGREDIENT, SET_ERR_FALSE } from '../../services/actions/index';
+import { useSelector, useDispatch } from '../../utils/types/reduxTypes';
+import { getOrder, addIngredient, delIngredients, setErrFalse } from '../../services/actions/index';
 import { useDrop } from 'react-dnd';
 import { useHistory } from 'react-router-dom';
-import { TIngredientData, THistoryFrom } from '../../types/types';
+import { TIngredientData, THistoryFrom } from '../../utils/types/types';
 
 type TElement = {
     item: TIngredientData;
 }
 
-const BurgerConstructor: React.FC = () => {
-    // @ts-ignore
+const BurgerConstructor = () => {
     const { bun, otherIngredients } = useSelector(store => store.constructorIngReducer.constructor);
-    // @ts-ignore
     const { currentOrder } = useSelector(store => store.orderReducer);
-    // @ts-ignore
     const { isError, errMsg } = useSelector(store => store.orderReducer);
-    // @ts-ignore
     const { user } = useSelector(store => store.setUserReducer);
     const dispatch = useDispatch();
     const history = useHistory<THistoryFrom>();
@@ -38,26 +34,26 @@ const BurgerConstructor: React.FC = () => {
         const getTotalPrice = (): number => {
             let total: number;
             let fillingPrice: number;
-            const fillingPriceResult: number = otherIngredients.length > 0 
-                                            ? otherIngredients.reduce((result: number, ingredient: TIngredientData) => result += ingredient.price, 0)
-                                            : 0;
-            
-            if (Object.keys(bun).length > 0 && otherIngredients.length > 0) { 
+            const fillingPriceResult: number = otherIngredients.length > 0
+                ? otherIngredients.reduce((result: number, ingredient: TIngredientData) => result += ingredient.price, 0)
+                : 0;
+
+            if (bun && otherIngredients.length > 0) {
                 fillingPrice = fillingPriceResult;
                 total = fillingPrice + bun.price * 2;
                 return total;
-            } else if (Object.keys(bun).length > 0 ) {
+            } else if (bun) {
                 return total = bun.price * 2;
             } else {
                 return total = fillingPriceResult;
             }
         }
-        if (Object.keys(bun).length > 0 || otherIngredients.length > 0) setTotalPrice(getTotalPrice())
-        else { setTotalPrice(0)}
+        if (bun || otherIngredients.length > 0) setTotalPrice(getTotalPrice())
+        else { setTotalPrice(0) }
     }, [bun, otherIngredients])
 
     useEffect(() => {
-        if (isError && isModalOpen) {  
+        if (isError && isModalOpen) {
             history.push({
                 pathname: '/login',
                 state: { from: '/' }
@@ -67,7 +63,7 @@ const BurgerConstructor: React.FC = () => {
 
     useEffect(() => {
         if (user && errMsg === ('jwt malformed')) {
-            dispatch({ type: SET_ERR_FALSE })
+            dispatch(setErrFalse())
         }
     }, [user, errMsg])
 
@@ -84,7 +80,6 @@ const BurgerConstructor: React.FC = () => {
 
     const handleDrop = (el: TElement) => {
         const type: string = el.item.type === 'bun' ? 'bun' : 'otherIngredients';
-        // @ts-ignore
         dispatch(addIngredient(el.item, type))
     }
 
@@ -98,17 +93,12 @@ const BurgerConstructor: React.FC = () => {
 
     const handleClickButton = (): void => {
         const otherIngIdArray: string[] = otherIngredients.map((ing: TIngredientData) => ing._id);
-        // @ts-ignore
-        dispatch(getOrder([...otherIngIdArray, bun._id]));
+        dispatch(getOrder([...otherIngIdArray, bun!._id, bun!._id]));
         handleOpenModal();
     }
 
     const handleDelIngredient = (ing: TIngredientData): void => {
-        dispatch({
-            type: DEL_INGREDIENT,
-            ingType: 'otherIngredients',
-            content: ing
-        })
+        dispatch(delIngredients(ing))
     }
 
     return (
@@ -120,7 +110,7 @@ const BurgerConstructor: React.FC = () => {
 
                 <div className={`${burgerConstructorStyles.menuItem} ${burgerConstructorStyles.menuItemTop}`}>
                     {
-                        (Object.keys(bun).length > 0) && (
+                        bun && (
                             <ConstructorElement
                                 type="top"
                                 isLocked={true}
@@ -133,7 +123,6 @@ const BurgerConstructor: React.FC = () => {
                 <div className={burgerConstructorStyles.mainIngredients}>
                     {
                         (otherIngredients.length > 0) && (
-                            // @ts-ignore
                             otherIngredients.map((ingredient, index) =>
                                 <MainIngredient
                                     // key={ingredient.key} dnd так работает некорректно... fix bag?
@@ -147,7 +136,7 @@ const BurgerConstructor: React.FC = () => {
                 </div>
                 <div className={`${burgerConstructorStyles.menuItem} ${burgerConstructorStyles.menuItemBottom}`}>
                     {
-                        (Object.keys(bun).length > 0) && (
+                        bun && (
                             <ConstructorElement
                                 type="bottom"
                                 isLocked={true}

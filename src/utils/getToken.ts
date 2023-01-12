@@ -1,6 +1,6 @@
 import { BURGER_API_URL } from './constants';
 import { request } from './fetchCheckResponse';
-import { TRefreshToken } from '../types/types'
+import { TRefreshToken } from './types/types'
 
 export const getToken = (token: string) => {
     return request<TRefreshToken>(`${BURGER_API_URL}/auth/token`, {
@@ -15,7 +15,7 @@ export const getToken = (token: string) => {
         if (res.success) {
             localStorage.setItem('accessToken', res.accessToken.split('Bearer ')[1]);
             localStorage.setItem('refreshToken', res.refreshToken);
-        } 
+        }
     }).catch(err => {
         Promise.reject(err)
     })
