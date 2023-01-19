@@ -15,7 +15,7 @@ const IngredientDetails = () => {
             const ingredientInfo = ingredients.find((ing) => ing._id === ingredientId);
             setIngredient(ingredientInfo)
         }
-    }, [ingredients])
+    }, [ingredients, isError, ingredientId])
 
     return (
         <div className={ingredientDetailsStyles.container}>

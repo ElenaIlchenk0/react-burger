@@ -17,6 +17,6 @@ export const getToken = (token: string) => {
             localStorage.setItem('refreshToken', res.refreshToken);
         }
     }).catch(err => {
-        Promise.reject(err)
+        throw new Error(JSON.stringify(err))
     })
 }

@@ -32,20 +32,16 @@ const BurgerConstructor = () => {
 
     useEffect(() => {
         const getTotalPrice = (): number => {
-            let total: number;
-            let fillingPrice: number;
             const fillingPriceResult: number = otherIngredients.length > 0
                 ? otherIngredients.reduce((result: number, ingredient: TIngredientData) => result += ingredient.price, 0)
                 : 0;
 
             if (bun && otherIngredients.length > 0) {
-                fillingPrice = fillingPriceResult;
-                total = fillingPrice + bun.price * 2;
-                return total;
+                return fillingPriceResult + bun.price * 2;
             } else if (bun) {
-                return total = bun.price * 2;
+                return bun.price * 2;
             } else {
-                return total = fillingPriceResult;
+                return fillingPriceResult;
             }
         }
         if (bun || otherIngredients.length > 0) setTotalPrice(getTotalPrice())
@@ -59,7 +55,7 @@ const BurgerConstructor = () => {
                 state: { from: '/' }
             })
         }
-    }, [isError, isModalOpen])
+    }, [isError, isModalOpen, history])
 
     useEffect(() => {
         if (user && errMsg === ('jwt malformed')) {

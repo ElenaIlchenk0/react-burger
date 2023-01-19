@@ -156,7 +156,7 @@ export const getUser = (): AppThunk<Promise<void>> => (dispatch: AppDispatch) =>
                 const getUserAsync = async () => {
                     getToken(tk).then(() => {
                         dispatch(getUser())
-                    }).catch((e) => console.log(e))
+                    }).catch((e) => console.error(e))
                 }
                 getUserAsync()
             } else {
