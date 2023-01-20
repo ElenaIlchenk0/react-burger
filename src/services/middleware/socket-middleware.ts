@@ -70,7 +70,7 @@ export const socketMiddleware = (wsActions: TwsActions): Middleware<{}, RootStat
                 };
 
                 socket.onclose = event => {
-                    dispatch(onClose(new Date()));
+                    dispatch(onClose(new Date().valueOf()));
                 };
 
                 if (wsSendMessage?.match(action)) {

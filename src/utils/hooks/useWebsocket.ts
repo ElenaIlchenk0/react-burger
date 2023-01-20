@@ -33,18 +33,19 @@ export const useWebsocket = (type: 'allOrders' | 'userOrders', token?: string | 
     const dispatch = useDispatch();
     const { orders, total, totalToday, status, timeClosed } = useSelector(state => state[data[type].reducer as 'wsReducer' | 'wsUserReducer']);
 
-    useEffect(() => () => { dispatch(data[type].disconnect()) }, [data, type, dispatch])
+    useEffect(() => () => {dispatch(data[type].disconnect());}, [data, type, dispatch])
 
     useEffect(() => {
         if (status === WebSocketStatus.OFFLINE) {
-            if (!timeClosed || (timeClosed && (new Date().getMilliseconds() - timeClosed.getMilliseconds()) > 15000)) {
+            if (!timeClosed || (timeClosed && (new Date().valueOf() - timeClosed) > 15000)) {
                 console.log('was not closed or closed long ago')
                 dispatch(data[type].connect(data[type].url))
             } else {
                 console.log('closed recently, need timeout')
-                setTimeout(() => dispatch(data[type].connect(data[type].url)), 15000)
+                var timer = setTimeout(() => dispatch(data[type].connect(data[type].url)), 15000)
             }
         }
+        return () => clearTimeout(timer);
     }, [timeClosed, data, type, dispatch, status])
 
     return { orders, total, totalToday }

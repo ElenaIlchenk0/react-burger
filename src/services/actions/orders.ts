@@ -23,7 +23,7 @@ export interface IOrdersOpenAction {
 }
 export interface IOrdersCloseAction {
     type: typeof WS_ORDERS_CLOSE,
-    payload: Date
+    payload: number
 }
 export interface IOrdersMessageAction {
     type: typeof WS_ORDERS_MESSAGE,
@@ -56,7 +56,7 @@ export const wsConnecting = (): IOrdersConnectingAction => ({
 export const wsOpen = (): IOrdersOpenAction => ({
     type: WS_ORDERS_OPEN
 })
-export const wsClose = (date: Date): IOrdersCloseAction => ({
+export const wsClose = (date: number): IOrdersCloseAction => ({
     type: WS_ORDERS_CLOSE,
     payload: date
 })

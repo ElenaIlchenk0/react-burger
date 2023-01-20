@@ -10,7 +10,7 @@ import { TUserOrderActions } from '../actions/userOrders';
 
 export type TInitialUserOrdersState = {
     status: WebSocketStatus,
-    timeClosed: Date | null,
+    timeClosed: number | null,
     connectionError: string,
     orders: TOrdersAll[],
     total: number,
