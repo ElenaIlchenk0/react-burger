@@ -16,7 +16,6 @@ export const getToken = (token: string) => {
             localStorage.setItem('accessToken', res.accessToken.split('Bearer ')[1]);
             localStorage.setItem('refreshToken', res.refreshToken);
         }
-    }).catch(err => {
-        throw new Error(JSON.stringify(err))
-    })
+        return res
+    }).catch(err => Promise.reject(err))
 }

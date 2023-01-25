@@ -13,7 +13,7 @@ import { useSelector, useDispatch } from '../../utils/types/reduxTypes';
 import { getOrder, addIngredient, delIngredients, setErrFalse } from '../../services/actions/index';
 import { useDrop } from 'react-dnd';
 import { useHistory } from 'react-router-dom';
-import { TIngredientData, THistoryFrom } from '../../utils/types/types';
+import { TIngredientData, THistoryFrom, TIngredientType } from '../../utils/types/types';
 
 type TElement = {
     item: TIngredientData;
@@ -75,7 +75,7 @@ const BurgerConstructor = () => {
     });
 
     const handleDrop = (el: TElement) => {
-        const type: string = el.item.type === 'bun' ? 'bun' : 'otherIngredients';
+        const type: TIngredientType = el.item.type === 'bun' ? 'bun' : 'otherIngredients';
         dispatch(addIngredient(el.item, type))
     }
 

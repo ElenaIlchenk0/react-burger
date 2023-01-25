@@ -1,10 +1,7 @@
 import React from 'react';
 import appHeaderStyles from './AppHeader.module.css';
 import NavItem from '../NavItem/NavItem';
-import { BurgerIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ListIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Logo } from '@ya.praktikum/react-developer-burger-ui-components';
+import { BurgerIcon, ListIcon, ProfileIcon, Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useLocation, useRouteMatch } from 'react-router-dom';
 
 const AppHeader = () => {

@@ -7,7 +7,8 @@ import {
     TIngredientsRes,
     TIngredientData,
     TOrderRes,
-    TOrder
+    TOrder,
+    TIngredientType
 } from '../../utils/types/types';
 import {
     AppThunk,
@@ -40,7 +41,7 @@ export interface IGetIngredientsFailedAction {
 export interface IAddIngredientsAction {
     readonly type: typeof ADD_INGREDIENT;
     readonly content: TIngredientData;
-    readonly ingType: string;
+    readonly ingType: TIngredientType;
 }
 
 export interface IMoveIngredientsAction {
@@ -87,16 +88,16 @@ export type TActions =
     | IGetOrderDataFailedAction;
 
 // Генераторы
-const getIngredientsSuccess = (ingredients: TIngredientData[]): IGetIngredientsSuccessAction => ({
+export const getIngredientsSuccess = (ingredients: TIngredientData[]): IGetIngredientsSuccessAction => ({
     type: GET_INGREDIENTS_SUCCESS,
     ingredients
 });
 
-const getIngredientsFailed = (): IGetIngredientsFailedAction => ({
+export const getIngredientsFailed = (): IGetIngredientsFailedAction => ({
     type: GET_INGREDIENTS_FAILED,
 });
 
-const addIngredients = (content: TIngredientData & { key?: string }, ingType: string): IAddIngredientsAction => ({
+export const addIngredients = (content: TIngredientData & { key?: string }, ingType: TIngredientType): IAddIngredientsAction => ({
     type: ADD_INGREDIENT,
     content,
     ingType
@@ -108,13 +109,13 @@ export const moveIngredients = (dragIndex: number, hoverIndex: number): IMoveIng
     hoverIndex,
 });
 
-export const delIngredients = (ing: TIngredientData): IDelIngredientsAction => ({
+export const delIngredients = (ing: TIngredientData & { key?: string }): IDelIngredientsAction => ({
     type: DEL_INGREDIENT,
     ingType: 'otherIngredients',
     content: ing,
 });
 
-const delAllIngredients = (): IDelAllIngredientsAction => ({
+export const delAllIngredients = (): IDelAllIngredientsAction => ({
     type: DEL_ALL_INGREDIENTS
 });
 
@@ -122,26 +123,27 @@ export const setErrFalse = (): ISetErrFalseAction => ({
     type: SET_ERR_FALSE
 });
 
-const getOrderData = (name: string, number: number): IGetOrderDataAction => ({
+export const getOrderData = (name: string, number: number): IGetOrderDataAction => ({
     type: GET_ORDER_DATA,
     name,
     number
 });
 
-const getOrderDataFailed = (errMsg: string): IGetOrderDataFailedAction => ({
+export const getOrderDataFailed = (errMsg: string): IGetOrderDataFailedAction => ({
     type: GET_ORDER_DATA_FAILED,
     errMsg
 });
 
 // api middlewares
 export const getAllIngredients = (): AppThunk => (dispatch: AppDispatch) => {
-    request<TIngredientsRes<TIngredientData>>(`${BURGER_API_URL}/ingredients`)
+    return request<TIngredientsRes<TIngredientData>>(`${BURGER_API_URL}/ingredients`)
         .then(res => {
             if (res.success) {
                 dispatch(getIngredientsSuccess(res.data))
             } else {
                 dispatch(getIngredientsFailed())
             }
+            return res
         }).catch((err: TError) => {
             dispatch(getIngredientsFailed())
         })
@@ -183,7 +185,7 @@ export const getOrder = (ingArray: Array<string>): AppThunk =>
         })
     }
 
-export const addIngredient = (content: TIngredientData, ingType: string): AppThunk => (dispatch: AppDispatch) => {
+export const addIngredient = (content: TIngredientData, ingType: TIngredientType): AppThunk => (dispatch: AppDispatch) => {
     const newContent = { ...content, key: uuidv4() }
     dispatch(addIngredients(newContent, ingType))
 }

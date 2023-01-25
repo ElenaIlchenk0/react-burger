@@ -60,19 +60,19 @@ export type TUserActions =
     | ISetNewPassAction;
 
 // Генераторы
-const setUserDataSuccess = ({ email, pass, name }: TUser): ISetUserDataSuccessAction => ({
+export const setUserDataSuccess = ({ email, pass, name }: TUser): ISetUserDataSuccessAction => ({
     type: SET_USER_DATA_SUCCESS,
     email,
     name,
     pass,
 });
 
-const setUserDataFailed = (msg: string): ISetUserDataFailedAction => ({
+export const setUserDataFailed = (msg: string): ISetUserDataFailedAction => ({
     type: SET_USER_DATA_FAILED,
     msg
 });
 
-const delUserDataSuccess = (): IDelUserDataSuccessAction => ({
+export const delUserDataSuccess = (): IDelUserDataSuccessAction => ({
     type: DEL_USER_DATA_SUCCESS
 });
 
@@ -80,11 +80,11 @@ export const checkUser = (): ICheckUserAction => ({
     type: CHECK_USER
 });
 
-const resetPassword = (): IResetPassAction => ({
+export const resetPassword = (): IResetPassAction => ({
     type: RESET_PASS
 });
 
-const setNewPassword = (): ISetNewPassAction => ({
+export const setNewPassword = (): ISetNewPassAction => ({
     type: SET_NEW_PASS
 });
 
