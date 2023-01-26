@@ -1,6 +1,7 @@
 {
   "name": "react-burger",
   "version": "0.1.0",
+  "homepage": "https://elenailchenk0.github.io/react-burger/",
   "private": true,
   "dependencies": {
     "@babel/plugin-syntax-jsx": "7.18.6",
@@ -29,6 +30,8 @@
     "web-vitals": "2.1.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
++   "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -62,6 +65,7 @@
     "cypress": "12.4.0",
     "eslint-plugin-cypress": "2.12.1",
     "fetch-mock": "9.11.0",
+    "gh-pages": "^5.0.0",
     "react-test-renderer": "18.2.0",
     "redux-mock-store": "1.5.4"
   }
