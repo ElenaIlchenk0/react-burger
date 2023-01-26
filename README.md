@@ -1,4 +1,5 @@
-GH-pages: https://elenailchenk0.github.io/react-burger/
+GH-pages:
+https://elenailchenk0.github.io/react-burger/
 
 # Getting Started with Create React App
 
