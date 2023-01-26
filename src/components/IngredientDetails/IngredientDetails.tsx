@@ -24,7 +24,7 @@ const IngredientDetails = () => {
                 ingredient && (
                     <>
                         <img className='pb-4' src={ingredient.image_large} alt='Ingredient'></img>
-                        <p className="text text_type_main-medium">{ingredient.name}</p>
+                        <p className="text text_type_main-medium" data-testid='ingredientTitle'>{ingredient.name}</p>
                         <div className={ingredientDetailsStyles.calories}>
                             <div><p className="text text_type_main-default text_color_inactive">Калории,ккал</p>
                                 <p className="text text_type_digits-default text_color_inactive pt-2">

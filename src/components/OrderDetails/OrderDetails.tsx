@@ -9,7 +9,7 @@ interface IOrderDetails {
 const OrderDetails: React.FC<IOrderDetails> = ({ orderNumber }) => {
     return (
         <div className={orderDetailsStyles.modalContainer}>
-            <p className='text text_type_digits-large'>
+            <p className='text text_type_digits-large' data-testid='orderNumber'>
                 {orderNumber > 0 ? 
                     orderNumber : 
                     <span className='text text_type_main-medium pt-8'>Секунду...</span>}

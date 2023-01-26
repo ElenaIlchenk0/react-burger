@@ -7,8 +7,11 @@ interface IModalOverlay {
 
 const ModalOverlay: React.FC<IModalOverlay> = ({ onClose }) => {
     return (
-        <div onClick={onClose}
-            className={modalOverlayStyles.modalOverlay}>
+        <div 
+            onClick={onClose}
+            className={modalOverlayStyles.modalOverlay}
+            data-testid='overlayClose'
+            >
         </div>
     )
 }

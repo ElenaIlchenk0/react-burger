@@ -19,9 +19,14 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "checkJs": true
+    "checkJs": true,
+    "types": [
+      "cypress",
+      "node"
+    ]
   },
   "include": [
-    "src"
+    "src",
+    "cypress"
   ]
 }

@@ -21,14 +21,21 @@ const Modal: React.FC<IProps> = (props) => {
         return () => {
             document.removeEventListener('keydown', keyPressHandler)
         }
-    }, [props.onClose])
+    }, [props])
 
     const modalsRoot = document.getElementById("modals")!;
 
     return ReactDOM.createPortal(
         <>
-            <div className={modalStyles.modal}>
-                <div onClick={props.onClose} className={modalStyles.close}>
+            <div 
+                className={modalStyles.modal}
+                data-testid='modal'
+                >
+                <div 
+                    onClick={props.onClose} 
+                    className={modalStyles.close} 
+                    data-testid='closeModal'
+                    >
                     <CloseIcon type="primary" />
                 </div>
                 {props.children}

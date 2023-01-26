@@ -8,6 +8,7 @@ import { getIngredientsSuccess,
     getOrderData,
     getOrderDataFailed,
     setErrFalse,
+    clearOrderData,
  } from '../../actions'
 import { ingredientsReducer, 
     constructorIngReducer, 
@@ -389,6 +390,28 @@ describe('OrderReducer', () => {
             orderReducer(newState, setErrFalse())
         ).toEqual({
             ...newState,
+            isError: false,
+            errMsg: ''
+        })
+    })
+
+    it('should remove order info from store', () => {
+        const newState = {
+            ...initialState,
+            currentOrder: {
+                name: 'name',
+                number: 123
+            }
+        }
+
+        expect(
+            orderReducer(newState, clearOrderData())
+        ).toEqual({
+            ...newState,
+            currentOrder: {
+                name: '',
+                number: 0
+            },
             isError: false,
             errMsg: ''
         })

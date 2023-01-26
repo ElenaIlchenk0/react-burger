@@ -10,7 +10,7 @@ import OrderDetails from '../OrderDetails/OrderDetails';
 import MainIngredient from '../MainIngredient/MainIngredient';
 
 import { useSelector, useDispatch } from '../../utils/types/reduxTypes';
-import { getOrder, addIngredient, delIngredients, setErrFalse } from '../../services/actions/index';
+import { getOrder, addIngredient, delIngredients, setErrFalse, clearOrderData } from '../../services/actions/index';
 import { useDrop } from 'react-dnd';
 import { useHistory } from 'react-router-dom';
 import { TIngredientData, THistoryFrom, TIngredientType } from '../../utils/types/types';
@@ -85,6 +85,7 @@ const BurgerConstructor = () => {
 
     const handleCloseModal = (): void => {
         setIsModalOpen(false);
+        dispatch(clearOrderData())
     }
 
     const handleClickButton = (): void => {
@@ -98,13 +99,17 @@ const BurgerConstructor = () => {
     }
 
     return (
-
         <div className={`${burgerConstructorStyles.wrapper} pt-25`}>
-            <div ref={dropTarget}
+            <div 
+                ref={dropTarget}
                 className={burgerConstructorStyles.menuItemsContainer}
-                style={{ backgroundColor: isOver ? '#8585AD' : canDrop ? '#2f2f37' : 'initial' }}>
-
-                <div className={`${burgerConstructorStyles.menuItem} ${burgerConstructorStyles.menuItemTop}`}>
+                style={{ backgroundColor: isOver ? '#8585AD' : canDrop ? '#2f2f37' : 'initial' }}
+                data-testid='dropContainer'
+                >
+                <div 
+                    className={`${burgerConstructorStyles.menuItem} ${burgerConstructorStyles.menuItemTop}`}
+                    data-testid='dropBunTopContainer'
+                >
                     {
                         bun && (
                             <ConstructorElement
@@ -116,7 +121,10 @@ const BurgerConstructor = () => {
                         )
                     }
                 </div>
-                <div className={burgerConstructorStyles.mainIngredients}>
+                <div 
+                    className={burgerConstructorStyles.mainIngredients}
+                    data-testid='dropMainContainer'
+                    >
                     {
                         (otherIngredients.length > 0) && (
                             otherIngredients.map((ingredient, index) =>
@@ -130,7 +138,10 @@ const BurgerConstructor = () => {
                         )
                     }
                 </div>
-                <div className={`${burgerConstructorStyles.menuItem} ${burgerConstructorStyles.menuItemBottom}`}>
+                <div 
+                    className={`${burgerConstructorStyles.menuItem} ${burgerConstructorStyles.menuItemBottom}`}
+                    data-testid='dropBunBottomContainer'
+                    >
                     {
                         bun && (
                             <ConstructorElement
@@ -155,7 +166,9 @@ const BurgerConstructor = () => {
                 <Button onClick={handleClickButton}
                     htmlType="button"
                     type="primary"
-                    size="medium">
+                    size="medium"
+                    data-testid='orderButton'
+                    >
                     Оформить заказ
                 </Button>
                 {

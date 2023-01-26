@@ -28,6 +28,8 @@ export const SET_ERR_FALSE: 'SET_ERR_FALSE' = 'SET_ERR_FALSE';
 export const GET_ORDER_DATA: 'GET_ORDER_DATA' = 'GET_ORDER_DATA';
 export const GET_ORDER_DATA_FAILED: 'GET_ORDER_DATA_FAILED' = 'GET_ORDER_DATA_FAILED';
 
+export const DEL_ORDER_DATA: 'DEL_ORDER_DATA' = 'DEL_ORDER_DATA'
+
 // Типизация экшенов
 export interface IGetIngredientsSuccessAction {
     readonly type: typeof GET_INGREDIENTS_SUCCESS;
@@ -75,6 +77,10 @@ export interface IGetOrderDataFailedAction {
     readonly errMsg: string;
 }
 
+export interface IClearOrderDataAction {
+    readonly type: typeof DEL_ORDER_DATA;
+}
+
 // Union тип
 export type TActions =
     | IGetIngredientsSuccessAction
@@ -85,7 +91,8 @@ export type TActions =
     | IDelAllIngredientsAction
     | ISetErrFalseAction
     | IGetOrderDataAction
-    | IGetOrderDataFailedAction;
+    | IGetOrderDataFailedAction
+    | IClearOrderDataAction;
 
 // Генераторы
 export const getIngredientsSuccess = (ingredients: TIngredientData[]): IGetIngredientsSuccessAction => ({
@@ -132,6 +139,10 @@ export const getOrderData = (name: string, number: number): IGetOrderDataAction 
 export const getOrderDataFailed = (errMsg: string): IGetOrderDataFailedAction => ({
     type: GET_ORDER_DATA_FAILED,
     errMsg
+});
+
+export const clearOrderData = (): IClearOrderDataAction => ({
+    type: DEL_ORDER_DATA
 });
 
 // api middlewares
