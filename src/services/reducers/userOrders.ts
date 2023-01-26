@@ -10,14 +10,16 @@ import { TUserOrderActions } from '../actions/userOrders';
 
 export type TInitialUserOrdersState = {
     status: WebSocketStatus,
+    timeClosed: number | null,
     connectionError: string,
     orders: TOrdersAll[],
     total: number,
     totalToday: number
 }
 
-const initialOrdersState: TInitialUserOrdersState = {
+export const initialOrdersState: TInitialUserOrdersState = {
     status: WebSocketStatus.OFFLINE,
+    timeClosed: null,
     connectionError: '',
     orders: [],
     total: 0,
@@ -34,12 +36,14 @@ export const wsUserReducer = (state = initialOrdersState, action: TUserOrderActi
         case WS_USER_ORDERS_OPEN:
             return {
                 ...state,
+                timeClosed: null,
                 status: WebSocketStatus.ONLINE,
                 connectionError: ''
             };
         case WS_USER_ORDERS_CLOSE:
             return {
                 ...state,
+                timeClosed: action.payload,
                 status: WebSocketStatus.OFFLINE,
             };
 

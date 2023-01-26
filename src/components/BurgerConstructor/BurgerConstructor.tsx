@@ -10,10 +10,10 @@ import OrderDetails from '../OrderDetails/OrderDetails';
 import MainIngredient from '../MainIngredient/MainIngredient';
 
 import { useSelector, useDispatch } from '../../utils/types/reduxTypes';
-import { getOrder, addIngredient, delIngredients, setErrFalse } from '../../services/actions/index';
+import { getOrder, addIngredient, delIngredients, setErrFalse, clearOrderData } from '../../services/actions/index';
 import { useDrop } from 'react-dnd';
 import { useHistory } from 'react-router-dom';
-import { TIngredientData, THistoryFrom } from '../../utils/types/types';
+import { TIngredientData, THistoryFrom, TIngredientType } from '../../utils/types/types';
 
 type TElement = {
     item: TIngredientData;
@@ -32,20 +32,16 @@ const BurgerConstructor = () => {
 
     useEffect(() => {
         const getTotalPrice = (): number => {
-            let total: number;
-            let fillingPrice: number;
             const fillingPriceResult: number = otherIngredients.length > 0
                 ? otherIngredients.reduce((result: number, ingredient: TIngredientData) => result += ingredient.price, 0)
                 : 0;
 
             if (bun && otherIngredients.length > 0) {
-                fillingPrice = fillingPriceResult;
-                total = fillingPrice + bun.price * 2;
-                return total;
+                return fillingPriceResult + bun.price * 2;
             } else if (bun) {
-                return total = bun.price * 2;
+                return bun.price * 2;
             } else {
-                return total = fillingPriceResult;
+                return fillingPriceResult;
             }
         }
         if (bun || otherIngredients.length > 0) setTotalPrice(getTotalPrice())
@@ -59,7 +55,7 @@ const BurgerConstructor = () => {
                 state: { from: '/' }
             })
         }
-    }, [isError, isModalOpen])
+    }, [isError, isModalOpen, history])
 
     useEffect(() => {
         if (user && errMsg === ('jwt malformed')) {
@@ -79,7 +75,7 @@ const BurgerConstructor = () => {
     });
 
     const handleDrop = (el: TElement) => {
-        const type: string = el.item.type === 'bun' ? 'bun' : 'otherIngredients';
+        const type: TIngredientType = el.item.type === 'bun' ? 'bun' : 'otherIngredients';
         dispatch(addIngredient(el.item, type))
     }
 
@@ -89,6 +85,7 @@ const BurgerConstructor = () => {
 
     const handleCloseModal = (): void => {
         setIsModalOpen(false);
+        dispatch(clearOrderData())
     }
 
     const handleClickButton = (): void => {
@@ -102,13 +99,17 @@ const BurgerConstructor = () => {
     }
 
     return (
-
         <div className={`${burgerConstructorStyles.wrapper} pt-25`}>
-            <div ref={dropTarget}
+            <div 
+                ref={dropTarget}
                 className={burgerConstructorStyles.menuItemsContainer}
-                style={{ backgroundColor: isOver ? '#8585AD' : canDrop ? '#2f2f37' : 'initial' }}>
-
-                <div className={`${burgerConstructorStyles.menuItem} ${burgerConstructorStyles.menuItemTop}`}>
+                style={{ backgroundColor: isOver ? '#8585AD' : canDrop ? '#2f2f37' : 'initial' }}
+                data-testid='dropContainer'
+                >
+                <div 
+                    className={`${burgerConstructorStyles.menuItem} ${burgerConstructorStyles.menuItemTop}`}
+                    data-testid='dropBunTopContainer'
+                >
                     {
                         bun && (
                             <ConstructorElement
@@ -120,7 +121,10 @@ const BurgerConstructor = () => {
                         )
                     }
                 </div>
-                <div className={burgerConstructorStyles.mainIngredients}>
+                <div 
+                    className={burgerConstructorStyles.mainIngredients}
+                    data-testid='dropMainContainer'
+                    >
                     {
                         (otherIngredients.length > 0) && (
                             otherIngredients.map((ingredient, index) =>
@@ -134,7 +138,10 @@ const BurgerConstructor = () => {
                         )
                     }
                 </div>
-                <div className={`${burgerConstructorStyles.menuItem} ${burgerConstructorStyles.menuItemBottom}`}>
+                <div 
+                    className={`${burgerConstructorStyles.menuItem} ${burgerConstructorStyles.menuItemBottom}`}
+                    data-testid='dropBunBottomContainer'
+                    >
                     {
                         bun && (
                             <ConstructorElement
@@ -159,7 +166,9 @@ const BurgerConstructor = () => {
                 <Button onClick={handleClickButton}
                     htmlType="button"
                     type="primary"
-                    size="medium">
+                    size="medium"
+                    data-testid='orderButton'
+                    >
                     Оформить заказ
                 </Button>
                 {

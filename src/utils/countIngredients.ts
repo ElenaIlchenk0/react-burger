@@ -1,7 +1,7 @@
-export const countIngredients = (idArr: string[]) => {
+export const countIngredients = (arr: string[]) => {
     let countIngredients: { [key: string]: number } = {};
 
-    idArr.forEach((ing) => {
+    arr.forEach((ing) => {
         countIngredients[ing] = countIngredients[ing] + 1 || 1;
     });
 

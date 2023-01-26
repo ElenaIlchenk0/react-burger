@@ -29,14 +29,16 @@ const NavItem: React.FC<INavItem> = ({ isActive, title, icon }) => {
     }
     
     return (
-        <div className={`${isActive ? navItemStyles.active : navItemStyles.inactive} ${navItemStyles.item} pt-4 pb-4 pr-5 pl-5`}>
-            <Link to={link} className={navItemStyles.link}>
+        <div 
+            className={`${isActive ? navItemStyles.active : navItemStyles.inactive} ${navItemStyles.item} pt-4 pb-4 pr-5 pl-5`}
+            data-testid="wrapper"
+            >
+            <Link data-testid='link' to={link} className={navItemStyles.link}>
                 {icon}
-                <div>{title}</div>
+                <div data-testid='title'>{title}</div>
             </Link>
         </div>
     )
-
 }
 
 export default NavItem;

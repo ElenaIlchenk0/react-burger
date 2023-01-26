@@ -38,7 +38,7 @@ const Main = () => {
             dispatch(checkUser())
         }
     }, [])
-
+    
     const handleModalClose = () => {
         history.goBack();
     };

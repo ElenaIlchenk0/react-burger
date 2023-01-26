@@ -1,4 +1,5 @@
 import { Middleware } from 'redux';
+import { getToken } from '../../utils/getToken';
 import { RootState } from '../../utils/types/reduxTypes';
 import {
     connect as connectAllOrders,
@@ -57,12 +58,19 @@ export const socketMiddleware = (wsActions: TwsActions): Middleware<{}, RootStat
                 socket.onmessage = event => {
                     const { data } = event;
                     const parsedData = JSON.parse(data);
+                    if (parsedData.message === 'Invalid or missing token') {
+                        console.log('Invalid or missing token')
 
-                    dispatch(onMessage(parsedData));
+                        const tk = localStorage.getItem('refreshToken');
+                        if (tk) getToken(tk)
+                    } else {
+                        dispatch(onMessage(parsedData));
+                    }
+                    // dispatch(onMessage(parsedData));
                 };
 
                 socket.onclose = event => {
-                    dispatch(onClose());
+                    dispatch(onClose(new Date().valueOf()));
                 };
 
                 if (wsSendMessage?.match(action)) {

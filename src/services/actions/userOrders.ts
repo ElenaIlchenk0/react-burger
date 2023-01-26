@@ -22,7 +22,8 @@ export interface IUserOrdersOpenAction {
     type: typeof WS_USER_ORDERS_OPEN
 }
 export interface IUserOrdersCloseAction {
-    type: typeof WS_USER_ORDERS_CLOSE
+    type: typeof WS_USER_ORDERS_CLOSE,
+    payload: number
 }
 export interface IUserOrdersMessageAction {
     type: typeof WS_USER_ORDERS_MESSAGE,
@@ -55,8 +56,9 @@ export const wsConnecting = (): IUserOrdersConnectingAction => ({
 export const wsOpen = (): IUserOrdersOpenAction => ({
     type: WS_USER_ORDERS_OPEN
 })
-export const wsClose = (): IUserOrdersCloseAction => ({
-    type: WS_USER_ORDERS_CLOSE
+export const wsClose = (date: number): IUserOrdersCloseAction => ({
+    type: WS_USER_ORDERS_CLOSE,
+    payload: date
 })
 export const wsMessage = (response: TAllOrdersRes<TOrdersAll>): IUserOrdersMessageAction => ({
     type: WS_USER_ORDERS_MESSAGE,

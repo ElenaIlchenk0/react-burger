@@ -25,7 +25,7 @@ const IngredientItem: React.FC<IProps> = ({ burgerData }) => {
             let countIng: number = otherIngredients.filter((item: TIngredientData) => item._id === ingredientId).length
             setCounter(countIng)
         }
-    }, [bun, otherIngredients, burgerData])
+    }, [bun, otherIngredients, burgerData, ingredientId])
 
     const [{ opacity }, dragRef] = useDrag({
         type: 'ingredient',

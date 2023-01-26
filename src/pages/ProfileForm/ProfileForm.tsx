@@ -11,7 +11,7 @@ const ProfileForm = () => {
 
     useEffect(() => {
         dispatch(getUser());
-    }, [])
+    }, [dispatch])
 
     const { values, handleChange, setValues } = useForm();
 
@@ -19,7 +19,7 @@ const ProfileForm = () => {
 
     useEffect(() => {
         if (user) setValues({ name: user.name, email: user.email, pass: user.pass });
-    }, [])
+    }, [user, setValues])
 
     const nameRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);

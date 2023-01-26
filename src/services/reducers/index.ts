@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILED } from '../actions/index';
 import { ADD_INGREDIENT, MOVE_INGREDIENT, DEL_INGREDIENT, DEL_ALL_INGREDIENTS, SET_ERR_FALSE } from '../actions/index';
-import { GET_ORDER_DATA, GET_ORDER_DATA_FAILED } from '../actions/index';
+import { GET_ORDER_DATA, GET_ORDER_DATA_FAILED, DEL_ORDER_DATA } from '../actions/index';
 import update from 'immutability-helper';
 import { setUserReducer } from './userInfo';
 import { TIngredientData } from '../../utils/types/types';
@@ -9,7 +9,7 @@ import { TActions } from '../actions/index';
 import { wsReducer } from './orders';
 import { wsUserReducer } from './userOrders'
 
-type TInitialState = {
+export type TInitialState = {
     ingredients: TIngredientData[];
     constructor: {
         bun: TIngredientData | null;
@@ -37,7 +37,7 @@ export const initialState: TInitialState = {
     errMsg: ''
 }
 
-const ingredientsReducer = (state = initialState, action: TActions): TInitialState => {
+export const ingredientsReducer = (state = initialState, action: TActions): TInitialState => {
     switch (action.type) {
         case GET_INGREDIENTS_SUCCESS: {
             return {
@@ -60,14 +60,10 @@ const ingredientsReducer = (state = initialState, action: TActions): TInitialSta
 
 }
 
-const constructorIngReducer = (state = initialState, action: TActions): TInitialState => {
+export const constructorIngReducer = (state = initialState, action: TActions): TInitialState => {
     switch (action.type) {
         case ADD_INGREDIENT: {
-
-            const content = action.ingType === 'bun'
-                ? action.content
-                : state.constructor.otherIngredients = [...state.constructor.otherIngredients, action.content]
-
+            const content = action.ingType === 'bun' ? action.content : [...state.constructor.otherIngredients, action.content];
             return {
                 ...state,
                 constructor: {
@@ -119,7 +115,7 @@ const constructorIngReducer = (state = initialState, action: TActions): TInitial
     }
 }
 
-const orderReducer = (state = initialState, action: TActions): TInitialState => {
+export const orderReducer = (state = initialState, action: TActions): TInitialState => {
     switch (action.type) {
         case GET_ORDER_DATA: {
             return {
@@ -149,12 +145,22 @@ const orderReducer = (state = initialState, action: TActions): TInitialState => 
                 errMsg: ''
             }
         }
+        case DEL_ORDER_DATA: {
+            return {
+                ...state,
+                currentOrder: {
+                    name: '',
+                    number: 0
+                },
+                isError: false,
+                errMsg: ''
+            }
+        }
         default: {
             return state
         }
     }
 }
-
 
 
 export const rootReducer = combineReducers({

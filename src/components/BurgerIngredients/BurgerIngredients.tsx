@@ -77,7 +77,11 @@ const BurgerIngredients: React.FC = () => {
             <TabMenu tabRef={tabRef} onClickTab={handleClickTab} currentIndexTab={currentIndexTab} />
             {
                 !isError && ingredients.length > 0 && (
-                    <div onScroll={handleScroll} className={burgerIngredientsStyles.ingredientsContainer}>
+                    <div 
+                        onScroll={handleScroll} 
+                        className={burgerIngredientsStyles.ingredientsContainer}
+                        data-testid='ingredients'
+                        >
                         {
                             dataCategories.map((category, index) =>
                                 <IngredientsCategory

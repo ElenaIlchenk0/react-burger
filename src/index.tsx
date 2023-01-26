@@ -8,7 +8,7 @@ import { rootReducer } from './services/reducers/index'
 import { compose, createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { HashRouter as Router } from 'react-router-dom';
 import { socketMiddleware } from './services/middleware/socket-middleware'
 import {
   connect as connectAllOrders,
@@ -67,11 +67,11 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <Router>
-    {/* <React.StrictMode> */}
+    <React.StrictMode>
       <Provider store={store}>
         <App />
       </Provider>
-    {/* </React.StrictMode> */}
+    </React.StrictMode>
   </Router>
 );
 
