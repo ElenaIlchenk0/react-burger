@@ -1,6 +1,6 @@
 export { }
 
-describe('Drag and drop functionality', function () {
+describe('Modal functionality', function () {
     beforeEach(function () {
         cy.intercept('GET', 'ingredients', { fixture: 'ingredients' })
         cy.visit('http://localhost:3000');
