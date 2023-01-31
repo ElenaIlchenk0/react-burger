@@ -1,6 +1,6 @@
 export { }
 
-describe('Drag and drop functionality', function () {
+describe('Get Order functionality', function () {
     beforeEach(function () {
         cy.intercept('GET', 'ingredients', { fixture: 'ingredients' })
         cy.intercept("GET", "api/auth/user", { fixture: "user.json" });
