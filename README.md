@@ -1,5 +1,15 @@
-GH-pages:
-https://elenailchenk0.github.io/react-burger/
+# Space-burger restaurant’s user interface
+[https://elenailchenk0.github.io/react-burger/](https://elenailchenk0.github.io/react-burger/)
+
+### Functionality:
+- authorization and authentication, 
+- the ability to edit user’s profile data, 
+- order creation functionality, 
+- live orders feeds, 
+- routes navigation;
+
+### Stack:
+ React, Redux, Redux-thunk, React-router, React-dnd, WebSockets, Jest, React-testing-library, Cypress
 
 # Getting Started with Create React App
 
