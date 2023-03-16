@@ -98,6 +98,8 @@ const BurgerConstructor = () => {
         dispatch(delIngredients(ing))
     }
 
+    const isActive = canDrop && isOver
+
     return (
         <div className={`${burgerConstructorStyles.wrapper} pt-25`}>
             <div 
@@ -106,6 +108,7 @@ const BurgerConstructor = () => {
                 style={{ backgroundColor: isOver ? '#8585AD' : canDrop ? '#2f2f37' : 'initial' }}
                 data-testid='dropContainer'
                 >
+                {isActive ? <span>&nbsp;</span> : <span>Drag Ingredient here</span>}
                 <div 
                     className={`${burgerConstructorStyles.menuItem} ${burgerConstructorStyles.menuItemTop}`}
                     data-testid='dropBunTopContainer'

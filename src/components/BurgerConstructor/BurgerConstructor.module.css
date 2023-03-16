@@ -34,6 +34,12 @@
 }
 
 .menuItemsContainer {
+    border-radius: 10%;
+}
+
+.menuItemsContainer > span {
+    display: flex;
+    justify-content: center;
 }
 
 .menuItemTop,
